@@ -46,22 +46,28 @@
 
 
 #pragma mark - 点击下载按钮时的外部接口
+//-(void)downFileArray:(NSMutableArray *)downArray{
+//    [self loadDownFile];
+//}
 //点击下载按钮后传来的下载数据（数组中有两个元素courseDic和downDic）
 -(void)downFileArray:(NSMutableArray *)downArray{
     
-    _fileInfo = [[FileModel alloc] init];
+//    _fileInfo = [[FileModel alloc] init];
     
     self.myCourseDic = [downArray firstObject];//9包含URL
     NSDictionary *course = [downArray lastObject];//25
     
     ///将传来的数据保存到数据库
-    //    [_fileInfo saveDataToDataBase:course withDownDic:self.myCourseDic];
+//        [_fileInfo saveDataToDataBase:course withDownDic:self.myCourseDic];
+
+    
+    
     
     //***************通过URL得到文件名fileName和路径filePath
     //指定文件url
-    self.urlString = [course objectForKey:@"savePath"];
+    self.urlString = [course objectForKey:@"savePath"];//URL
     self.url = [NSURL URLWithString:self.urlString];
-    //未指定文件名,根据路径拿到文件名
+    //未指定文件名,路径的最后字段设为文件名
     if (!self.fileName)
     {
         //        NSString *urlStr = [self.url absoluteString];
@@ -71,158 +77,156 @@
         if ([self.fileName length] > 32)
             self.fileName = [self.fileName substringFromIndex:[self.fileName length]-32];
     }
+    
     //未指定下载路径
-    if (!self.filePath)
-    {
+    if (!self.filePath){
         NSArray  *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDir = [documentPaths objectAtIndex:0];
         self.filePath = documentsDir;
     }
-    
-    //Documents地址
     NSString *filepathstring = [NSString stringWithFormat:@"%@/%@",self.filePath,self.fileName];
-    [self.myCourseDic setValue:filepathstring forKey:@"filePath"];
+//    [self.myCourseDic setValue:filepathstring forKey:@"filePath"];
     
     
     //将传来的数据保存在model（和保存到数据库的数据不同，model中多了下载路径filePath)
-    _fileInfo = [_fileInfo initWithContentsOfDic:self.myCourseDic];
-    _fileInfo = [_fileInfo initWithContentsOfDic:course];
+    //更新数据库，把修改后的filePath（文件本地路径）和
+//    _fileInfo = [_fileInfo initWithContentsOfDic:self.myCourseDic];
+//    _fileInfo = [_fileInfo initWithContentsOfDic:course];
     
     
     //把下载数据保存在数组中
     //    [self.filelistArr addObject:_fileInfo];
     
+    //如果用多线程，获取不到刚刚的数据
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        NSMutableArray *array = [NSMutableArray array];
+//        for (int i = 0; i < 1; i++) {
+//            DownloadModel *downloadModel = [[DownloadModel alloc] init];
+//            downloadModel.title = self.fileName;
+//            downloadModel.savePath = [course objectForKey:@"savePath"];//网络路径
+//            downloadModel.filePath = self.filePath;//本地路径
+//            downloadModel.downloadState = @"0";
+//            [array addObject:downloadModel];
+//        }
+//        [DownloadModel saveObjects:array];
+//    });
+    
+    
+    NSMutableArray *array = [NSMutableArray array];
+    DownloadModel *downloadModel = [[DownloadModel alloc] init];
+    downloadModel.title = self.fileName;
+    downloadModel.savePath = [course objectForKey:@"savePath"];//网络路径
+    downloadModel.filePath = self.filePath;//本地路径
+    downloadModel.downloadState = @"0";
+    [array addObject:downloadModel];
+    [DownloadModel saveObjects:array];
+
+    
     [self loadDownFile];
+
 }
 
 
 
 
 
-#pragma mark - 登录后未下载完的下载入口
+#pragma mark - 筛选出正在下载的数据
 - (void)loadDownFile{
-
-    @synchronized(self.filelistArr)
-    {
-        [self.filelistArr removeAllObjects];
-
-        //***************************先获取下载参数
-        //通过sql获取下载队列
-        FileModel *file = [[FileModel alloc] init];
-        NSArray *tmpArr = [file getDownloadArray];///////**********////////数组中为字典
-
-//        NSArray *tmpArray = [[NSArray alloc] init];
-//        for (NSDictionary *dictionary in tmpArr) {
-//            tmpArray = [NSArray arrayWithObject:dictionary];
-//        }
-
-        int downingCount = 0;
-        for (NSDictionary *downDic in tmpArr) {
-            int downing = [[downDic objectForKey:@"downloadState"] intValue];
-            if (downing == Downloading) {
-                downingCount++;
-            }
-        }
-
-
-        //****************************根据下载参数获取对应的课程信息参数
-        int hasDowning = 0;//正在下载的个数
-        for(NSDictionary *dic in tmpArr)
-        {
-
-            FileModel *filemodel = [[FileModel alloc] init];
-            NSMutableDictionary *mulDic =  [NSMutableDictionary dictionaryWithDictionary:dic];//下载参数
-
-            //联查信息表
-            NSString *courseID = [mulDic objectForKey:@"courseId"];
-            NSDictionary *courseDic = [file getDownloadCourseDicFromCourseID:courseID];////*****/////
-            //插入课程信息
-            filemodel = [filemodel initWithContentsOfDic:courseDic];
-
-
-//            NSString *size = [mulDic objectForKey:@"size"];
-            int downState = [[mulDic objectForKey:@"downloadState"] intValue];
-
-
-
-            if (downingCount == 1) {
-
-            }else{
-
-                if(downState == DownloadWaiting && hasDowning < 1 && downingCount != 1){
-
-                    ++hasDowning;
-
-                    [mulDic setValue:[NSString stringWithFormat:@"%d",Downloading] forKey:@"downloadState"];
-
-                }else if(downState == Downloading && hasDowning >= 1){
-
-                    ++hasDowning;
-
-                    [mulDic setValue:[NSString stringWithFormat:@"%d",DownloadWaiting] forKey:@"downloadState"];
-
-                }else if(downState == DownloadWaiting && hasDowning < 1 ){
-
-                    ++hasDowning;
-                    
-                    [mulDic setValue:[NSString stringWithFormat:@"%d",Downloading] forKey:@"downloadState"];
-                    
-                }
-            }
-
-
-            filemodel = [filemodel initWithContentsOfDic:mulDic];//插入下载参数（两个字典中都有size，mulDic中的size有值，为防止被覆盖，在courseDic写入后再写入）
-            //保存到本地
-            [filemodel receiveModel:filemodel];
-
-
-            [self.filelistArr addObject:filemodel];
-        }
-
-        [self startLoad];//从数据库中加载model后进行下载
-    }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DownLoadNeedUpdate" object:nil];
+    [self.filelistArr removeAllObjects];
+
+    //通过本地获取下载队列
+    NSArray *tmpArr = [DownloadModel findByCriteria:@""];///////**********////////数组中为字典
+    NSLog(@"数据库文件的总个数 === %@",tmpArr);
+
+    
+    //计算需要下载个数
+    int downingCount = 0;
+    for (DownloadModel *fileModel in tmpArr) {
+        int downing = [fileModel.downloadState intValue];
+        if (downing == Downloading) {
+            downingCount++;
+        }
+    }
+
+    //
+    int hasDowning = 0;//正在下载的个数
+    for(DownloadModel *filemodel in tmpArr){
+        int downState = [filemodel.downloadState intValue];
+
+        NSMutableDictionary *mulDic = [NSMutableDictionary dictionaryWithCapacity:10];
+        if (downingCount == 1) {
+        }else{
+
+            if(downState == DownloadWaiting && hasDowning < 1 && downingCount != 1){
+
+                ++hasDowning;
+
+                [mulDic setValue:[NSString stringWithFormat:@"%d",Downloading] forKey:@"downloadState"];
+
+            }else if(downState == Downloading && hasDowning >= 1){
+
+                ++hasDowning;
+
+                [mulDic setValue:[NSString stringWithFormat:@"%d",DownloadWaiting] forKey:@"downloadState"];
+
+            }else if(downState == DownloadWaiting && hasDowning < 1 ){
+
+                ++hasDowning;
+                
+                [mulDic setValue:[NSString stringWithFormat:@"%d",Downloading] forKey:@"downloadState"];
+                
+            }
+        }
+        filemodel.downloadState = [mulDic objectForKey:@"downloadState"];
+//            filemodel = [filemodel initWithContentsOfDic:mulDic];//插入下载参数（两个字典中都有size，mulDic中的size有值，为防止被覆盖，在courseDic写入后再写入）
+        //本界面获取的下载数组
+        [self.filelistArr addObject:filemodel];
+        
+        
+        
+        //保存到本地
+//        [DownloadModel updateObjects:self.filelistArr];
+    }
+
+    [self readyStartLoad];//从数据库中加载model后进行下载
+    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DownLoadNeedUpdate" object:nil];
 }
 
 
 #pragma mark - 将数据库中的数据取出，并添加地址等字段
--(void)startLoad{
+-(void)readyStartLoad{
 
-    for (FileModel *fileModel in self.filelistArr) {
+    for (DownloadModel *fileModel in self.filelistArr) {
 
-        NSLog(@"%d",self.filelistArr.count);
+        NSLog(@"将要下载的文件个数=%ld",self.filelistArr.count);
         //URL，文件名，保存地址
         NSURL *url = [NSURL URLWithString:fileModel.savePath];
 
         NSString *urlStr = [url absoluteString];
         self.fileName = [urlStr lastPathComponent];
-        if ([self.fileName length] > 32)
+        if ([self.fileName length] > 32){
             self.fileName = [self.fileName substringFromIndex:[self.fileName length]-32];
+        }
 
-        if (!self.filePath)
-        {
+        if (!self.filePath){
 //            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 //            NSString *docDir = [paths objectAtIndex:0];
-
             NSArray  *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDir = [documentPaths objectAtIndex:0];
             self.filePath = documentsDir;
         }
 
 
-        //Documents地址
+        //文件地址
         NSString *filepathstring = [NSString stringWithFormat:@"%@/%@",self.filePath,self.fileName];
         fileModel.filePath = filepathstring;
-
-
         //临时地址
 //        self.temporaryPath=[self.destinationPath stringByAppendingFormat:kTHDownLoadTask_TempSuffix];
 //        NSString *temporarypath = [self.destinationPath stringByAppendingFormat:kTHDownLoadTask_TempSuffix];
-        NSString *pathstring = [NSString stringWithFormat:@"%@/Download/%@",self.filePath,self.fileName];
-
+        NSString *pathstring = [NSString stringWithFormat:@"%@/ZBD/%@",self.filePath,self.fileName];
         fileModel.tempPath = pathstring;
-
         //目标地址
 //        self.destinationPath=[self.filePath stringByAppendingPathComponent:self.fileName];
 //        NSArray *temArr = [pathstring componentsSeparatedByString:@"."];
@@ -231,19 +235,19 @@
 
 
 
-        int downState = [fileModel.downloadState intValue];
-
+//        int downState = [fileModel.downloadState intValue];
+        int downState = 0;
+        //准备网络下载
         if (downState == 0) {
             [self beginRequest:fileModel withIsBegin:YES];
         }else if(downState == 2 ||downState == 1){
             [self beginRequest:fileModel withIsBegin:NO];
         }
-
     }
 }
 
-#pragma mark - 开启下载请求
--(void)beginRequest:(FileModel *)fileInfo withIsBegin:(BOOL)isBigin{
+#pragma mark - 网络下载请求
+-(void)beginRequest:(DownloadModel *)fileInfo withIsBegin:(BOOL)isBigin{
 
 //    NSLog(@"start down::下载个数：%d",self.downinglist.count);
 
@@ -272,7 +276,7 @@
         NSFileManager *fileManager=[NSFileManager defaultManager];
         NSData *fileData=[fileManager contentsAtPath:fileInfo.tempPath];
         NSInteger receivedDataLength=[fileData length];
-        fileInfo.downProgress = [NSString stringWithFormat:@"%d",receivedDataLength];
+        fileInfo.downProgress = [NSString stringWithFormat:@"%ld",receivedDataLength];
 
 //        NSLog(@"start down:已经下载：%@",fileInfo.downProgress);
     }
@@ -282,8 +286,9 @@
     //创建下载请求数据
     ASIHTTPRequest *request=[[ASIHTTPRequest alloc] initWithURL:[NSURL URLWithString:fileInfo.savePath]];
     request.delegate = self;
-    [request setDownloadDestinationPath:[fileInfo targetPath]];//下载完成时的保存地址
-    [request setTemporaryFileDownloadPath:fileInfo.tempPath];//临时文件的保存地址
+    //注：临时文件的保存地址和下载完成时的保存地址不能相同，相同会调用下载失败方法，下载完成后临时文件会自动删除
+    [request setDownloadDestinationPath:fileInfo.tempPath];//下载完成时的保存地址
+    [request setTemporaryFileDownloadPath:fileInfo.targetPath];//临时文件的保存地址
     [request setDownloadProgressDelegate:self];
     [request setNumberOfTimesToRetryOnTimeout:2];
 //    [request setShouldContinueWhenAppEntersBackground:YES];
@@ -299,8 +304,7 @@
 
 
     BOOL exit = NO;
-    for(ASIHTTPRequest *tempRequest in self.downinglist)
-    {
+    for(ASIHTTPRequest *tempRequest in self.downinglist){
 //        NSLog(@"start down::下载个数：%d",self.downinglist.count);
 //        NSLog(@"!!!!---::%@",[tempRequest.url absoluteString]);
 
@@ -321,13 +325,14 @@
 //    NSLog(@"start down::下载个数：%d",self.downinglist.count);
 
 
-    [self.downloadDelegate updateCellProgress:fileInfo.title withDownProgress:fileInfo.downProgress withTotalSize:fileInfo.size];
+//    [self.downloadDelegate updateCellProgress:fileInfo.title withDownProgress:fileInfo.downProgress withTotalSize:fileInfo.size];
 
 }
 
 
 
 #pragma mark - 下载代理
+
 - (void)requestStarted:(ASIHTTPRequest *)request{
     NSLog(@"开始了!");
 }
@@ -336,44 +341,45 @@
 
     NSLog(@"收到回复了！");
     
-    FileModel *fileInfo=[request.userInfo objectForKey:@"File"];
-
+    DownloadModel *fileInfo=[request.userInfo objectForKey:@"File"];
+    //文件的大小
     NSString *len = [responseHeaders objectForKey:@"Content-Length"];
 
     //这个信息头，首次收到的为总大小，那么后来续传时收到的大小为肯定小于或等于首次的值，则忽略
-    if ([fileInfo.size longLongValue] < [len longLongValue])
-    {
+    if ([fileInfo.size longLongValue] < [len longLongValue]){
         fileInfo.size = [NSString stringWithFormat:@"%lld", [len longLongValue]];
     }
 
-    fileInfo.fileSize = [NSString stringWithFormat:@"%lld", [len longLongValue]];
+//    fileInfo.fileSize = [NSString stringWithFormat:@"%lld", [len longLongValue]];
     fileInfo.downloadState = [NSString stringWithFormat:@"%d",Downloading];
 
 
-    fileInfo.isFirstReceived = YES;
+//    fileInfo.isFirstReceived = YES;
 
-    [fileInfo receiveModel:fileInfo];
+//    [fileInfo receiveModel:fileInfo];
+    NSArray *array = [NSArray arrayWithObject:fileInfo];
+    [DownloadModel updateObjects:array];
 
 }
 
 
 - (void)request:(ASIHTTPRequest *)request didReceiveBytes:(long long)bytes{
+    
+    NSLog(@"收到的数据=%lld",bytes);
 
-
-    FileModel *fileInfo=[request.userInfo objectForKey:@"File"];
-
-    NSString *title = fileInfo.title;
-    if (fileInfo.isFirstReceived) {
-        fileInfo.isFirstReceived = NO;
-        fileInfo.downProgress =[NSString stringWithFormat:@"%lld",bytes];
-    }else{
-        fileInfo.downProgress=[NSString stringWithFormat:@"%lld",[fileInfo.downProgress longLongValue]+bytes];
-    }
-
+    DownloadModel *fileInfo=[request.userInfo objectForKey:@"File"];
+    
+//    NSString *title = fileInfo.title;
+//    if (fileInfo.isFirstReceived) {
+//        fileInfo.isFirstReceived = NO;
+//        fileInfo.downProgress =[NSString stringWithFormat:@"%lld",bytes];
+//    }else{
+//        fileInfo.downProgress=[NSString stringWithFormat:@"%lld",[fileInfo.downProgress longLongValue]+bytes];
+//    }
+    fileInfo.downProgress=[NSString stringWithFormat:@"%lld",[fileInfo.downProgress longLongValue]+bytes];
 
     //代理传进度
-    if([self.downloadDelegate respondsToSelector:@selector(updateCellProgress:withDownProgress:withTotalSize:)])
-    {
+    if([self.downloadDelegate respondsToSelector:@selector(updateCellProgress:withDownProgress:withTotalSize:)]){
         [self.downloadDelegate updateCellProgress:fileInfo.title withDownProgress:fileInfo.downProgress withTotalSize:fileInfo.size];
     }
 }
@@ -385,16 +391,15 @@
     NSLog(@"下载结束了！");
 
 
-    FileModel *fileModel = [request.userInfo objectForKey:@"File"];
+    DownloadModel *fileModel = [request.userInfo objectForKey:@"File"];
     NSString *size = [NSString stringWithFormat:@"%@",fileModel.size];
 
     //当前下载的时间
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-
     //设定时间格式,这里可以设置成自己需要的格式
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSString *now = [dateFormatter stringFromDate:[NSDate date]];
-    fileModel.lastTime = now;
+//    NSString *now = [dateFormatter stringFromDate:[NSDate date]];
+//    fileModel.lastTime = now;
 
     fileModel.downloadState = [NSString stringWithFormat:@"%d",DownloadOver];
     fileModel.size = size;
@@ -402,14 +407,16 @@
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateDownloadState" object:nil];//改变详情的下载按钮图片
 
     
-    //插入三个表
-    [fileModel finishedDataToDataBase:fileModel];
+    //更新数据
+    NSArray *array = [NSArray arrayWithObject:fileModel];
+    [DownloadModel updateObjects:array];
+//    [fileModel finishedDataToDataBase:fileModel];
 
 
     //删除要删除的对象,(删除downinglist中的内容）
     for (int i = 0; i < self.downinglist.count; i++) {
         ASIHTTPRequest *req = self.downinglist[i];
-        FileModel *file = [req.userInfo objectForKey:@"File"];
+        DownloadModel *file = [req.userInfo objectForKey:@"File"];
 
         if (file.title == fileModel.title) {
             [self.downinglist removeObjectAtIndex:i];
@@ -417,11 +424,13 @@
     }
 
 
+    
+    
+    
 //    if([GlobalData GetInstance].GB_ProductVesion == Mobile_Version)
 //    {
 //        [[NSNotificationCenter defaultCenter] postNotificationName:@"UpdateDownloadSize" object:self.myDownDic];
 //    }
-
 //    if (isUnzingShow == NO) {
 //        [self performSelectorInBackground:@selector(DoZipManager:) withObject:fileModel.targetPath];
 //    }
@@ -453,19 +462,23 @@
 //    if (error.code==4) {
 //        return;
 //    }
+    NSLog(@"下载失败了！");
 
 
-    FileModel *fileModel = [request.userInfo objectForKey:@"File"];
+    DownloadModel *fileModel = [request.userInfo objectForKey:@"File"];
 
     NSString *message = [NSString stringWithFormat:@"由于网络连接已中断或发生错误，%@ 下载失败，请稍后重试！",fileModel.title];
+    UIAlertView *alertView = [[UIAlertView alloc]  initWithTitle:@"下载失败" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+    [alertView show];
 //    [GlobalFunc AddStatusLabelWithText:message];
+    
+    
     self.isFirstFailed = YES;
 
-
-    for (FileModel *filemodel in self.filelistArr) {
-        filemodel.downloadState = [NSString stringWithFormat:@"%d",DownloadPause];
-        [filemodel receiveModel:filemodel];
-    }
+//    for (FileModel *filemodel in self.filelistArr) {
+//        filemodel.downloadState = [NSString stringWithFormat:@"%d",DownloadPause];
+//        [filemodel receiveModel:filemodel];
+//    }
 
     
     //下载失败时，再开启别的下载进程
@@ -482,6 +495,7 @@
 
 #pragma mark - 暂停，继续下载
 //从下载界面传来的（单元格标识）（下载状态）
+/*
 -(void)stopDownload:(int)row Pause:(Download_State)state{
 
 
@@ -664,16 +678,19 @@
         }
     }
 }
-
+*/
 
 #pragma mark - 显示解压等待画面
--(void)ShowDownloadFinish:(ASIHTTPRequest *)request
-{
+-(void)ShowDownloadFinish:(ASIHTTPRequest *)request{
 
-    FileModel *fileInfo=[request.userInfo objectForKey:@"File"];
+    DownloadModel *fileInfo=[request.userInfo objectForKey:@"File"];
 
     float totalSize = [fileInfo.size floatValue]/1024.0/1024.0;
     NSString *titleName = fileInfo.title;
+    
+
+    UIAlertView *alertView = [[UIAlertView alloc]  initWithTitle:@"下载完成" message:[NSString stringWithFormat:@"%@下载完成\n大小：%.fM",titleName,totalSize] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+    [alertView show];
 //    LOG_CFLTVALUE(@"size", totalSize);
 //    if (totalSize < 1) {
 //        [[GlobalData GetInstance] DoGCDQueue:[NSString stringWithFormat:@"%@下载完成\n大小：%.fK",titleName,totalSize*1024]];

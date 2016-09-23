@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface DownloadingCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *title;
+@property (weak, nonatomic) IBOutlet UILabel *fileSize;
+@property (weak, nonatomic) IBOutlet UIProgressView *progress;
+@property (weak, nonatomic) IBOutlet UILabel *percent;
 
 @end

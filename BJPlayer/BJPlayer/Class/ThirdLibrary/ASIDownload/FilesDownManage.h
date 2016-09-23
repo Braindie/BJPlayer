@@ -10,7 +10,8 @@
 #import "ASIHTTPRequest.h"
 #import "ASINetworkQueue.h"
 
-#import "FileModel.h"
+//#import "FileModel.h"
+#import "DownloadModel.h"
 
 
 
@@ -46,7 +47,7 @@
 
 @property(nonatomic, strong) NSDictionary *myCourseDic;
 
-@property(nonatomic,strong)FileModel *fileInfo;
+//@property(nonatomic,strong)FileModel *fileInfo;
 
 @property (nonatomic, assign) NSInteger reConnectTimes;
 @property(nonatomic,assign) BOOL isFirstFailed;
@@ -103,9 +104,10 @@
 -(void)loadDownFile;//从本地数据库加载下载参数
 -(void)downFileArray:(NSMutableArray *)downArray;//从下载界面传下载参数
 
--(void)startLoad;//遍历下载列表中的model，开始下载
+-(void)readyStartLoad;//遍历下载列表中的model，开始下载
 
--(void)beginRequest:(FileModel *)fileInfo withIsBegin:(BOOL)isBigin;//开启异步下载
+//-(void)beginRequest:(FileModel *)fileInfo withIsBegin:(BOOL)isBigin;//开启异步下载
+-(void)beginRequest:(DownloadModel *)fileInfo withIsBegin:(BOOL)isBigin;//开启异步下载
 
 
 @end

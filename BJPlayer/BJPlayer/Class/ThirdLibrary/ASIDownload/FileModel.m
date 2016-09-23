@@ -29,15 +29,15 @@
 //     
 //    return tmpArr;
 //}
-//
-//- (NSDictionary *)getDownloadCourseDicFromCourseID:(NSString *)courseID{
-//
+
+- (NSDictionary *)getDownloadCourseDicFromCourseID:(NSString *)courseID{
+
 //    courseTb = [LocalDataBase GetTableWithType:@"implement_class_relation" HasUser:NO];
 //    NSDictionary *courseDic = [courseTb GetOneRecordWithKeys:[NSArray arrayWithObjects:@"courseId", nil] Values:[NSArray arrayWithObjects:courseID, nil] UseUser:NO];
-//    return courseDic;
-//}
-//
-//
+    return nil;
+}
+
+
 //
 ////把外部传来的下载参数保存到数据库中
 //- (void)saveDataToDataBase:(NSDictionary *)courseDic withDownDic:(NSDictionary *)downDic{

@@ -1,0 +1,1207 @@
+//
+//  ViewController.m
+//  AVPlayerDemo
+//
+//  Created by CaoJie on 14-5-5.
+//  Copyright (c) 2014年 yiban. All rights reserved.
+//
+
+#import "AVPlayerCtrl.h"
+#import <AVFoundation/AVFoundation.h>
+
+// http://v.jxvdy.com/sendfile/w5bgP3A8JgiQQo5l0hvoNGE2H16WbN09X-ONHPq3P3C1BISgf7C-qVs6_c8oaw3zKScO78I--b0BGFBRxlpw13sf2e54QA
+
+@interface AVPlayerCtrl () {
+    BOOL _played;
+    NSString *_totalTime;
+    NSDateFormatter *_dateFormatter;
+}
+
+
+//- (IBAction)stateButtonTouched:(id)sender;
+//- (IBAction)videoSlierChangeValue:(id)sender;
+//- (IBAction)videoSlierChangeValueEnd:(id)sender;
+
+@end
+
+@implementation AVPlayerCtrl
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.hasNavBar = NO;
+    [self AddNormalViews];
+    [self AddTopViews];
+    
+}
+
+
+- (void)monitoringPlayback:(AVPlayerItem *)playerItem {
+    
+    __weak typeof(self) weakSelf = self;
+//  addPeriodicTimeObserverForInterval设定每隔1秒监控播放时间变化
+    self.playbackTimeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:NULL usingBlock:^(CMTime time) {
+        CGFloat currentSecond = playerItem.currentTime.value/playerItem.currentTime.timescale;// 计算当前在第几秒
+//        [weakSelf.videoSlider setValue:currentSecond animated:YES];
+        NSString *timeString = [self convertTime:currentSecond];
+        
+        //如果是点击了显示进度条
+        if (istouched) {
+            touchTime++;
+            if (touchTime>=7)//大于7秒隐藏进度条
+            {
+                self.myMovieControlsView.topViewBar.hidden=YES;
+                self.myMovieControlsView.bottomViewBar.hidden=YES;
+                if (self.myMovieControlsView.isHorizontal && GB_SDK_Version>=7.0)
+                    //            if (self.myMovieControlsView.isHorizontal)
+                {
+                    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+                }
+                istouched = NO;
+            }
+            else{
+                self.myMovieControlsView.topViewBar.hidden=NO;
+                self.myMovieControlsView.bottomViewBar.hidden=NO;
+                [[UIApplication sharedApplication] setStatusBarHidden:NO];
+            }
+        }
+        else{
+            self.myMovieControlsView.topViewBar.hidden=YES;
+            self.myMovieControlsView.bottomViewBar.hidden=YES;
+        }
+        
+        
+        //得到当前播放的值
+        CGFloat curTime = self.playerItem.currentTime.value/self.playerItem.currentTime.timescale;
+        
+        CMTime allTimes=self.playerItem.duration;//总时长
+        float allTime = CMTimeGetSeconds(allTimes);
+        
+        NSArray *loadedTimeRanges = [[self.player currentItem]   loadedTimeRanges];
+        CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue];// 获取缓冲区域
+        float startSeconds = CMTimeGetSeconds(timeRange.start);
+        float durationSeconds = CMTimeGetSeconds(timeRange.duration);
+        NSTimeInterval result = startSeconds + durationSeconds;// 计算缓冲总进度
+        float playableTime = result;
+        
+        if (allTime <= 0.0) {
+            self.myMovieControlsView.playValueprogress=0;
+            self.myMovieControlsView.playableValueprogress=0;
+        }
+        else{
+            //这个值有时候会是nan，所以得判断一下，防止崩溃
+            if(isnan(allTime))
+            {
+                curTime = 0;
+                playableTime = 0;
+                self.myMovieControlsView.playValueprogress=curTime/allTime;
+                self.myMovieControlsView.playableValueprogress= playableTime/allTime;
+            }
+            self.myMovieControlsView.playValueprogress=curTime/allTime;
+            self.myMovieControlsView.playableValueprogress= playableTime/allTime;
+        }
+        self.myMovieControlsView.timeLab.text=[NSString stringWithFormat:@"%@/%@",timeString,_totalTime];
+    }];
+}
+
+// KVO方法
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    AVPlayerItem *playerItem = (AVPlayerItem *)object;
+    if ([keyPath isEqualToString:@"status"]) {
+        if ([playerItem status] == AVPlayerStatusReadyToPlay) {
+            hasNeverPlayed = NO;//修改播放按钮状态
+            isPlaying = YES;
+            if (isPlaying) {
+                CMTime duration = self.playerItem.duration;// 获取视频总长度
+                CGFloat totalSecond = playerItem.duration.value / playerItem.duration.timescale;// 转换成秒
+
+                _totalTime = [self convertTime:totalSecond];// 转换成播放时间
+                
+                [self monitoringPlayback:self.playerItem];// 监听播放状态
+                [self.player play];
+                isPlaying = NO;
+                [self ChangePlayingBtOn:isPlaying];
+            }
+            else
+            {
+                [self.player pause];
+            }
+
+        } else if ([playerItem status] == AVPlayerStatusFailed) {
+            
+        }
+    }
+//    一直加载缓冲 缓冲的过程 如果有播放代码 会一直从开头缓冲的
+    else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+        NSTimeInterval timeInterval = [self availableDuration];// 计算缓冲进度
+        if (timeInterval > 10) {
+            [self.player play];
+        }
+        CMTime duration = _playerItem.duration;
+        CGFloat totalDuration = CMTimeGetSeconds(duration);
+        [self.videoProgress setProgress:timeInterval / totalDuration animated:YES];
+    }
+}
+
+
+
+- (NSTimeInterval)availableDuration {
+    NSArray *loadedTimeRanges = [[self.player currentItem] loadedTimeRanges];
+    CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue];// 获取缓冲区域
+    float startSeconds = CMTimeGetSeconds(timeRange.start);
+    float durationSeconds = CMTimeGetSeconds(timeRange.duration);
+    NSTimeInterval result = startSeconds + durationSeconds;// 计算缓冲总进度
+    return result;
+}
+
+
+//停止计时器
+-(void) StopTimer
+{
+    [myTimer invalidate];
+    myTimer = nil;
+}
+
+
+
+- (NSString *)convertTime:(CGFloat)second{
+    NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
+    if (second/3600 >= 1) {
+        [[self dateFormatter] setDateFormat:@"HH:mm:ss"];
+    } else {
+        [[self dateFormatter] setDateFormat:@"mm:ss"];
+    }
+    NSString *showtimeNew = [[self dateFormatter] stringFromDate:d];
+    return showtimeNew;
+}
+
+
+- (NSDateFormatter *)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+    }
+    return _dateFormatter;
+}
+
+- (void)dealloc {
+    [self.playerItem removeObserver:self forKeyPath:@"status" context:nil];
+    [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges" context:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+    [self.player removeTimeObserver:self.playbackTimeObserver];
+}
+
+
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark -
+// 视频播放视图（目录按钮涉及界面）
+-(void)AddTopViews
+{
+    [super AddTopViews];
+    self.myMovieControlsView=[[MovieControlsView alloc] init];
+    self.myMovieControlsView.delegate=self;
+    [self.view addSubview:self.myMovieControlsView];
+    
+    
+    self.myCourseBackView=[[UIView alloc] initWithFrame:CGRectMake(self.myMovieControlsView.frame.size.width-272-GB_HorizonDifference, 0, 272+GB_HorizonDifference,320+GB_HorizonDifference)];
+    //    self.myCourseBackView=[[UIView alloc] initWithFrame:CGRectMake(self.myMoviePlayer.view.frame.size.width-302-GB_HorizonDifference, 0, 302+GB_HorizonDifference,320+GB_HorizonDifference)];
+    self.myCourseBackView.backgroundColor=RGBACOLOR(0, 0, 0, 0.8);
+
+//    [self.myMovieControlsView.layer addSublayer:self.myCourseBackView.layer];//gzx
+    
+    self.topView=[[UIView alloc] init];
+    self.topView.backgroundColor=RGBACOLOR(100, 100, 100, 0.7);
+    self.topView.frame=CGRectMake(0, 0, 302+GB_HorizonDifference, 60);
+    
+    //题目
+    UILabel *titleLab=[[UILabel alloc] initWithFrame:CGRectMake(10, 20, 40, 40)];
+    titleLab.text=@"目录";
+    titleLab.backgroundColor=[UIColor clearColor];
+    titleLab.textColor=[UIColor blackColor];
+    titleLab.font=[UIFont systemFontOfSize:20];
+    titleLab.textColor=[UIColor whiteColor];
+    [self.topView addSubview:titleLab];
+    
+    //收起
+    self.mybackBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [GlobalFunc SetImageButton:self.mybackBtn Normal:@"video_back_b.png" Highlight:@"video_back_b0.png" Clicked:@""];
+    self.mybackBtn.frame=CGRectMake(252+GB_HorizonDifference, 20, 40, 40);
+    [self.mybackBtn addTarget:self action:@selector(PackUpCourseTable) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:self.mybackBtn];
+    [self.myCourseBackView addSubview:self.topView];
+    
+    self.myCourseTableView=[[CourseTableViewContrl alloc] init];
+    self.myCourseTableView.delegate=self;
+    
+    self.myCourseTableView.view.frame=CGRectMake(0, 60, 272+GB_HorizonDifference,320+GB_HorizonDifference-60);
+        self.myCourseTableView.view.frame=CGRectMake(0, 60, 362+GB_HorizonDifference,320+GB_HorizonDifference-60);
+    
+    [self.myCourseBackView addSubview:self.myCourseTableView.view];
+    self.myCourseBackView.hidden=YES;
+    
+}
+
+-(void) AddNormalViews
+{
+    [super AddNormalViews];
+    
+    userCourseChapterTb=[LocalDataBase GetTableWithType:@"user_icr_rco" HasUser:NO];//断点播放
+    //    [GlobalData GetInstance].GB_Playtime=0;
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+    {
+        currentDeviceModel=iPadModel;//设备类型为iPad
+        self.view.frame=CGRectMake(0, 0, 1024, 768);
+    }
+    else
+    {
+        currentDeviceModel=iPhoneOriPodModel;//其他类型
+    }
+//    self.myMoviePlayer=[[mobileMPMoviePlayerContrl alloc] init];
+//    NSLog(@"重新创建播放器");
+//    self.myMoviePlayer.moviePlayer.scalingMode=MPMovieScalingModeAspectFit;
+//    self.myMoviePlayer.moviePlayer.allowsAirPlay=YES;
+//    self.myMoviePlayer.moviePlayer.controlStyle=MPMovieControlStyleNone;
+//    [GlobalData GetInstance].NewmoviePlayer=self.myMoviePlayer.moviePlayer;
+//    [GlobalData GetInstance].NewmoviePlayer.shouldAutoplay = YES;
+//    [self addChildViewController:self.myMoviePlayer];
+//    [self.view addSubview:self.myMoviePlayer.view];
+    
+    self.player = [[AVPlayer alloc] init];
+    [GlobalData GetInstance].avPlayerController.player = self.player;
+    [GlobalData GetInstance].avPlayerCtrlGB = self.playerItem;
+    if (self.player.currentItem) {
+        
+        [self.player replaceCurrentItemWithPlayerItem:[GlobalData GetInstance].avPlayerCtrlGB];
+    }
+    else
+    {
+        self.player = [AVPlayer playerWithPlayerItem:[GlobalData GetInstance].avPlayerCtrlGB];
+    }
+    self.playLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+
+    [self.view.layer addSublayer:self.playLayer];
+    
+    //标识背景
+    self.playTopView = [[UIView alloc] init];
+    self.playTopView.frame=CGRectMake(0, 0, 320+GB_HorizonDifference, (320+GB_HorizonDifference)*9/16);
+    self.playTopView.backgroundColor = CreateColorByRGB(@"(082,081,081)");
+//    self.playTopView.center=self.playLoadImgView.center;
+    [self.view addSubview:self.playTopView];
+    
+    //播放标志
+    self.playLoadImgView = [[UIImageView alloc] init];
+    self.playLoadImgView.image = [UIImage imageNamed:@"play_logo.png"];
+    self.playLoadImgView.frame=CGRectMake((320+GB_HorizonDifference-310/4)/2, (self.playTopView.frame.size.height-424/4)/2, 310/4, 424/4);
+    [self.playTopView addSubview:self.playLoadImgView];
+    
+    
+    self.hintView=[[myhintView alloc] init];
+    self.hintView.hidden=YES;
+    self.hintView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    self.hintView.frame=CGRectMake(0, 0, 140, 140);
+    self.hintView.center=self.view.center;
+    //    [GlobalData GetInstance].hintView=self.hintView;
+    if ([GlobalData GetInstance].GB_ProductVesion != Hyundai_Version)
+    {
+        [self.view addSubview:self.hintView];
+    }
+
+}
+
+
+
+// self.myMPArr 得到视频源的数组
+-(void)getMovieMPArr
+{
+//    myCourseDic是课程字典 包含很多信息 在initbasedata里面获取到的
+    self.myCourseID = [self.myCourseDic objectForKey:@"courseId"];
+    //将视频、音频课件取出，放入新数组
+    if(self.myMPArr == nil)
+    {
+        self.myMPArr=[NSMutableArray array];
+        for (NSDictionary *dic in self.myMovieArray)//取出全部可播放课件
+        {
+            NSString *url = [dic objectForKey:@"url"];
+            // 根据.进行区分出文件格式后缀
+            NSArray *tmpArr = [url componentsSeparatedByString:@"."];
+            //文件类型
+            NSString *fileType = [[tmpArr lastObject] lowercaseString];
+            //得到相应的文件后
+            if ([fileType isEqualToString:@"mp4"] || [fileType isEqualToString:@"mp3"] || [fileType isEqualToString:@"MP4"] || [fileType isEqualToString:@"MP3"])
+            {
+                if (self.isLocalPlay)
+                {
+                    NSString *fileName=nil;
+                    //如果是本地缓冲数据 网络不可用 文件名重新初始化路径
+                    
+#if USE_LocalCache
+                    if (GB_UseNetType == CanUse_No){
+                        fileName = [dic objectForKey:@"initFilePath"];
+                    }else{
+                        fileName = [dic objectForKey:@"intFilePath"];
+                    }
+#else
+                    // 如果是离线登录
+                    if (GB_OffLineLogin)
+                    {
+                        fileName = [dic objectForKey:@"initFilePath"];
+                    }
+                    else//有网络的时候进行登录
+                    {
+                        fileName = [dic objectForKey:@"intFilePath"];
+                    }
+#endif
+                    
+                    // 子路径
+                    NSString *subPath = [NSString stringWithFormat:@"/%@/%@", self.myCourseID, fileName];
+                   // 获取网络字符串资源路径
+                    NSString *strUrl = [NSString stringWithFormat:@"http://127.0.0.1:%d%@",GB_Port,subPath];
+                  //  设置视频资源url
+                    [dic setValue:strUrl forKey:@"url"];
+                }
+                //我的数组添加视频资源内容
+                [self.myMPArr addObject:dic];
+            }
+        }
+        
+    }
+    
+    //重新确定self.myindex
+    NSString *chaperId=[[self.myMovieArray objectAtIndex:self.myIndex] objectForKey:@"chapterId"];
+    for (int i=0; i<[self.myMPArr count]; i++)
+    {
+        NSDictionary *dicc=[self.myMPArr objectAtIndex:i];
+        if ([chaperId isEqualToString:[dicc objectForKey:@"chapterId"]])
+        {
+            self.myIndex=i;
+        }
+    }
+    
+    self.myCourseTableView.myCourseArr = self.myMPArr;
+    
+}
+
+-(void) MakeSureIfShowMulu
+{
+#if IS_IPhone
+    //优化，如果只有一个章节则不显示目录按钮
+    if ([self.myMPArr count] <2) {
+        self.myMovieControlsView.courseListBtn.hidden = YES;
+    }
+#endif
+}
+
+//在播放的时候
+-(void) Play
+{
+    [self getMovieMPArr];
+    [self moviePlayerSetContentUrl];
+    
+    [self.player play];
+}
+//检测是否隐藏bottomBar
+- (void)CheckWeatherHiddenWithPoint:(CGPoint)point
+{
+    //    CGPoint pointBottom = [self.view convertPoint:point fromView:self.myMovieControlsView.bottomViewBar];
+    //    if (self.myMovieControlsView.bottomViewBar.hidden == NO)
+    //    {
+    //        if (pointBottom.y > 0)
+    //        {
+    //            self.myMovieControlsView.bottomViewBar.hidden = NO;
+    //            self.myMovieControlsView.topViewBar.hidden = NO;
+    //        }
+    //        else
+    //        {
+    //            self.myMovieControlsView.bottomViewBar.hidden = YES;
+    //            self.myMovieControlsView.topViewBar.hidden = YES;
+    //        }
+    //    }
+    
+    if (!istouched) {
+        touchTime = 0;
+//        [self.myMovieControlsView UpdateFrame];
+        [self ChangePlayingBtOn:isPlaying];
+    }
+    
+    /******方法用户增强用户体验，当用户在点击全屏或者播放的时候当点到bottomView的时候bottomView最好不隐藏*******/
+    
+    CGPoint pointBottom = [self.view convertPoint:point toView:self.myMovieControlsView.bottomViewBar];
+    if (self.myMovieControlsView.bottomViewBar.hidden == NO)
+    {
+        if (pointBottom.y > 0)
+        {
+            self.myMovieControlsView.bottomViewBar.hidden = NO;
+            self.myMovieControlsView.topViewBar.hidden = NO;
+        }
+        else
+        {
+            self.myMovieControlsView.bottomViewBar.hidden = YES;
+            self.myMovieControlsView.topViewBar.hidden = YES;
+        }
+    }
+    else
+    {
+        self.myMovieControlsView.bottomViewBar.hidden=istouched;
+        self.myMovieControlsView.topViewBar.hidden=istouched;
+    }
+    
+    //    self.myMovieControlsView.topViewBar.hidden=istouched;
+    //    self.myMovieControlsView.bottomViewBar.hidden=istouched;
+    
+    
+    istouched=!istouched;
+    
+    if (self.myMovieControlsView.isHorizontal && GB_SDK_Version>=7.0)
+        //    if (self.myMovieControlsView.isHorizontal)
+    {
+        [[UIApplication sharedApplication] setStatusBarHidden:!istouched];
+    }
+}
+
+
+
+//取两位
+-(NSString *)getStrr:(int)m
+{
+    NSString *str01=nil;
+    if (m<=9)
+    {
+        str01=[NSString stringWithFormat:@"0%d",m];
+    }
+    else
+    {
+        str01=[NSString stringWithFormat:@"%d",m];
+    }
+    return str01;
+}
+
+//将秒数 转化成时、分、秒
+-(NSString *)getTimee:(int)t
+{
+    
+    int hour,minute,second;
+    
+    hour=t/3600; //int型整除
+    minute=t%3600/60;
+    second=t%60;
+    NSString *hStr=[self getStrr:hour];
+    NSString *mStr=[self getStrr:minute];
+    NSString *sStr=[self getStrr:second];
+    
+    NSString *str02=[NSString stringWithFormat:@"%@:%@:%@",hStr,mStr,sStr];
+    return str02;
+    
+}
+
+
+
+
+-(void)pause
+{
+//    [self.playerView.player pause];
+    [self.player pause];
+}
+// 视频播放设置内容url 发出通知
+-(void)moviePlayerSetContentUrl
+{
+    NSDictionary *dic = [self.myMPArr objectAtIndex:self.myIndex];//播放的列表
+    NSString *tempid=[dic objectForKey:@"chapterId"];
+    self.myChapterID=[NSString stringWithString:tempid];
+    for (int i=0;i<self.myMovieArray.count;i++)//详情的
+    {
+        NSMutableDictionary *dict=[self.myMovieArray objectAtIndex:i];
+        if([tempid isEqualToString:[dict objectForKey:@"chapterId"]])
+        {
+            if ([GlobalData GetInstance].myPlaySourseType!=topClickType)
+            {
+                [self.delegate reloadRowsCell:i];
+            }
+            
+            break ;
+        }
+    }
+    
+
+    GB_time=0;//每次开始播放，播放时间置0
+    //进度归0
+    {
+        self.myMovieControlsView.playValueprogress=0;
+        self.myMovieControlsView.playableValueprogress=0;
+    }
+    [GlobalData GetInstance].GB_Playtime=0;
+    hasNeverPlayed = YES;
+    self.playTopView.hidden=NO;
+    
+//    [self ChangePlayingBtOn:YES];
+    
+    NSString *url = [dic objectForKey:@"url"];
+    NSArray *tmpArr = [url componentsSeparatedByString:@"."];
+    //文件类型
+    NSString *fileType = [[tmpArr lastObject] lowercaseString];
+    
+    if ([fileType isEqualToString:@"mp3"] || [fileType isEqualToString:@"MP3"]) {
+        int location = [url length] - 3;
+        NSRange range;
+        range.location = location;
+        range.length = 3;
+    }
+
+    NSString* encodedString = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];//将网址含有的中文、空格等转化
+
+//    添加监听
+    self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:encodedString]];
+    [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];// 监听status属性
+    [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];// 监听loadedTimeRanges属性
+//初始化avplayer 在监听方法里面判断是否播放下一个（monitoringPlayback:）
+    self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+    self.playLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+    
+    if (self.player.currentItem)
+    {
+        [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
+    }
+    else
+    {
+        self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+    }
+    
+    self.playLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    [self.view.layer addSublayer:self.playLayer];// 注释无视图 不注无bottom视图
+    [self.view addSubview:self.myMovieControlsView];
+    
+//        self.stateButton.enabled = YES;
+    
+    // 添加视频播放结束通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
+    
+    LOG_CSTRVALUE(@"最终播放地址", encodedString);
+    self.myMovieControlsView.titileLab.text=[dic objectForKey:@"title"];
+    
+    //    [self performSelector:@selector(movieTimedOut) withObject:nil afterDelay:30.f];
+    [self.myCourseTableView.tableView reloadData];
+    
+    [self.delegate DoRefreshOnMainThread];
+//    用于更新界面展示
+    [self UpdateWindow];
+    
+}
+
+- (void)moviePlayDidEnd:(NSNotification *)notification
+{
+    self.playTopView.hidden=YES;
+
+    [GlobalFunc SetImageButton:self.myMovieControlsView.playBtn Normal:@"suspended.png" Highlight:@"suspended0.png" Clicked:@""];
+
+}
+
+// 改变播放按钮（横竖屏）
+-(void)ChangePlayingBtOn:(BOOL) on
+{
+    if (on) {//播放
+        self.playTopView.hidden=YES;
+        if (self.myMovieControlsView.isHorizontal)
+        {
+            [GlobalFunc SetImageButton:self.myMovieControlsView.playBtn Normal:@"suspended.png" Highlight:@"suspended0.png" Clicked:@""];
+        }
+        else
+        {
+            [GlobalFunc SetImageButton:self.myMovieControlsView.playBtn Normal:@"video_play0.png" Highlight:@"video_play.png" Clicked:@""];
+        }
+    }
+    else{//暂停
+        if([self HasPlayed])
+        {
+            self.playTopView.hidden=YES;
+        }
+        else{
+            self.playTopView.hidden = NO;
+        }
+        if (self.myMovieControlsView.isHorizontal)
+        {
+            [GlobalFunc SetImageButton:self.myMovieControlsView.playBtn Normal:@"video_play_x.png" Highlight:@"video_play_x0.png" Clicked:@""];
+        }
+        else
+        {
+            [GlobalFunc SetImageButton:self.myMovieControlsView.playBtn Normal:@"video_suspended0.png" Highlight:@"video_suspended0.png" Clicked:@""];
+        }
+    }
+}
+
+
+-(BOOL) IsPlaying
+{
+    return isPlaying;
+}
+
+-(BOOL) HasPlayed
+{
+    if (GB_time > 1) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
+
+
+#pragma mark 返回按钮返回 停止播放
+
+
+#pragma mark 控件的代理方法
+
+//返回
+-(void)backBtnClicked
+{
+    [self.delegate moviePlayerViewCtrlDismiss:YES AndLearnDic:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+ 
+//播放 正常播放
+-(void)playBtnClicked
+{
+//    处于暂停状态
+    if (hasNeverPlayed) {
+        [self moviePlayerSetContentUrl];
+    }
+//    正在播放
+     else
+     {
+//        isToPlay=!isToPlay;
+         isPlaying =! isPlaying;
+        if (isPlaying)
+        {
+            [[GlobalData GetInstance].avPlayerController.player play];
+            LOG_CINFO(@"在播放");
+        }
+        else
+        {
+            [[GlobalData GetInstance].avPlayerController.player pause];
+            LOG_CINFO(@"暂停");
+        }
+         [self ChangePlayingBtOn:isPlaying];
+    }
+
+}
+//上一节
+-(void)upBtnClicked
+{
+    [GlobalData GetInstance].myPlaySourseType=nextPageType;
+        if ([[[UIDevice currentDevice] systemVersion] floatValue] <= 6.0)
+        {
+            [GlobalFunc ShowNormalAlert:@"iOS 6.0以下设备不支持循环播放"];
+        }
+        else
+    {
+        if(self.myIndex==0)
+        {
+            [self AddStatusLabelWithText:@"已经是第一个了"];
+        }
+        else{
+            [self SaveLearnRecords];
+            self.myIndex--;
+            [self moviePlayerSetContentUrl];
+        }
+        
+    }
+}
+
+-(void)InitBaseData
+{
+    [super InitBaseData];
+    self.hasNavBar = NO;
+
+    
+    
+}
+
+//下一节
+-(void)nextBtnClicked
+{
+    [GlobalData GetInstance].myPlaySourseType=nextPageType;
+    
+        if (GB_SDK_Version <= 6.0)
+        {
+            [GlobalFunc ShowNormalAlert:@"iOS 6.0以下设备不支持循环播放"];
+        }
+        else
+    {
+        if(self.myIndex>=self.myMPArr.count-1)
+        {
+            [self AddStatusLabelWithText:@"已经是最后一个了"];
+        }
+        else{
+            [self SaveLearnRecords];
+            self.myIndex ++;
+            [self moviePlayerSetContentUrl];
+        }
+    }
+    
+}
+//锁屏、解锁
+-(void)lockBtnClicked
+{
+    GB_isLocked=!GB_isLocked;
+}
+//拖动进度条，改变播放进度
+-(void)ChangedValue:(float)value
+{
+    
+    NSTimeInterval timerr = CMTimeGetSeconds(self.playerItem.duration)*value;
+    CMTime time = CMTimeMake(timerr, 1);
+//    [self.player seekToTime:time];
+//    [self.player seekToTime:time toleranceBefore:CMTimeMake(1, 30) toleranceAfter:CMTimeMake(1, 30)];
+    [[GlobalData GetInstance].avPlayerController.player seekToTime:time toleranceBefore:CMTimeMake(1, 30) toleranceAfter:CMTimeMake(1, 30)];
+    
+}
+//展开课程列表
+-(void)courseListBtnClicked
+{
+    self.myCourseBackView.hidden=NO;
+    [self.myCourseTableView.tableView reloadData];
+}
+
+-(void) UpdateWindow
+{
+//    self.playerView.frame = [self.view bounds];
+//    self.player = [self SetPlayerItem:self.playerItem];
+    self.playLayer.frame = [self.view bounds];
+    self.myMovieControlsView.frame = [self.view bounds];
+}
+
+-(void) StopAndSaveLearnRecords
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if([self HasPlayed])//只有真正播放过才做进度回传操作
+    {
+        [self SaveLearnRecords];
+    }
+    [self.player pause];
+    GB_time = 0;
+}
+
+-(void) removeThisView
+{
+    [self StopAndSaveLearnRecords];
+//    [self.myMoviePlayer.view removeFromSuperview];
+//    [self.myMoviePlayer removeFromParentViewController];
+//    self.myMoviePlayer = nil;//    [self.playerView.player pause];
+//    [self.playerView.player pause];
+//    self.playerView.player = nil;
+    
+//    [self.playerView removeFromSuperview];
+    [self removeFromParentViewController];
+    
+}
+
+-(void)InsertuserCourseChapterInfo
+{
+    
+    NSMutableDictionary *userCourseChapterDic=[NSMutableDictionary dictionaryWithCapacity:5];
+    NSDictionary *dic=[self.myMPArr objectAtIndex:self.myIndex];
+    [userCourseChapterDic setValue:[GlobalData GetInstance].GB_UserID forKeyPath:@"userid"];
+    [userCourseChapterDic setValue:self.myCourseID forKeyPath:@"courseId"];
+    [userCourseChapterDic setValue:[dic objectForKey:@"chapterId"] forKeyPath:@"chapterId"];
+    [userCourseChapterDic setValue:[dic objectForKey:@"state"] forKeyPath:@"state"];
+    [userCourseChapterDic setValue:[dic objectForKey:@"suspendData"] forKeyPath:@"suspendData"];
+    [userCourseChapterDic setValue:[NSString stringWithFormat:@"%f",playingTime] forKey:@"playTime"];
+    
+    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY-MM-dd hh:mm:ss"];
+    NSString *date = [formatter stringFromDate:[NSDate date]];
+    [userCourseChapterDic setValue:date forKey:@"writeTime"];
+    
+    [userCourseChapterTb InsertDataWithDic:userCourseChapterDic Replace:YES];
+}
+
+
+// 保存学习目录
+-(void)SaveLearnRecords
+{
+    //不论从哪里来，先判断是否播放到文件最后，如果是，那么记录时间修改为0
+//    playingTime=[GlobalData GetInstance].NewmoviePlayer.currentPlaybackTime;
+    playingTime =  CMTimeGetSeconds(self.playerItem.currentTime);
+//    if (playingTime>= [GlobalData GetInstance].NewmoviePlayer.duration - 1)
+//    {
+//        playingTime=0.0f;
+//    }
+
+    if (playingTime>= CMTimeGetSeconds(self.playerItem.duration) - 1.0)
+    {
+        playingTime=0.0f;
+    }
+    
+    [self InsertuserCourseChapterInfo];//（保存播放点）
+    [self performSelectorInBackground:@selector(InsertuserCourseChapterInfo) withObject:nil];
+    
+    if (GB_OffLineLogin || GB_UseNetType == CanUse_No)
+    {
+        //保存离线学习进度
+        //        [self InsertOfflineLearnInfo];//（保存学习情况）
+        //            [self performSelectorInBackground:@selector(InsertOfflineLearnInfo) withObject:nil];
+        //离线时保存在本地，在线直接回传
+#if ISshowLearnCount
+        if (GB_UseNetType == CanUse_No)
+#else
+            if (GB_OffLineLogin)
+#endif
+            {
+                //                [self AddStatusLabelWithText:@"学习记录已经保存在本地，下次在线登录成功后，数据将提交到服务器！"];
+#if ISMobile_Version
+                [self AddStatusLabelWithText:@"学习记录已保存到本地，且仅保存当天学习记录，如不提交将被丢弃。请点击“我的”->“上传离线记录”提交。"];
+#else
+                [self AddStatusLabelWithText:@"学习记录已经保存在本地，下次在线登录成功后，数据将提交到服务器！"];
+#endif
+            }
+        [self.delegate moviePlayerViewCtrlDismiss:NO AndLearnDic:nil];
+    }
+    else
+    {
+        if (GB_time==0)
+        {
+            return;
+        }
+        
+        NSDictionary *coursedic=[self.myMPArr objectAtIndex:self.myIndex];
+        [coursedic setValue:[self.myCourseDic objectForKey:@"classroomid"] forKey:@"classroomid"];
+        [coursedic setValue:[self.myCourseDic objectForKey:@"tbcId"] forKey:@"tbcId"];
+        [coursedic setValue:@"" forKey:@"suspendData"];
+        [coursedic setValue:@"" forKey:@"location"];
+        [coursedic setValue:@"0" forKey:@"grade"];
+        [coursedic setValue:[GlobalFunc GetStrFromFloat:GB_time] forKey:@"time"];
+        [coursedic setValue:[GlobalFunc GetStrFromInt:1] forKey:@"offltimes"];
+//        [coursedic setValue:[GlobalFunc GetStrFromInt:[GlobalData GetInstance].NewmoviePlayer.currentPlaybackTime] forKey:@"timestamp"];
+        float currentTime = CMTimeGetSeconds([GlobalData GetInstance].avPlayerCtrlGB.currentTime);
+        [coursedic setValue:[GlobalFunc GetStrFromFloat:currentTime] forKey:@"timestamp"];//gzx
+        
+//        [coursedic setValue:[GlobalFunc GetStrFromInt:CMTimeGetSeconds ([GlobalData GetInstance].avPlayerCtrlGB.currentTime) forKey:@"timestamp"];
+        
+        float duration=[[coursedic objectForKey:@"duration"] intValue];
+        [coursedic setValue:[GlobalFunc GetStrFromFloat:duration] forKey:@"duration"];
+        [self performSelectorOnMainThread:@selector(uploadLearnProgressWithDic:) withObject:coursedic waitUntilDone:NO];
+    }
+}
+
+//更新学习进度根据字典内容
+-(void)uploadLearnProgressWithDic:(NSDictionary *)dic
+{
+    [self.delegate UploadLearnProgressWithLearnDic:dic];
+}
+
+-(void)nextPageCourse
+{
+    
+    [GlobalData GetInstance].myPlaySourseType=nextPageType;
+    [self SaveLearnRecords];
+    //    if(GB_SDK_Version <= 6.0)
+    //    {
+    //        [GlobalFunc ShowNormalAlert:@"iOS 6.0以下设备不支持循环播放"];
+    //        return ;
+    //    }
+    if(self.myIndex>=self.myMovieArray.count-1)
+    {
+        [self AddStatusLabelWithText:@"已经是最后一个视频了"];
+        return ;
+    }
+    self.myIndex ++;
+    [self moviePlayerSetContentUrl];
+}
+
+#pragma mark - touches 方法
+// 移动触摸的方法
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    
+    UITouch* touch=[touches anyObject];
+    
+    //优化触摸控制
+    CGFloat changeX = [touch previousLocationInView:self.view].x - [touch locationInView:self.view].x;
+    CGFloat changeY = [touch previousLocationInView:self.view].y - [touch locationInView:self.view].y;
+    
+    CGPoint previousPoint = [touch previousLocationInView:self.view];
+    CGPoint moviePoint=CGPointMake(previousPoint.x-startPoint.x, previousPoint.y-startPoint.y);
+//    如果滑动的高度超出播放的高度 直接返回 不提示
+    if (startPoint.y > self.myMovieControlsView.height - self.myMovieControlsView.bottomViewBar.height && startPoint.y < self.myMovieControlsView.height - self.myMovieControlsView.bottomViewBar.height + 30) {
+        
+        if (![self IsShowHintView:previousPoint]) {
+            return;
+        }
+    }//在播放区域内
+    else if (startPoint.y < self.myMovieControlsView.height - self.myMovieControlsView.bottomViewBar.height){
+//        始终在水平方向上 改变播放进度
+        if (fabsf(changeX) > fabsf(changeY))
+        {
+            self.hintView.hidden=NO;
+            //如果是从来没有播放过，那么就直接返回
+            if(![self HasPlayed])
+            {
+                return;
+            }
+            PanStartLocation = progressStart;
+            self.hintView.hidden=NO;
+            if (changeX < 0.0)
+            {
+                self.hintView.types=progressTypeForwad;
+            }
+            else
+            {
+                self.hintView.types=progressTypeBackwad;
+            }
+            
+            CGFloat allTime= CMTimeGetSeconds(self.playerItem.duration);
+
+            float progressTime=allTime*moviePoint.x/500;
+            if (progressTime>5*3600)
+            {
+                progressTime=5*3600;
+            }
+            if (progressTime>(allTime-playingTime))
+            {
+                progressTime=allTime-playingTime;
+            }
+            if ((progressTime+playingTime)<0) {
+                progressTime=-playingTime;
+            }
+            
+            [self.hintView tinkerUp:progressTime+playingTime With:allTime];
+
+        }
+        else
+        {
+            self.hintView.hidden=NO;
+            if (PanStartLocation==volumStart)
+            {
+//                guozexiao
+        
+                CGFloat volume=0.0f;
+
+                volume=startVolum-moviePoint.y/1000;
+                
+                if (volume>1.0f)
+                {
+                    volume=1.0f;
+                }
+                else if (volume<0.0f)
+                {
+                    volume=0.0f;
+                }
+                MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];//音量控制
+                musicPlayer.volume = volume;
+                
+                self.hintView.types=volumType;
+                [self.hintView tinkerUp:musicPlayer.volume With:0.0];
+
+                self.hintView.hidden=YES;
+                
+            }
+            else if (PanStartLocation==lightSrart)
+            {
+                CGFloat light=0.0f;
+                light=startLight-moviePoint.y/1000;
+                if (light>1.0f)
+                {
+                    light=1.0f;
+                }
+                else if (light<0.0f)
+                {
+                    light=0.0f;
+                }
+                [[UIScreen mainScreen] setBrightness:light];
+                
+                self.hintView.types=lightType;
+                [self.hintView tinkerUp:light With:0.0];
+            }
+        }
+    }
+}//
+
+// 转换时间label
+-(BOOL) IsShowHintView:(CGPoint)point
+{
+    //    将本视图转换为 下栏（bottomviewbar）视图
+    CGPoint pointBottom = [self.view convertPoint:point toView:self.myMovieControlsView.bottomViewBar];
+    float offX = pointBottom.x - self.myMovieControlsView.backProgressBar.left;
+    if (offX > 0 && (pointBottom.y -10 > 0 && pointBottom.y + 10 < self.myMovieControlsView.bottomViewBar.height)) {
+        float posX =  self.myMovieControlsView.playValueprogress*self.myMovieControlsView.backProgressBar.width;
+        if ((posX - offX > 10 || posX - offX < -10) && posX < self.myMovieControlsView.backProgressBar.width)//如果误差相差大于10，那么重新定位时间值
+        {
+            float newProgress = offX/self.myMovieControlsView.backProgressBar.width;
+            self.myMovieControlsView.playValueprogress = newProgress;
+            
+            [self.myMovieControlsView UpdateFrame];
+            
+            CGFloat allTime= CMTimeGetSeconds(self.playerItem.duration); 
+            CGFloat curTime = newProgress*allTime;
+            
+            self.myMovieControlsView.timeLab.text=[NSString stringWithFormat:@"%@/%@",[self getTimee:curTime],[self getTimee:allTime]];
+    
+//            [[GlobalData GetInstance].NewmoviePlayer setCurrentPlaybackTime:curTime];//gzx
+            
+            CMTime time = CMTimeMake(curTime, 1);
+//            [self.player seekToTime:time];
+            
+            [self.player seekToTime:time toleranceBefore:CMTimeMake(1, 30) toleranceAfter:CMTimeMake(1, 30)];
+        }
+        
+        return NO;
+    }
+    return YES;
+}
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
+    playingTime = CMTimeGetSeconds(self.playerItem.currentTime) ;
+    //课程背景视图  
+    if (self.myCourseBackView.hidden== NO) {
+//        调用代理的方法 
+        [self PackUpCourseTable];
+        return;
+    }
+    UITouch* touch=[touches anyObject];
+    startPoint = [touch previousLocationInView:self.view];//获取点击的位置
+    
+    if (!istouched) {
+        touchTime = 0;
+//        [self.myMovieControlsView UpdateFrame];
+    }
+
+    
+    if (startPoint.y > self.myMovieControlsView.height - self.myMovieControlsView.bottomViewBar.height && startPoint.y < self.myMovieControlsView.height - self.myMovieControlsView.bottomViewBar.height + 30) {
+        
+        if (![self IsShowHintView:startPoint]) {
+            return;
+        }
+    }
+    //     开始位置 坐标x > 本视图的大小宽度的一半 视图右半部分为音量控制  左半部分为亮度控制
+    if (startPoint.x>self.view.frame.size.width/2)
+    {
+        MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];//音量控制
+
+        startVolum = musicPlayer.volume;
+        
+        PanStartLocation=volumStart;
+    }
+    else if (startPoint.x<=self.view.frame.size.width/2)
+    {
+        startLight=[UIScreen mainScreen].brightness;
+        PanStartLocation=lightSrart;
+    }
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch* touch=[touches anyObject];
+    
+    self.hintView.hidden=YES;
+    
+    playingTime =  CMTimeGetSeconds(self.playerItem.currentTime);
+    CMTime allTimes = self.playerItem.duration;
+    float allTime = CMTimeGetSeconds(allTimes);
+    
+        
+    CGPoint previousPoint = [touch previousLocationInView:self.view];
+    
+    [self CheckWeatherHiddenWithPoint:previousPoint];
+    
+        if (![self IsShowHintView:previousPoint]) {
+            return;
+        }
+    
+    if (startPoint.y > self.myMovieControlsView.height - self.myMovieControlsView.bottomViewBar.height && startPoint.y < self.myMovieControlsView.height - self.myMovieControlsView.bottomViewBar.height + 30) {
+        
+        if (![self IsShowHintView:previousPoint]) {
+            return;
+        }
+    }
+    
+    
+    CGPoint moviePoint=CGPointMake(previousPoint.x-startPoint.x, previousPoint.y-startPoint.y);
+    if (PanStartLocation==progressStart)
+    {
+        float progressTime=allTime*moviePoint.x/500;
+        if (progressTime>5*3600)
+        {
+            progressTime=5*3600;
+        }
+        if (progressTime>(allTime-playingTime))
+        {
+            progressTime=allTime-playingTime;
+        }
+//        播放时间的进度时间
+        playingTime=playingTime+progressTime;
+        
+        if (playingTime>allTime)
+        {
+            playingTime=allTime;
+        }
+        else if (playingTime<0.0f)
+        {
+            playingTime=0.0f;
+        }
+
+        
+        CMTime time = CMTimeMake(1, playingTime);
+        
+        [self.player seekToTime:time toleranceBefore:CMTimeMake(1, 30) toleranceAfter:CMTimeMake(1, 30)];
+    }
+}
+
+#pragma mark -
+#pragma mark 弹出的课程列表代理方法
+//收起弹出列表
+-(void)PackUpCourseTable
+{
+    self.myCourseBackView.hidden=YES;
+
+}
+//点击弹出列表cell，切换播放章节
+-(void)HaveCourseClicked:(int)index
+{
+    [GlobalData GetInstance].myPlaySourseType=courseTableType;
+    
+    self.myCourseBackView.hidden=NO;
+//    self.myCourseTableView.view.hidden=YES;//gzx
+        self.myCourseTableView.view.hidden=NO;//gzx
+
+    self.myIndex=index;
+    //    [self InsertuserCourseChapterInfo];
+    //    [self InsertOfflineLearnInfo];
+    [self SaveLearnRecords];
+    [self moviePlayerSetContentUrl];
+}
+
+
+
+
+#pragma mark --
+#pragma mark 屏幕旋转
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+- (NSUInteger)supportedInterfaceOrientations
+{
+    if (GB_isLocked)
+    {
+        return UIInterfaceOrientationMaskLandscape;
+    }
+    else
+    {
+        return UIInterfaceOrientationMaskAllButUpsideDown;
+        
+    }
+}
+
+
+@end

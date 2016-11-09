@@ -1,0 +1,112 @@
+//
+//  ViewController.h
+//  AVPlayerDemo
+//
+//  Created by CaoJie on 14-5-5.
+//  Copyright (c) 2014年 yiban. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+#import "BaseViewCtrl.h"
+#import "MovieControlsView.h"
+#import "CourseTableViewContrl.h"
+#import "myhintView.h"
+
+
+@interface AVPlayerCtrl : BaseViewCtrl<MovieControlsDelegate,courseTableDelegate>
+{
+    BOOL isplayed;//视频是否播放；
+    BOOL istouched;//收放状态栏
+    int touchTime;
+    
+    
+    NSTimer *myTimer;
+    NSTimer *myProgressTimer;
+    float playingTime;//播放时间（断点）
+    
+    
+    
+    //7.插入用户课程章节表
+    LocalDataBase *userCourseChapterTb;
+    LocalDataBase *learnTb;
+    LocalDataBase * chapterTb;
+    LocalDataBase * courseTb;
+    
+    
+    BOOL isMP4file;//是否MP4文件
+    BOOL isTouches;
+    BOOL isToPlay;//是否 播放
+    CGPoint startPoint;//接触开始的点
+    CGFloat startVolum;//接触开始的音量
+    CGFloat startLight;//接触开始的亮度
+    
+    
+    NSInteger showErrTimes;//显示错误的时间
+    BOOL hasNeverPlayed;//从来没有播放过
+    
+    BOOL isPlaying;//是否正在播放
+    
+    BOOL isHorizontal;//判断avplayer视图横竖屏界面转换
+}
+
+@property(nonatomic, unsafe_unretained) id<MyCourseDetailMovieDelegate> delegate;//回传进度
+@property(nonatomic, strong) NSURL *videoUrl;
+@property(nonatomic,retain)MovieControlsView *myMovieControlsView;
+@property(nonatomic,retain)CourseTableViewContrl *myCourseTableView;
+@property(nonatomic,retain)myhintView * hintView;//声音、亮度、快进快退提示
+
+@property(nonatomic,retain) UIView *myCourseBackView;
+
+@property(nonatomic, strong)UIView *topView;        //按钮图
+@property(nonatomic, strong)UIButton *mybackBtn;    //收起按钮
+
+@property(nonatomic,strong)NSMutableArray *myMovieArray;
+@property(nonatomic,strong)NSMutableArray *myMPArr;//包含的视频、音频
+
+@property(nonatomic,strong)NSDictionary *myCourseDic;
+@property(nonatomic,strong)NSDictionary *myCourseDetailDic;
+@property(nonatomic,strong)NSURL *movieUrl;
+@property(nonatomic,strong)NSString *myCourseID;
+@property(nonatomic,strong)NSString *myChapterID;
+@property(nonatomic,strong)NSString *classroomID;
+@property(nonatomic,assign) int myIndex;
+@property(nonatomic,assign) BOOL isLocalPlay;
+@property (nonatomic,assign) BOOL isPrePlay;
+@property(nonatomic,copy)NSString *chapterParentID;
+
+@property(nonatomic,strong)UIImageView* playLoadImgView;//等待标志
+@property(nonatomic,strong)UIView *playTopView;//等待标志的背景
+
+
+
+#pragma mark - avplayer
+@property (nonatomic ,strong) AVPlayer *player;
+@property (nonatomic ,strong) AVPlayerItem *playerItem;
+//@property (nonatomic ,strong)  PlayerView *playerView;
+@property (nonatomic ,strong) UIButton *stateButton;
+//@property (nonatomic ,weak) IBOutlet UILabel *timeLabel;
+@property (nonatomic ,strong) id playbackTimeObserver;
+@property (nonatomic ,strong)  UISlider *videoSlider;
+@property (nonatomic ,strong)  UIProgressView *videoProgress;
+@property(nonatomic, strong) AVPlayerLayer *playLayer;
+
+
+-(AVPlayer *) SetPlayerItem:(AVPlayerItem *)item;
+
+
+- (NSString *)convertTime:(CGFloat)second;
+
+-(void)getMovieMPArr;
+
+-(void) Play;
+// 视频暂停播放 gzx
+-(void)pause;
+
+-(void) removeThisView;
+
+-(void) StopAndSaveLearnRecords;
+
+-(void)SaveLearnRecords;
+
+@end

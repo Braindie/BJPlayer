@@ -34,7 +34,7 @@
 
 #import "AMProgressView.h"
 #import "AMProgressViewGradient.h"
-#import "GlobalFunc.h"
+//#import "GlobalFunc.h"
 @interface AMProgressView ()
 @property (nonatomic, strong) UIView *borderView;
 @property (nonatomic, strong) UIView *whiteView;
@@ -90,7 +90,7 @@
         self.emptyPartAlpha = 0.75f;
         self.progressAnimationDuration = 0.0f;
         self.whiteView.alpha = self.emptyPartAlpha;
-        self.outsideBorderColor = CreateColorByRGB(@"(034,130,240)");
+//        self.outsideBorderColor = CreateColorByRGB(@"(034,130,240)");
         #if ISUnicom_Version
         self.outsideBorderColor = [UIColor lightGrayColor];
         #else

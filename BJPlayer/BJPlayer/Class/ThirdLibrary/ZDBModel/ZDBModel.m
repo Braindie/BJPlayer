@@ -301,7 +301,7 @@
             NSString *sql = [NSString stringWithFormat:@"UPDATE %@ SET %@ WHERE %@=?;", tableName, keyString, primaryId];
             [updateValues addObject:primaryValue];
             BOOL flag = [db executeUpdate:sql withArgumentsInArray:updateValues];
-            NSLog(flag?@"更新成功":@"更新失败");
+            NSLog(flag?@"数据库更新成功":@"数据库更新失败");
             if (!flag) {
                 res = NO;
                 *rollback = YES;

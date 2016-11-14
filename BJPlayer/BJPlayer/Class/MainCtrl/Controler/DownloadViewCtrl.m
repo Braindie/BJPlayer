@@ -11,6 +11,7 @@
 #import "DownloadedCell.h"
 #import "FilesDownManage.h"
 #import "DownloadModel.h"
+#import "PlayerViewController.h"
 
 static NSString *downloadingID = @"DownloadingCell";
 static NSString *downloadedID = @"DownloadedCell";
@@ -20,7 +21,9 @@ static NSString *downloadedID = @"DownloadedCell";
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
 @property (nonatomic, strong) UITableView *downloadTableView;
 @property (nonatomic, assign) BOOL isDownloading;//界面判读字段
-@property (nonatomic, strong) NSMutableArray *myDataArr;
+@property (nonatomic, strong) NSMutableArray *myDownLoadingArr;
+@property (nonatomic, strong) NSMutableArray *myDownLoadOverArr;
+
 @end
 
 @implementation DownloadViewCtrl
@@ -40,51 +43,54 @@ static NSString *downloadedID = @"DownloadedCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [FilesDownManage sharedFilesDownManage].downloadDelegate = self;
-
-    [self getDownLoadData];
-    
-//    self.title = @"下载";
     self.isDownloading = YES;
     self.view.backgroundColor = [UIColor orangeColor];
     [self buildUI];
+
+    //刷新数据
+    [self getDownLoadData];
+    //刷新单元格
+    [self.downloadTableView reloadData];
 }
 
+- (NSMutableArray *)myDownLoadingArr{
+    if (!_myDownLoadingArr) {
+        _myDownLoadingArr = [[NSMutableArray alloc] init];
+    }
+    return _myDownLoadingArr;
+}
+- (NSMutableArray *)myDownLoadOverArr{
+    if (!_myDownLoadOverArr) {
+        _myDownLoadOverArr = [[NSMutableArray alloc] init];
+    }
+    return _myDownLoadOverArr;
+}
+//获取未下载和已下载列表
 - (void)getDownLoadData{
+    
+    [self.myDownLoadingArr removeAllObjects];
+    [self.myDownLoadOverArr removeAllObjects];
+    
+    //未下载列表
     FilesDownManage *fileDownManage = [FilesDownManage sharedFilesDownManage];
-    NSMutableArray *dicArr = [NSMutableArray arrayWithCapacity:5];//下载队列（字典）
-
+    NSMutableArray *downingArr = [NSMutableArray arrayWithCapacity:5];//下载队列（字典）
     for (ASIHTTPRequest *request in fileDownManage.downinglist) {
         
         DownloadModel *file = [request.userInfo objectForKey:@"File"];
         
-//        NSDictionary *filedic = [NSDictionary dictionaryWithObjectsAndKeys:
-//                                 file.period,@"period",
-//                                 file.downProgress,@"downProgress",
-//                                 file.size,@"size",
-//                                 file.userid,@"userid",
-//                                 file.lastTime,@"lastTime" ,
-//                                 file.courseId,@"courseId",
-//                                 file.image,@"image",
-//                                 file.downloadState,@"downloadState",
-//                                 file.title,@"title",
-//                                 nil];
-        
-        [dicArr addObject:file];
+        [downingArr addObject:file];
         
     }
+    self.myDownLoadingArr = downingArr;
     
-    
-    self.myDataArr = dicArr;
-    
-    
-    @synchronized(self.myDataArr)
-    {
-        self.myDataArr = dicArr;
+    //已下载列表
+    NSMutableArray *downOverArr = [NSMutableArray arrayWithCapacity:5];//下载队列（字典）
+    downOverArr = (NSMutableArray *)[DownloadModel findByCriteria:@""];
+    for (DownloadModel *model in downOverArr) {
+        if (model.downloadState == DownloadOver) {
+            [self.myDownLoadOverArr addObject:model];
+        }
     }
-    
-    
-    [self.downloadTableView reloadData];
-
 }
 
 - (void)buildUI{
@@ -110,10 +116,10 @@ static NSString *downloadedID = @"DownloadedCell";
 
 - (void)doSomethingInSegment:(UISegmentedControl *)seg{
     if (seg.selectedSegmentIndex) {
-        NSLog(@"%ld",seg.selectedSegmentIndex);
+        NSLog(@"已下载%ld",seg.selectedSegmentIndex);
         self.isDownloading = NO;
     }else{
-        NSLog(@"%ld",seg.selectedSegmentIndex);
+        NSLog(@"未下载%ld",seg.selectedSegmentIndex);
         self.isDownloading = YES;
     }
     [self.downloadTableView reloadData];
@@ -122,30 +128,37 @@ static NSString *downloadedID = @"DownloadedCell";
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.myDataArr.count;
+    if (self.isDownloading) {
+        return self.myDownLoadingArr.count;
+    }else{
+        return self.myDownLoadOverArr.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (!self.isDownloading) {
-        DownloadingCell *cell = [tableView dequeueReusableCellWithIdentifier:downloadedID];
-        if (cell == nil) {
-            UINib *nib = [UINib nibWithNibName:@"DownloadedCell" bundle:nil];
-            [tableView registerNib:nib forCellReuseIdentifier:downloadedID];
-            cell = [tableView dequeueReusableCellWithIdentifier:downloadedID];
-        }
-        cell.backgroundColor = [UIColor whiteColor];
-        
-        return cell;
-    }else{
-        
-        DownloadedCell *cell = [tableView dequeueReusableCellWithIdentifier:downloadingID];
+    if (self.isDownloading) {
+        DownloadingCell *cell = [tableView dequeueReusableCellWithIdentifier:downloadingID];
         if (cell == nil) {
             UINib *nib = [UINib nibWithNibName:@"DownloadingCell" bundle:nil];
             [tableView registerNib:nib forCellReuseIdentifier:downloadingID];
             cell = [tableView dequeueReusableCellWithIdentifier:downloadingID];
         }
+        cell.backgroundColor = [UIColor whiteColor];
+        return cell;
+    }else{
+        
+        DownloadedCell *cell = [tableView dequeueReusableCellWithIdentifier:downloadedID];
+        if (cell == nil) {
+            UINib *nib = [UINib nibWithNibName:@"DownloadedCell" bundle:nil];
+            [tableView registerNib:nib forCellReuseIdentifier:downloadedID];
+            cell = [tableView dequeueReusableCellWithIdentifier:downloadedID];
+        }
         cell.backgroundColor = [UIColor orangeColor];
+        
+        DownloadModel *model = [self.myDownLoadOverArr objectAtIndex:indexPath.row];
+        cell.titleLabel.text = model.title;
+        cell.sizeLabel.text = [NSString stringWithFormat:@"%@B",model.size];
         
         return cell;
     }
@@ -156,14 +169,22 @@ static NSString *downloadedID = @"DownloadedCell";
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.isDownloading) {
+        
+    }else{
+        PlayerViewController *vc = [[PlayerViewController alloc] init];
+        vc.downLoadModel = self.myDownLoadOverArr[indexPath.row];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
 
 
 
 
 
 
-
-#pragma mark - 代理
+#pragma mark - DownloadDelegate
 - (void)updateCellProgress:(NSString *)title withDownProgress:(NSString *)downProgress withTotalSize:(NSString *)size{
     NSArray* cellArr = [self.downloadTableView visibleCells];//获取单元格视图的cell数组
     
@@ -210,13 +231,12 @@ static NSString *downloadedID = @"DownloadedCell";
             }
         }
     }
-
 }
-
 - (void)finishedDownload{
     
+    //更新下载中和已下载的数据
     [self getDownLoadData];
-    
+    //刷新单元格
     [self.downloadTableView reloadData];
     
 //    //正在下载的
@@ -224,6 +244,16 @@ static NSString *downloadedID = @"DownloadedCell";
 //    {
 //        self.myInfoLable.hidden = NO;
 //    }
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.segmentedControl.hidden = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.segmentedControl.hidden = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -242,36 +272,6 @@ static NSString *downloadedID = @"DownloadedCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

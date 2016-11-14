@@ -15,9 +15,31 @@
 
 typedef enum
 {
-    Download_Failed = -1,
+    Download_Failed,
     Downloading,
     DownloadWaiting,
     DownloadPause,
     DownloadOver,
 }Download_State;
+
+
+typedef enum
+{
+    Group_Type,
+    Plain_Type,
+}MyTableViewType;
+
+
+typedef enum
+{
+    volumStart,
+    lightSrart,
+    progressStart,
+}PanStartLocation;
+
+
+typedef enum{
+    VerticalSupportOnly,
+    CrossSupportOnly,
+    TreeDirectionSupport,
+}ScreenDirectionSupport;

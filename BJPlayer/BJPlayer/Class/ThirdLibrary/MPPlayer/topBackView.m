@@ -38,16 +38,16 @@
         [self.backView addSubview:self.PlayBtn];
         
         //课程名称
-        self.titleLab=[[RCLabel alloc] init];
-        self.titleLab.frame=CGRectMake(0, 40, 300, 30);
-//        self.titleLab.frame=CGRectMake(0, hei/2+wid/10, wid, 30);
-
-        self.titleLab.font=[UIFont systemFontOfSize:15];
-        self.titleLab.backgroundColor=[UIColor redColor];
-        self.titleLab.textAlignment=NSTextAlignmentCenter;
-        self.titleLab.textColor=[UIColor whiteColor];
-        self.titleLab.backgroundColor=[UIColor clearColor];
-        [self.backView addSubview:self.titleLab];
+//        self.titleLab=[[RCLabel alloc] init];
+//        self.titleLab.frame=CGRectMake(0, 40, 300, 30);
+////        self.titleLab.frame=CGRectMake(0, hei/2+wid/10, wid, 30);
+//
+//        self.titleLab.font=[UIFont systemFontOfSize:15];
+//        self.titleLab.backgroundColor=[UIColor redColor];
+//        self.titleLab.textAlignment=NSTextAlignmentCenter;
+//        self.titleLab.textColor=[UIColor whiteColor];
+//        self.titleLab.backgroundColor=[UIColor clearColor];
+//        [self.backView addSubview:self.titleLab];
         
         
     }
@@ -79,21 +79,21 @@
     
     if (self.isMp4)
     {
-        [GlobalFunc SetImageButton:self.PlayBtn Normal:@"play.png" Highlight:@"play.png" Clicked:@"play.png"];
+//        [GlobalFunc SetImageButton:self.PlayBtn Normal:@"play.png" Highlight:@"play.png" Clicked:@"play.png"];
     }
     else
     {
-        [GlobalFunc SetImageButton:self.PlayBtn Normal:@"init_html_on" Highlight:@"init_html_off" Clicked:@""];
+//        [GlobalFunc SetImageButton:self.PlayBtn Normal:@"init_html_on" Highlight:@"init_html_off" Clicked:@""];
     }
 }
--(void) UpdateRtLabel:(RCLabel *)label
-{
-    [self.titleLab removeFromSuperview];
-    self.titleLab = label;
-    self.titleLab.userInteractionEnabled = YES;
-    
-    [self addSubview:self.titleLab];
-}
+//-(void) UpdateRtLabel:(RCLabel *)label
+//{
+//    [self.titleLab removeFromSuperview];
+//    self.titleLab = label;
+//    self.titleLab.userInteractionEnabled = YES;
+//    
+//    [self addSubview:self.titleLab];
+//}
 
 
 

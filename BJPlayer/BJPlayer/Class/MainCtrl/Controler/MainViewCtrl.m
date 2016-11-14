@@ -46,8 +46,9 @@ static NSString *cellId = @"MainTableViewCell";
 }
 
 - (void)getDownloadData{
-    self.myDataArr = [NSArray arrayWithObjects:@"http://120.25.226.186:32812/resources/videos/minion_01.mp4",
+    self.myDataArr = [NSArray arrayWithObjects:
                       @"http://120.25.226.186:32812/resources/videos/minion_02.mp4",
+                      @"http://120.25.226.186:32812/resources/videos/minion_01.mp4",
                       @"http://120.25.226.186:32812/resources/videos/minion_03.mp4",nil];
 }
 
@@ -57,7 +58,7 @@ static NSString *cellId = @"MainTableViewCell";
 }
 
 - (void)addRightBtn{
-    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"下载" style:UIBarButtonItemStylePlain target:self action:@selector(onClickedOKbtn:)];
+    UIBarButtonItem *rightBarItem = [[UIBarButtonItem alloc] initWithTitle:@"离线" style:UIBarButtonItemStylePlain target:self action:@selector(onClickedOKbtn:)];
     [rightBarItem setTintColor:[UIColor orangeColor]];
     self.navigationItem.rightBarButtonItem = rightBarItem;
 }
@@ -70,7 +71,7 @@ static NSString *cellId = @"MainTableViewCell";
 
 #pragma mark - UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.myDataArr.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -103,50 +104,15 @@ static NSString *cellId = @"MainTableViewCell";
         NSLog(@"%ld",buttonIndex);//确定
         
         NSString *string = self.myDataArr[buttonIndex];
-        //下载参数
+        //下载参数(第一个字典无用，第二个字典中有URL）
         NSMutableDictionary *downDic = [NSMutableDictionary dictionaryWithCapacity:6];
-        //    [downDic setValue:[GlobalData GetInstance].GB_UserID forKey:@"userid"];
-        //    [downDic setValue:self.myCourseID forKey:@"courseId"];
-        //    [downDic setValue:@"1" forKey:@"downloadState"];
-        //    [downDic setValue:@"0" forKey:@"downProgress"];
-        //    [downDic setValue:[self.myDetailDic objectForKey:@"imgUrl"] forKey:@"image"];
-        //    [downDic setValue:[self.myDetailDic objectForKey:@"title"] forKey:@"title"];
-        //    [downDic setValue:[self.myDetailDic objectForKey:@"learnedPeriod"] forKey:@"period"];
-        //    [downDic setValue:@"0" forKey:@"size"];
-        //    [downDic setValue:@"" forKey:@"lastTime"];
-        //
         NSMutableDictionary *courseDic = [NSMutableDictionary dictionaryWithCapacity:16];
         [courseDic setValue:string forKey:@"savePath"];
 
-        //    [courseDic setValue:self.myCourseID forKey:@"courseId"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"imgUrl"] forKey:@"image"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"title"] forKey:@"title"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"decribe"] forKey:@"decribe"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"cobject"] forKey:@"cobject"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"target"] forKey:@"ctarget"];
-        //    [courseDic setValue:@"" forKey:@"cNum"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"parentRcoId"] forKey:@"tbcId"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"classroomid"] forKey:@"classroomid"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"learnedPeriod"] forKey:@"period"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"level"] forKey:@"level"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"sortName"] forKey:@"sortName"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"stime"] forKey:@"stime"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"etime"] forKey:@"etime"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"dateStr"] forKey:@"dateStr"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"ltimes"] forKey:@"hits"];
-        //    [courseDic setValue:@"0" forKey:@"size"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"learningState"] forKey:@"learningState"];
-        //    [courseDic setValue:[self.myDetailDic objectForKey:@"learnedPeriod"] forKey:@"learnedPeriod"];
-        //
-        //    
         NSMutableArray *downloadDataArray = [NSMutableArray arrayWithObjects:downDic, courseDic, nil];
         
         //去下载
         [[FilesDownManage sharedFilesDownManage] performSelectorInBackground:@selector(downFileArray:) withObject:downloadDataArray];
-        
-        
-        
-        
         
     }else{
         NSLog(@"%ld",buttonIndex);//取消

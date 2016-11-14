@@ -7,14 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCLabel.h"
+//#import "RCLabel.h"
 
 @interface CourseTableCell : UITableViewCell
+
+@property (nonatomic,strong) UILabel *titleLabel;
+
 #if ISMobile_Version
 @property (nonatomic,strong) UILabel *titleLabel;
 #else
-@property (nonatomic,strong) RCLabel *titleLabel;
--(void) UpdateRtLabel:(RCLabel *)label;
+//@property (nonatomic,strong) RCLabel *titleLabel;
+//-(void) UpdateRtLabel:(RCLabel *)label;
 #endif
 
 @property (nonatomic,strong) UIImageView *stateImage;

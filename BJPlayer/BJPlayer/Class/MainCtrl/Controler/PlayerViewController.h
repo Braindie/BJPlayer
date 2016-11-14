@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DownloadModel.h"
 
 @interface PlayerViewController : UIViewController
-
+@property (nonatomic, strong) DownloadModel *downLoadModel;
 @end

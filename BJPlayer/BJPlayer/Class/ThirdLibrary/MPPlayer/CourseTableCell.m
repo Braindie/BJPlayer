@@ -23,7 +23,7 @@
         
         self.titleLabel=[[UILabel alloc] initWithFrame:CGRectMake(27, 15, 277+GB_HorizonDifference, 20)];
 #else
-        self.titleLabel=[[RCLabel alloc] initWithFrame:CGRectMake(27, 15, 277, 20)];
+//        self.titleLabel=[[RCLabel alloc] initWithFrame:CGRectMake(27, 15, 277, 20)];
 
 #endif
         
@@ -41,13 +41,12 @@
 }
 #if ISMobile_Version
 #else
--(void) UpdateRtLabel:(RCLabel *)label;
-{
-    [self.titleLabel removeFromSuperview];
-    self.titleLabel = label;
-    self.titleLabel.userInteractionEnabled = YES;
-    [self addSubview:self.titleLabel];
-}
+//-(void) UpdateRtLabel:(RCLabel *)label;{
+//    [self.titleLabel removeFromSuperview];
+//    self.titleLabel = label;
+//    self.titleLabel.userInteractionEnabled = YES;
+//    [self addSubview:self.titleLabel];
+//}
 #endif
 
 

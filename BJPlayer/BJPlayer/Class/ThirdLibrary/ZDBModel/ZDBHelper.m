@@ -49,7 +49,7 @@ static ZDBHelper *_instance = nil;
     NSString *docsdir = [NSSearchPathForDirectoriesInDomains( NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
     NSFileManager *filemanage = [NSFileManager defaultManager];
     if (directoryName == nil || directoryName.length == 0) {
-        docsdir = [docsdir stringByAppendingPathComponent:@"ZBD"];//默认文件名
+        docsdir = [docsdir stringByAppendingPathComponent:@"BJBD"];//默认文件名
     } else {
         docsdir = [docsdir stringByAppendingPathComponent:directoryName];
     }
@@ -58,7 +58,7 @@ static ZDBHelper *_instance = nil;
     if (!exit || !isDir) {
         [filemanage createDirectoryAtPath:docsdir withIntermediateDirectories:YES attributes:nil error:nil];
     }
-    NSString *dbpath = [docsdir stringByAppendingPathComponent:@"zdb.sqlite"];
+    NSString *dbpath = [docsdir stringByAppendingPathComponent:@"bjdb.sqlite"];
     return dbpath;
 }
 

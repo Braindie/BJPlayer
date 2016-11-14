@@ -10,24 +10,31 @@
 
 @interface DownloadModel : ZDBModel
 
-//
-@property (nonatomic, strong) NSString *savePath;
-//
-@property (nonatomic, strong) NSString *filePath;
-@property (nonatomic, strong) NSString *tempPath;//临时地址
-@property (nonatomic, strong) NSString *targetPath;//目标地址
+
+
 //文件名
 @property (nonatomic ,strong) NSString *title;
+//url网络路径
+@property (nonatomic, strong) NSString *savePath;
+//本地路径
+@property (nonatomic, strong) NSString *filePath;
 //下载状态
-@property (nonatomic ,strong) NSString *downloadState;
-//
-@property (nonatomic ,strong) NSString *downProgress;
+@property (nonatomic ,assign) NSInteger downloadState;
 
-//@property (nonatomic, strong) NSString *fileSize;//文件的大小（弃用）
+
+//临时地址
+@property (nonatomic, strong) NSString *tempPath;
+//目标地址
+@property (nonatomic, strong) NSString *targetPath;
+
 
 //文件的大小
 @property (nonatomic ,strong) NSString *size;
-//@property (nonatomic ,strong) NSString *fileSize;
+//
+@property (nonatomic ,strong) NSString *downProgress;
+
+
+
 
 
 @end

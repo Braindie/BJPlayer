@@ -10,4 +10,10 @@
 
 @interface GlobalData : NSObject
 
+
+extern int GB_time;
+
+extern ScreenDirectionSupport GB_CanCrossView;//是否可以横屏默认为不可以
+
+
 @end

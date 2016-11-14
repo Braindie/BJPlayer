@@ -74,46 +74,49 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#if ISMobile_Version
-    
     return 50;
-#else
-    float height;
-    NSString *fileType=nil;
-    NSMutableDictionary *dic = [self.myCourseArr objectAtIndex:indexPath.row];
-    
-    NSString *titleStr = [dic objectForKey:@"title"];
-    //先获取课件类型
-    NSString *url = [dic objectForKey:@"url"];
-    NSArray *tmpArr = [url componentsSeparatedByString:@"."];
-    //文件类型
-    fileType = [[tmpArr lastObject] lowercaseString];
-    NSString *type=[GlobalFunc AttachType:fileType];
-    //获取修改结尾类型后的字符串
-    NSString *titleImageStr = [GlobalFunc titleString:titleStr AppendSourceType:type WithImageClassType:0];
-    //生成RClabel
-    RCLabel *tempLabel = [[RCLabel alloc]initWithFrame:CGRectMake(25, 15, 272+GB_HorizonDifference-50, 80)];
-    tempLabel.backgroundColor = [UIColor clearColor];
-    [tempLabel setTextAlignment:RTTextAlignmentLeft];
-    [tempLabel setFont:[UIFont systemFontOfSize:14]];
-    [tempLabel setTextColor:CreateColorByRGB(@"(144,144,144)")];
-    //计算RClabel结构体并传入参数
-    RTLabelComponentsStructure *componentsDS = [RCLabel extractTextStyle:titleImageStr];
-    tempLabel.componentsAndPlainText = componentsDS;
-    
-    
-    //计算出的cell高度 并保证最低高度
-    height = [tempLabel optimumSize].height+30;
-    if (height <40) {
-        height = 40;
-    }
-    //        将计算好的 RClabel和cell高度写入dic 节约计算
-    [dic setObject:componentsDS forKey:@"componentsDS"];
-    [dic setObject:tempLabel forKey:@"tempLabel"];
-#endif
-
-
 }
+//{
+//#if ISMobile_Version
+//    
+//    return 50;
+//#else
+//    float height;
+//    NSString *fileType=nil;
+//    NSMutableDictionary *dic = [self.myCourseArr objectAtIndex:indexPath.row];
+//    
+//    NSString *titleStr = [dic objectForKey:@"title"];
+//    //先获取课件类型
+//    NSString *url = [dic objectForKey:@"url"];
+//    NSArray *tmpArr = [url componentsSeparatedByString:@"."];
+//    //文件类型
+//    fileType = [[tmpArr lastObject] lowercaseString];
+////    NSString *type=[GlobalFunc AttachType:fileType];
+//    //获取修改结尾类型后的字符串
+////    NSString *titleImageStr = [GlobalFunc titleString:titleStr AppendSourceType:type WithImageClassType:0];
+//    //生成RClabel
+//    RCLabel *tempLabel = [[RCLabel alloc]initWithFrame:CGRectMake(25, 15, 272-50, 80)];
+////    tempLabel.backgroundColor = [UIColor clearColor];
+////    [tempLabel setTextAlignment:RTTextAlignmentLeft];
+////    [tempLabel setFont:[UIFont systemFontOfSize:14]];
+////    [tempLabel setTextColor:CreateColorByRGB(@"(144,144,144)")];
+//    //计算RClabel结构体并传入参数
+////    RTLabelComponentsStructure *componentsDS = [RCLabel extractTextStyle:titleImageStr];
+////    tempLabel.componentsAndPlainText = componentsDS;
+//    
+//    
+//    //计算出的cell高度 并保证最低高度
+//    height = [tempLabel optimumSize].height+30;
+//    if (height <40) {
+//        height = 40;
+//    }
+//    //        将计算好的 RClabel和cell高度写入dic 节约计算
+////    [dic setObject:componentsDS forKey:@"componentsDS"];
+//    [dic setObject:tempLabel forKey:@"tempLabel"];
+//#endif
+//
+//
+//}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.myCourseArr count];
 }
@@ -135,31 +138,30 @@
     cell.titleLabel.text = title;
 
 #else
-    NSString *state=[dic objectForKey:@"trackingType"];
+//    NSString *state=[dic objectForKey:@"trackingType"];
     //获取计算好的RClabel参数并刷新数据
-    [cell UpdateRtLabel:[dic objectForKey:@"tempLabel"]];
+//    [cell UpdateRtLabel:[dic objectForKey:@"tempLabel"]];
 
 #endif
     NSString *chapterID = [dic objectForKey:@"chapterId"];
     //首次进入当前就要播放或正在播放的Cell
-    if ([chapterID isEqualToString:[[GlobalData GetInstance].curPlayDic objectForKey:@"chapterId"]]) {
-        cell.stateImage.image=[UIImage imageNamed:@"playing.png"];
-        cell.titleLabel.textColor = CreateColorByRGB(TitleBgImgViewColor);//绿
-        
-    }
-    else{
-        //完成
-        if ([state isEqualToString:@"C"]) {
-            cell.stateImage.image=[UIImage imageNamed:@"over_play.png"];
-            cell.titleLabel.textColor=[UIColor darkGrayColor];
-            
-        }
-        else {//未学习
-            cell.stateImage.image=[UIImage imageNamed:@"no_play.png"];
-            cell.titleLabel.textColor=[UIColor darkGrayColor];
-            
-        }
-    }
+//    if ([chapterID isEqualToString:[[GlobalData GetInstance].curPlayDic objectForKey:@"chapterId"]]) {
+//        cell.stateImage.image=[UIImage imageNamed:@"playing.png"];
+////        cell.titleLabel.textColor = CreateColorByRGB(TitleBgImgViewColor);//绿
+//    
+//    }else{
+//        //完成
+//        if ([state isEqualToString:@"C"]) {
+//            cell.stateImage.image=[UIImage imageNamed:@"over_play.png"];
+//            cell.titleLabel.textColor=[UIColor darkGrayColor];
+//            
+//        }
+//        else {//未学习
+//            cell.stateImage.image=[UIImage imageNamed:@"no_play.png"];
+//            cell.titleLabel.textColor=[UIColor darkGrayColor];
+//            
+//        }
+//    }
 
     
     
@@ -169,8 +171,8 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [GlobalData GetInstance].isSourseClick=NO;
-    [_delegate HaveCourseClicked:indexPath.row];//点击课程列表
+//    [GlobalData GetInstance].isSourseClick=NO;
+//    [_delegate HaveCourseClicked:indexPath.row];//点击课程列表
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

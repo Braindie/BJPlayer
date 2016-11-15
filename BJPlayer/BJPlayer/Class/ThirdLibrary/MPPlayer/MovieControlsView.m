@@ -57,7 +57,6 @@
     self.playBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     [self.playBtn setImage:[UIImage imageNamed:@"video_suspended"] forState:UIControlStateNormal];
     [self.playBtn setImage:[UIImage imageNamed:@"video_suspended0"] forState:UIControlStateNormal];
-//    [GlobalFunc SetImageButton:self.playBtn Normal:@"video_suspended0.png" Highlight:@"video_suspended.png" Clicked:@"video_suspended.png"];video_play0
     self.playBtn.frame=CGRectMake(10, 5, 30, 30);
     [self.playBtn addTarget:self action:@selector(playBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.bottomViewBar addSubview:self.playBtn];
@@ -251,18 +250,14 @@
         
         
         if ([self.delegate IsPlaying]) {
-            
-            //            [GlobalFunc SetImageButton:self.playBtn Normal:@"video_play0.png" Highlight:@"video_play.png" Clicked:@""];
+            [self.playBtn setImage:[UIImage imageNamed:@"suspended"] forState:UIControlStateNormal];
+            //            [GlobalFunc SetImageButton:self.playBtn Normal:@"suspended.png" Highlight:@"suspended0.png" Clicked:@""];
+        }else{
+            [self.playBtn setImage:[UIImage imageNamed:@"video_play_x"] forState:UIControlStateNormal];
+            //            [GlobalFunc SetImageButton:self.playBtn Normal:@"video_play_x.png" Highlight:@"video_play_x0.png" Clicked:@""];
         }
-        else{
-            //            [GlobalFunc SetImageButton:self.playBtn Normal:@"video_suspended0.png" Highlight:@"video_suspended0.png" Clicked:@""];
-        }
-        
-        
-        //        [GlobalFunc SetImageButton:self.screenSwitchBtn Normal:@"video_max.png" Highlight:@"video_max0.png" Clicked:@"video_max0.png"];
         
     }
-    
     
     self.upBtn.hidden=!self.isHorizontal;
     self.nextBtn.hidden=!self.isHorizontal;

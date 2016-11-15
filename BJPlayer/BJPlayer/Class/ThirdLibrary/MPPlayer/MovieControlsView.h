@@ -39,12 +39,17 @@
 @interface MovieControlsView : UIView
 
 @property(nonatomic, weak) id<MovieControlsDelegate> delegate;//回传进度
+//等待标志的背景
+@property(nonatomic,strong)UIView *playTopView;
+//等待标志
+@property(nonatomic,strong)UIImageView* playLoadImgView;
 
-@property(nonatomic,strong)UIImageView* playLoadImgView;//等待标志
-@property(nonatomic,strong)UIView *playTopView;//等待标志的背景
+//上部的浮出框
+@property(nonatomic,strong)UIView *topViewBar;
+//下部的浮出框
+@property(nonatomic,strong)UIView *bottomViewBar;
 
-@property(nonatomic,strong)UIView *topViewBar;//上部的浮出框
-@property(nonatomic,strong)UIView *bottomViewBar;//下部的浮出框
+
 @property(nonatomic,strong)UIButton *backBtn;//返回按钮
 @property(nonatomic,strong)UILabel *titileLab;//上部显示视频名称的标签；
 @property(nonatomic,strong)UILabel *timeLab;//播放时间段显示
@@ -64,12 +69,7 @@
 @property(nonatomic,assign) float playValueprogress;
 @property(nonatomic,assign) float playableValueprogress;
 
-@property (nonatomic,assign) BOOL isFull;//是否为全屏
 -(void)UpdateFrame;
 
-//获取上方导航控件下面坐标值y
--(float) GetTopBottom;
-//获取下方工具栏上方坐标值y
--(float) GetBottomTop;
 
 @end

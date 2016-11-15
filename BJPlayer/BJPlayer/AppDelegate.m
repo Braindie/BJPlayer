@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MainViewCtrl.h"
+#import "BaseNavigationController.h"
 
 @interface AppDelegate ()
 
@@ -22,7 +23,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     MainViewCtrl *mainViewCtrl = [[MainViewCtrl alloc] init];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:mainViewCtrl];
+    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:mainViewCtrl];
     self.window.rootViewController = nav;
 
     self.window.backgroundColor = [UIColor blackColor];
@@ -31,6 +32,9 @@
     
     return YES;
 }
+//- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+//    return UIInterfaceOrientationMaskAll;//支持所有方向
+//}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

@@ -23,19 +23,21 @@ typedef enum
 }Download_State;
 
 
-typedef enum
-{
-    Group_Type,
-    Plain_Type,
-}MyTableViewType;
-
-
+//音量，亮度，进度
 typedef enum
 {
     volumStart,
     lightSrart,
     progressStart,
 }PanStartLocation;
+
+
+
+typedef enum
+{
+    Group_Type,
+    Plain_Type,
+}MyTableViewType;
 
 
 typedef enum{

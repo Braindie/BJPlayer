@@ -17,4 +17,6 @@ int GB_time=0;//产品播放器时间
 
 ScreenDirectionSupport GB_CanCrossView = VerticalSupportOnly;
 
+PanStartLocation GB_PanStartLocation = volumStart;
+
 @end

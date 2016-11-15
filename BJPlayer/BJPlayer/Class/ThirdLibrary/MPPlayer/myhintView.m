@@ -21,7 +21,7 @@
         [self addSubview:self.myImageView];
         
         UILabel *lable=[[UILabel alloc] initWithFrame:CGRectMake(0, 110, 140, 20)];//说明标签
-        lable.font=[UIFont systemFontOfSize:17];
+        lable.font=[UIFont systemFontOfSize:16];
         lable.textColor=[UIColor whiteColor];
         lable.backgroundColor=[UIColor clearColor];
         lable.textAlignment=NSTextAlignmentCenter;

@@ -144,6 +144,7 @@ static NSString *downloadedID = @"DownloadedCell";
             [tableView registerNib:nib forCellReuseIdentifier:downloadingID];
             cell = [tableView dequeueReusableCellWithIdentifier:downloadingID];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor whiteColor];
         return cell;
     }else{
@@ -154,6 +155,7 @@ static NSString *downloadedID = @"DownloadedCell";
             [tableView registerNib:nib forCellReuseIdentifier:downloadedID];
             cell = [tableView dequeueReusableCellWithIdentifier:downloadedID];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor orangeColor];
         
         DownloadModel *model = [self.myDownLoadOverArr objectAtIndex:indexPath.row];

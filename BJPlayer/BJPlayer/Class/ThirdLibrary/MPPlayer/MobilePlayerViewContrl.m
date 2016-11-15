@@ -7,12 +7,13 @@
 //
 
 #import "MobilePlayerViewContrl.h"
-//#import "Mp3View.h"
 #import "AppDelegate.h"
 //#import "UploadManager.h"
 //#import "GlobalFunc.h"
 //#import "Base64+DES.h"
 //#import "NSString+Digest.h"
+#import "UIImageView+WebCache.h"
+#import "UIImage+GIF.h"
 
 #define Use_TouchMovie 0
 
@@ -38,13 +39,6 @@
     //    userCourseChapterTb=[LocalDataBase GetTableWithType:@"user_icr_rco" HasUser:NO];//断点播放
     //    [GlobalData GetInstance].GB_Playtime=0;
     
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad){
-        //        currentDeviceModel=iPadModel;//设备类型为iPad
-        self.view.frame=CGRectMake(0, 0, 1024, 768);
-    }else{
-        //        currentDeviceModel=iPhoneOriPodModel;//其他类型
-    }
-    
     //播放控制器
     self.myMoviePlayer=[[mobileMPMoviePlayerContrl alloc] init];
     self.myMoviePlayer.moviePlayer.scalingMode=MPMovieScalingModeAspectFit;
@@ -65,35 +59,32 @@
     [self.view addSubview:self.playTopView];
     self.playLoadImgView = [[UIImageView alloc] init];
 //    self.playLoadImgView.backgroundColor = [UIColor orangeColor];
-    self.playLoadImgView.image = [UIImage imageNamed:@"diaobao"];
+//    self.playLoadImgView.image = [UIImage imageNamed:@"diaobao"];
     self.playLoadImgView.frame = CGRectMake(self.view.frame.size.width/2-310/8, self.view.frame.size.height/2-424/8, 424/4, 310/4);
+    
+    //加载gif图，网络图片好像自动加载
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"gif"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    UIImage *image = [UIImage sd_animatedGIFWithData:data];
+    self.playLoadImgView.image = image;
+    
     [self.playTopView addSubview:self.playLoadImgView];
+
     
-    
-//    if ([GlobalData GetInstance].GB_ProductVesion != Hyundai_Version && [GlobalData GetInstance].GB_ProductVesion!=Mobile_Version)
-//    {
-//        [self.playTopView addSubview:self.playLoadImgView];
-//        [[GlobalData GetInstance].NewmoviePlayer.view addSubview:self.playTopView];
-//    }
-    
-    //
+    //进度、音量、亮度提示
     self.hintView=[[myhintView alloc] init];
     self.hintView.hidden=YES;
     self.hintView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     self.hintView.frame=CGRectMake(0, 0, 140, 140);
     self.hintView.center=self.view.center;
-//    [GlobalData GetInstance].hintView=self.hintView;
-//    if ([GlobalData GetInstance].GB_ProductVesion != Hyundai_Version)
-//    {
-//        //        AppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-//        //        [delegate.window addSubview:self.hintView];
-//        [self.view addSubview:self.hintView];
-//    }
+    [self.view addSubview:self.hintView];
+    self.hintView.layer.cornerRadius = 5;
+    self.hintView.layer.masksToBounds = YES;
     
     //添加控制界面（透明）
     [self  AddmovieControlsView];
     
-    //
+    //目录界面
     [self AddOtherView];
 }
 //添加控制界面（透明）
@@ -104,6 +95,7 @@
     [self.view addSubview:self.myMovieControlsView];
 }
 
+//目录界面
 - (void)AddOtherView{
     self.myCourseBackView=[[UIView alloc] initWithFrame:CGRectMake(self.myMoviePlayer.view.frame.size.width-272, 0, 272,320)];
     //    self.myCourseBackView.backgroundColor=RGBACOLOR(0, 0, 0, 0.8);
@@ -153,7 +145,7 @@
     //    [self.myMoviePlayer.moviePlayer stop];
     //    [GlobalData GetInstance].NewmoviePlayer=self.myMoviePlayer.moviePlayer;
     
-    //点击播放按钮的时候使用定时器更新播放进度
+    //点击播放按钮的时候使用定时器更新播放进度（同时控制上下控件栏的隐藏于显示）
     [myProgressTimer invalidate];
     myProgressTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(UUpdateProgrss) userInfo:nil repeats:YES];
     [myProgressTimer fire];
@@ -169,22 +161,10 @@
     self.myMovieControlsView.playValueprogress=0;
     self.myMovieControlsView.playableValueprogress=0;
     
-    //播放
+    
+    
+    //准备播放
     [self playMovieWithUrl];
-
-    
-//    [self getMovieMPArr];
-//    [self moviePlayerSetContentUrl];
-    
-    
-//    self.isLocalPlay = YES;
-//    [self getMovieMPArr];
-//    AVPlayerCtrl *ctrl = [[AVPlayerCtrl alloc] init];
-//     NSDictionary *dic = [self.myMPArr objectAtIndex:0];
-//    NSString *url = [dic objectForKey:@"url"];
-//    ctrl.videoUrl = [NSURL URLWithString:url];
-//    [self addChildViewController:ctrl];
-//    [self.view addSubview:ctrl.view];
     
 }
 
@@ -249,7 +229,7 @@
     self.myMoviePlayer.moviePlayer.movieSourceType = MPMovieLoadStateUnknown;
         [self.myMoviePlayer.moviePlayer setContentURL:[NSURL fileURLWithPath:encodedString]];
 //    [self.myMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:encodedString]];
-    self.myMoviePlayer.moviePlayer.useApplicationAudioSession = NO;//放弃了
+//    self.myMoviePlayer.moviePlayer.useApplicationAudioSession = NO;//放弃了
     [self.myMoviePlayer.moviePlayer play];
     
 
@@ -267,22 +247,13 @@
 #pragma mark 控件的代理方法
 //播放
 -(void)playBtnClicked{
-    
     if (!isToPlay){
         isToPlay = !isToPlay;
         [self.myMoviePlayer.moviePlayer play];
-        //            [[GlobalData GetInstance].NewmoviePlayer play];
     }else{
         isToPlay = !isToPlay;
         [self.myMoviePlayer.moviePlayer pause];
-        //            [[GlobalData GetInstance].NewmoviePlayer pause];
     }
-    //    if (hasNeverPlayed) {
-    //        [self moviePlayerSetContentUrl];
-    //    }
-    //    else{
-    //        isToPlay=!isToPlay;
-    //    }
 }
 //返回
 -(void)backBtnClicked{
@@ -294,33 +265,32 @@
 //上一节
 -(void)upBtnClicked
 {
-    self.myCourseBackView.hidden=YES;
-    //    [GlobalData GetInstance].myPlaySourseType=nextPageType;
-    if(self.myIndex==0)
-    {
-        [self AddStatusLabelWithText:@"已经是第一个了"];
-    }
-    else{
-        [self SaveLearnRecords];
-        self.myIndex--;
-        [self moviePlayerSetContentUrl];
-    }
+//    self.myCourseBackView.hidden=YES;
+//
+//    if(self.myIndex==0)
+//    {
+//        [self AddStatusLabelWithText:@"已经是第一个了"];
+//    }
+//    else{
+//        [self SaveLearnRecords];
+//        self.myIndex--;
+//        [self moviePlayerSetContentUrl];
+//    }
 }
 
 //下一节
 -(void)nextBtnClicked
 {
-    self.myCourseBackView.hidden=YES;
-    //    [GlobalData GetInstance].myPlaySourseType=nextPageType;
-    if(self.myIndex>=self.myMPArr.count-1)
-    {
-        [self AddStatusLabelWithText:@"已经是最后一个了"];
-    }
-    else{
-        [self SaveLearnRecords];
-        self.myIndex ++;
-        [self moviePlayerSetContentUrl];
-    }
+//    self.myCourseBackView.hidden=YES;
+//    if(self.myIndex>=self.myMPArr.count-1)
+//    {
+//        [self AddStatusLabelWithText:@"已经是最后一个了"];
+//    }
+//    else{
+//        [self SaveLearnRecords];
+//        self.myIndex ++;
+//        [self moviePlayerSetContentUrl];
+//    }
 }
 //锁屏、解锁
 -(void)lockBtnClicked
@@ -328,10 +298,9 @@
     //    GB_isLocked=!GB_isLocked;
 }
 //拖动进度条，改变播放进度
--(void)ChangedValue:(float)value
-{
-    //    NSTimeInterval timerr=[GlobalData GetInstance].NewmoviePlayer.duration*value;
-    //    [[GlobalData GetInstance].NewmoviePlayer setCurrentPlaybackTime:timerr];
+-(void)ChangedValue:(float)value{
+    NSTimeInterval timerr=self.myMoviePlayer.moviePlayer.duration*value;
+    [self.myMoviePlayer.moviePlayer setCurrentPlaybackTime:timerr];
 }
 //展开课程列表
 -(void)courseListBtnClicked
@@ -506,21 +475,23 @@
 //    LOG_CMETHODBEGIN;
 }
 
+
+
 #pragma mark - 更新播放进度
 -(void)UUpdateProgrss{
     
     //如果是点击了显示进度条
     if (istouched) {
         touchTime++;
-        if (touchTime>=7)//大于7秒隐藏进度条
+        if (touchTime>=7)//大于7秒隐藏上下控件栏
         {
             self.myMovieControlsView.topViewBar.hidden=YES;
             self.myMovieControlsView.bottomViewBar.hidden=YES;
-            //            if (self.myMovieControlsView.isHorizontal && GB_SDK_Version>=7.0)
-            //                //            if (self.myMovieControlsView.isHorizontal)
-            //            {
-            //                [[UIApplication sharedApplication] setStatusBarHidden:YES];
-            //            }
+//            if (self.myMovieControlsView.isHorizontal && GB_SDK_Version>=7.0)
+//                //            if (self.myMovieControlsView.isHorizontal)
+//            {
+//                [[UIApplication sharedApplication] setStatusBarHidden:YES];
+//            }
             istouched = NO;
         }else{
             self.myMovieControlsView.topViewBar.hidden=NO;
@@ -581,23 +552,126 @@
         
     }else{//暂停
         if([self HasPlayed]){
-            self.playTopView.hidden=YES;
+            self.playTopView.hidden = YES;
         }else{
             self.playTopView.hidden = NO;
         }
         
         if (self.myMovieControlsView.isHorizontal){//横屏
             [self.myMovieControlsView.playBtn setImage:[UIImage imageNamed:@"video_play_x"] forState:UIControlStateNormal];
-            //            [GlobalFunc SetImageButton:self.myMovieControlsView.playBtn Normal:@"video_play_x.png" Highlight:@"video_play_x0.png" Clicked:@""];
         }else{
             [self.myMovieControlsView.playBtn setImage:[UIImage imageNamed:@"video_suspended0"] forState:UIControlStateNormal];
-            //            [GlobalFunc SetImageButton:self.myMovieControlsView.playBtn Normal:@"video_suspended0.png" Highlight:@"video_suspended0.png" Clicked:@""];
         }
     }
 }
 
 
 #pragma mark - 触控事件
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    
+    //根据初始点击位置判断是音量还是亮度控制
+    if (startPoint.x>self.view.frame.size.width/2){//音量控制
+        MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+        //初始音量
+        startVolum=musicPlayer.volume;
+        //枚举设为音量
+        GB_PanStartLocation = volumStart;
+    }else if (startPoint.x<=self.view.frame.size.width/2){//亮度控制
+        //初始亮度
+        startLight=[UIScreen mainScreen].brightness;
+        //枚举设为亮度
+        GB_PanStartLocation = lightSrart;
+    }
+    
+    //    playingTime = [GlobalData GetInstance].NewmoviePlayer.currentPlaybackTime;
+    if (self.myCourseBackView.hidden== NO) {
+        [self PackUpCourseTable];
+        return;
+    }
+    
+    //获取点击的位置
+    UITouch* touch=[touches anyObject];
+    startPoint = [touch previousLocationInView:self.view];
+    
+    //    if (!istouched) {
+    //        touchTime = 0;
+    //        [self.myMovieControlsView UpdateFrame];
+    //        [self ChangePlayingBtOn:isPlaying];
+    //    }
+    
+    /******方法用户增强用户体验，当用户在点击全屏或者播放的时候当点到bottomView的时候bottomView最好不隐藏*******/
+    
+//    CGPoint pointBottom = [self.view convertPoint:startPoint toView:self.myMovieControlsView.bottomViewBar];
+//    if (self.myMovieControlsView.bottomViewBar.hidden == NO)
+//    {
+//        if (pointBottom.y > 0)
+//        {
+//            self.myMovieControlsView.bottomViewBar.hidden = NO;
+//            self.myMovieControlsView.topViewBar.hidden = NO;
+//        }
+//        else
+//        {
+//            self.myMovieControlsView.bottomViewBar.hidden = YES;
+//            self.myMovieControlsView.topViewBar.hidden = YES;
+//        }
+//    }
+//    else
+//    {
+//        self.myMovieControlsView.bottomViewBar.hidden=istouched;
+//        self.myMovieControlsView.topViewBar.hidden=istouched;
+//    }
+//    
+//    //    self.myMovieControlsView.topViewBar.hidden=istouched;
+//    //    self.myMovieControlsView.bottomViewBar.hidden=istouched;
+//    
+//    
+//    istouched=!istouched;
+//    
+//    if (self.myMovieControlsView.isHorizontal)
+//        //    if (self.myMovieControlsView.isHorizontal)
+//    {
+//        [[UIApplication sharedApplication] setStatusBarHidden:!istouched];
+//    }
+    
+    /*************************************************************************/
+    
+    
+    
+    //限制点击区域
+    if (!self.myMovieControlsView.isHorizontal) {
+        
+        if (startPoint.y > self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height && startPoint.y < self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height + 30 && startPoint.x < self.myMovieControlsView.bottomViewBar.frame.size.width - 60) {
+            
+            [self isShowHintView:startPoint];
+        }
+    }else{
+        if (startPoint.y > self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height && startPoint.y < self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height + 30) {
+            
+            [self isShowHintView:startPoint];
+        }
+    }
+    
+    
+    //    MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+    //    UISlider* volumeViewSlider = nil;
+    //    for (UIView *view in [volumeView subviews]){
+    //        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+    //            volumeViewSlider = (UISlider*)view;
+    //            break;
+    //        }
+    //    }
+    //    // retrieve system volume
+    //    float systemVolume = volumeViewSlider.value;
+    //    // change system volume, the value is between 0.0f and 1.0f
+    //    [volumeViewSlider setValue:1.0f animated:NO];
+    //    // send UI control event to make the change effect right now.
+    //    [volumeViewSlider sendActionsForControlEvents:UIControlEventTouchUpInside];
+    
+    
+
+    
+}
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     
     UITouch* touch=[touches anyObject];
@@ -615,78 +689,74 @@
     
     
     if (startPoint.y > self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height && startPoint.y < self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height + 30) {
-
-//        if (![self IsShowHintView:previousPoint]) {
+        //其他区域
+//        if (![self isShowHintView:previousPoint]) {
 //            return;
 //        }
+        
     }else if (startPoint.y < self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height){
 
-        if (fabsf(changeX) > fabsf(changeY))
-        {
+        //取绝对值比较是哪种控制
+        if (fabs(changeX) > fabs(changeY)){//进度控制
+            //枚举为进度
+            GB_PanStartLocation = progressStart;
+            //展示提示框
+            self.hintView.hidden=NO;
+            
             //如果是从来没有播放过，那么就直接返回
-            if(![self HasPlayed])
-            {
+            if(![self HasPlayed]){
                 return;
             }
-//            PanStartLocation = progressStart;
-            self.hintView.hidden=NO;
-            if (changeX < 0.0)
-            {
+            
+            if (changeX < 0.0){
                 self.hintView.types=progressTypeForwad;
-            }
-            else
-            {
+            }else{
                 self.hintView.types=progressTypeBackwad;
             }
 
 
             CGFloat allTime=self.myMoviePlayer.moviePlayer.duration;
             float progressTime=allTime*moviePoint.x/500;
-            if (progressTime>5*3600)
-            {
+            if (progressTime>5*3600){
                 progressTime=5*3600;
             }
-            if (progressTime>(allTime-playingTime))
-            {
+            
+            if (progressTime>(allTime-playingTime)){
                 progressTime=allTime-playingTime;
             }
+            
             if ((progressTime+playingTime)<0) {
                 progressTime=-playingTime;
             }
-
+            //更新提示框
             [self.hintView tinkerUp:progressTime+playingTime With:self.myMoviePlayer.moviePlayer.duration];
-        }
-        else
-        {
+            
+            
+        }else{//音量、亮度控制
+            
             self.hintView.hidden=NO;
             
-            if (YES){//音量控制
+            if (GB_PanStartLocation == volumStart){//音量控制
                 MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];                CGFloat volume=0.0f;
                 volume=startVolum-moviePoint.y/1000;
 
-                if (volume>1.0f)
-                {
+                if (volume>1.0f){
                     volume=1.0f;
-                }
-                else if (volume<0.0f)
-                {
+                }else if (volume<0.0f){
                     volume=0.0f;
                 }
                 musicPlayer.volume=volume;
 
                 self.hintView.types=volumType;
                 [self.hintView tinkerUp:volume With:0.0];
-                self.hintView.hidden=YES;
+//                self.hintView.hidden=YES;
 
-            }else if (NO){//亮度控制
+            }else if (GB_PanStartLocation == lightSrart){//亮度控制
                 CGFloat light=0.0f;
                 light=startLight-moviePoint.y/1000;
-                if (light>1.0f)
-                {
+                if (light>1.0f){
                     light=1.0f;
-                }
-                else if (light<0.0f)
-                {
+                }else if (light<0.0f){
                     light=0.0f;
                 }
                 [[UIScreen mainScreen] setBrightness:light];
@@ -694,176 +764,12 @@
                 self.hintView.types=lightType;
                 [self.hintView tinkerUp:light With:0.0];
             }
-
         }
     }
 
-//    CGPoint previousPoint = [touch previousLocationInView:self.view];
-//    CGPoint moviePoint=CGPointMake(previousPoint.x-startPoint.x, previousPoint.y-startPoint.y);
-
-    if(moviePoint.x/moviePoint.y > -0.3 && moviePoint.x/moviePoint.y < 0.3)
-    {
-        self.hintView.hidden=NO;
-
-        if (YES){//音量控制
-            MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-            CGFloat volume=0.0f;
-            volume=startVolum-moviePoint.y/1000;
-
-            if (volume>1.0f)
-            {
-                volume=1.0f;
-            }
-            else if (volume<0.0f)
-            {
-                volume=0.0f;
-            }
-            musicPlayer.volume=volume;
-
-            self.hintView.types=volumType;
-            [self.hintView tinkerUp:volume With:0.0];
-            self.hintView.hidden=YES;
-
-        }else if (NO){//亮度控制
-            CGFloat light=0.0f;
-            light=startLight-moviePoint.y/1000;
-            if (light>1.0f)
-            {
-                light=1.0f;
-            }
-            else if (light<0.0f)
-            {
-                light=0.0f;
-            }
-            [[UIScreen mainScreen] setBrightness:light];
-
-            self.hintView.types=lightType;
-            [self.hintView tinkerUp:light With:0.0];
-        }
-
-    }
-    else if (moviePoint.x/moviePoint.y>4.0 || moviePoint.x/moviePoint.y<-4.0)
-    {
-        //如果是从来没有播放过，那么就直接返回
-        if(![self HasPlayed])
-        {
-            return;
-        }
-
-        self.hintView.hidden=NO;
-
-//        PanStartLocation=progressStart;
-        NSLog(@"%f======move",moviePoint.x);
-        if (moviePoint.x>0.0)
-        {
-            self.hintView.types=progressTypeForwad;
-        }
-        else
-        {
-            self.hintView.types=progressTypeBackwad;
-        }
-
-        CGFloat allTime=self.myMoviePlayer.moviePlayer.duration;
-        float progressTime=allTime*moviePoint.x/500;
-        if (progressTime>5*3600)
-        {
-            progressTime=5*3600;
-        }
-        if (progressTime>(allTime-playingTime))
-        {
-            progressTime=allTime-playingTime;
-        }
-        if ((progressTime+playingTime)<0) {
-            progressTime=-playingTime;
-        }
-
-        [self.hintView tinkerUp:progressTime+playingTime With:self.myMoviePlayer.moviePlayer.duration];
-
-    }
 }
 
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    //    playingTime = [GlobalData GetInstance].NewmoviePlayer.currentPlaybackTime;
-    if (self.myCourseBackView.hidden== NO) {
-        [self PackUpCourseTable];
-        return;
-    }
-    UITouch* touch=[touches anyObject];
-    startPoint = [touch previousLocationInView:self.view];//获取点击的位置
-    
-    if (!istouched) {
-        touchTime = 0;
-        [self.myMovieControlsView UpdateFrame];
-        [self ChangePlayingBtOn:isPlaying];
-    }
-    
-    /******方法用户增强用户体验，当用户在点击全屏或者播放的时候当点到bottomView的时候bottomView最好不隐藏*******/
-    
-    //    CGPoint pointBottom = [self.view convertPoint:startPoint toView:self.myMovieControlsView.bottomViewBar];
-    //    if (self.myMovieControlsView.bottomViewBar.hidden == NO)
-    //    {
-    //        if (pointBottom.y > 0)
-    //        {
-    //            self.myMovieControlsView.bottomViewBar.hidden = NO;
-    //            self.myMovieControlsView.topViewBar.hidden = NO;
-    //        }
-    //        else
-    //        {
-    //            self.myMovieControlsView.bottomViewBar.hidden = YES;
-    //            self.myMovieControlsView.topViewBar.hidden = YES;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        self.myMovieControlsView.bottomViewBar.hidden=istouched;
-    //        self.myMovieControlsView.topViewBar.hidden=istouched;
-    //    }
-    //
-    ////    self.myMovieControlsView.topViewBar.hidden=istouched;
-    ////    self.myMovieControlsView.bottomViewBar.hidden=istouched;
-    //
-    //
-    //    istouched=!istouched;
-    //
-    //    if (self.myMovieControlsView.isHorizontal && GB_SDK_Version>=7.0)
-    ////    if (self.myMovieControlsView.isHorizontal)
-    //    {
-    //        [[UIApplication sharedApplication] setStatusBarHidden:!istouched];
-    //    }
-    
-    /*************************************************************************/
-    
-    
-    
-    //限制点击区域
-    if (!self.myMovieControlsView.isHorizontal) {
-
-        if (startPoint.y > self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height && startPoint.y < self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height + 30 && startPoint.x < self.myMovieControlsView.bottomViewBar.frame.size.width - 60) {
-
-//            [self IsShowHintView:startPoint];
-        }
-    }else{
-        if (startPoint.y > self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height && startPoint.y < self.myMovieControlsView.frame.size.height - self.myMovieControlsView.bottomViewBar.frame.size.height + 30) {
-
-//            [self IsShowHintView:startPoint];
-        }
-    }
-    
-    
-    if (startPoint.x>self.view.frame.size.width/2)
-    {
-        MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];//音量控制
-        startVolum=musicPlayer.volume;
-        //        PanStartLocation=volumStart;
-    }
-    else if (startPoint.x<=self.view.frame.size.width/2)
-    {
-        startLight=[UIScreen mainScreen].brightness;
-        //        PanStartLocation=lightSrart;
-    }
-    
-}
 
 
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
@@ -876,11 +782,12 @@
     
     CGPoint previousPoint = [touch previousLocationInView:self.view];
     
+    //点击过后一段时间，隐藏上下控件栏
     [self CheckWeatherHiddenWithPoint:previousPoint];
     
-    
+    //进度控制
     CGPoint moviePoint=CGPointMake(previousPoint.x-startPoint.x, previousPoint.y-startPoint.y);
-    if (YES){//进度控制
+    if (GB_PanStartLocation == progressStart){
         
         float progressTime=allTime*moviePoint.x/500;
         if (progressTime>5*3600)
@@ -906,6 +813,65 @@
     }
     
 }
+
+#pragma mark -
+//检测是否隐藏bottomBar
+- (void)CheckWeatherHiddenWithPoint:(CGPoint)point{
+    //    CGPoint pointBottom = [self.view convertPoint:point fromView:self.myMovieControlsView.bottomViewBar];
+    //    if (self.myMovieControlsView.bottomViewBar.hidden == NO)
+    //    {
+    //        if (pointBottom.y > 0)
+    //        {
+    //            self.myMovieControlsView.bottomViewBar.hidden = NO;
+    //            self.myMovieControlsView.topViewBar.hidden = NO;
+    //        }
+    //        else
+    //        {
+    //            self.myMovieControlsView.bottomViewBar.hidden = YES;
+    //            self.myMovieControlsView.topViewBar.hidden = YES;
+    //        }
+    //    }
+    
+    //触摸后开始设定时间
+    if (!istouched) {
+        touchTime = 0;
+        [self.myMovieControlsView UpdateFrame];
+        [self ChangePlayingBtOn:isPlaying];
+    }
+    
+    /******方法用户增强用户体验，当用户在点击全屏或者播放的时候当点到bottomView的时候bottomView最好不隐藏*******/
+    
+    CGPoint pointBottom = [self.view convertPoint:point toView:self.myMovieControlsView.bottomViewBar];
+    if (self.myMovieControlsView.bottomViewBar.hidden == NO){
+        if (pointBottom.y > 0){//点击的是上下控件视图区域
+            self.myMovieControlsView.bottomViewBar.hidden = NO;
+            self.myMovieControlsView.topViewBar.hidden = NO;
+        }else{//点击的是中间区域
+            self.myMovieControlsView.bottomViewBar.hidden = YES;
+            self.myMovieControlsView.topViewBar.hidden = YES;
+        }
+    }
+    else
+    {
+        self.myMovieControlsView.bottomViewBar.hidden=istouched;
+        self.myMovieControlsView.topViewBar.hidden=istouched;
+    }
+    
+    istouched=!istouched;
+    
+    
+    //    self.myMovieControlsView.topViewBar.hidden=istouched;
+    //    self.myMovieControlsView.bottomViewBar.hidden=istouched;
+    
+    
+    
+    //    if (self.myMovieControlsView.isHorizontal && GB_SDK_Version>=7.0)
+    //        //    if (self.myMovieControlsView.isHorizontal)
+    //    {
+    //        [[UIApplication sharedApplication] setStatusBarHidden:!istouched];
+    //    }
+}
+
 
 
 #pragma mark - 未整理
@@ -960,7 +926,7 @@
 
 
 #pragma mark -
-#pragma mark MBProgressHUDDelegate methods
+#pragma mark 未整理
 
 //- (void)hudWasHidden:(MBProgressHUD *)hud{
 //    GlobalData *gb = [GlobalData GetInstance];
@@ -1057,7 +1023,7 @@
     }
 }
 #pragma mark 弹出的课程列表代理方法
-//收起弹出列表
+//收起列表
 -(void)PackUpCourseTable
 {
     self.myCourseBackView.hidden=YES;
@@ -1699,8 +1665,8 @@
     //    }
     
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
 //    if (alertView.tag == 100)
 //    {//播放完成但是未选课弹提示框，是否选课
 //        if (buttonIndex == 0)//是
@@ -1719,11 +1685,13 @@
 //        }
 //    }
 //}
-//
-//-(BOOL) IsShowHintView:(CGPoint)point
-//{
+    
+    
+-(BOOL)isShowHintView:(CGPoint)point
+{
 //    CGPoint pointBottom = [self.view convertPoint:point toView:self.myMovieControlsView.bottomViewBar];
 //    float offX = pointBottom.x - self.myMovieControlsView.backProgressBar.left;
+//    
 //    if (offX > 0 && (pointBottom.y -10 > 0 && pointBottom.y + 10 < self.myMovieControlsView.bottomViewBar.height)) {
 //        float posX =  self.myMovieControlsView.playValueprogress*self.myMovieControlsView.backProgressBar.width;
 //        if ((posX - offX > 10 || posX - offX < -10) && posX < self.myMovieControlsView.backProgressBar.width)//如果误差相差大于10，那么重新定位时间值
@@ -1741,68 +1709,8 @@
 //        
 //        return NO;
 //    }
-//    return YES;
+    return YES;
 }
-
-//检测是否隐藏bottomBar
-- (void)CheckWeatherHiddenWithPoint:(CGPoint)point
-{
-    //    CGPoint pointBottom = [self.view convertPoint:point fromView:self.myMovieControlsView.bottomViewBar];
-    //    if (self.myMovieControlsView.bottomViewBar.hidden == NO)
-    //    {
-    //        if (pointBottom.y > 0)
-    //        {
-    //            self.myMovieControlsView.bottomViewBar.hidden = NO;
-    //            self.myMovieControlsView.topViewBar.hidden = NO;
-    //        }
-    //        else
-    //        {
-    //            self.myMovieControlsView.bottomViewBar.hidden = YES;
-    //            self.myMovieControlsView.topViewBar.hidden = YES;
-    //        }
-    //    }
-    
-    if (!istouched) {
-        touchTime = 0;
-        [self.myMovieControlsView UpdateFrame];
-        [self ChangePlayingBtOn:isPlaying];
-    }
-    
-    /******方法用户增强用户体验，当用户在点击全屏或者播放的时候当点到bottomView的时候bottomView最好不隐藏*******/
-    
-    CGPoint pointBottom = [self.view convertPoint:point toView:self.myMovieControlsView.bottomViewBar];
-    if (self.myMovieControlsView.bottomViewBar.hidden == NO)
-    {
-        if (pointBottom.y > 0)
-        {
-            self.myMovieControlsView.bottomViewBar.hidden = NO;
-            self.myMovieControlsView.topViewBar.hidden = NO;
-        }
-        else
-        {
-            self.myMovieControlsView.bottomViewBar.hidden = YES;
-            self.myMovieControlsView.topViewBar.hidden = YES;
-        }
-    }
-    else
-    {
-        self.myMovieControlsView.bottomViewBar.hidden=istouched;
-        self.myMovieControlsView.topViewBar.hidden=istouched;
-    }
-    
-    //    self.myMovieControlsView.topViewBar.hidden=istouched;
-    //    self.myMovieControlsView.bottomViewBar.hidden=istouched;
-    
-    
-    istouched=!istouched;
-    
-//    if (self.myMovieControlsView.isHorizontal && GB_SDK_Version>=7.0)
-//        //    if (self.myMovieControlsView.isHorizontal)
-//    {
-//        [[UIApplication sharedApplication] setStatusBarHidden:!istouched];
-//    }
-}
-
 
 
 
@@ -1826,6 +1734,17 @@
 //    }
     return 1;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 - (void)didReceiveMemoryWarning
 {

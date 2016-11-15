@@ -30,26 +30,12 @@
 
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 
-//  enum
-//  {
-//    volumStart=0,
-//    lightSrart,
-//    progressStart
-//    
-//   }PanStartLocation;
-//    
-//    enum
-//    {
-//        iPadModel,
-//        iPhoneOriPodModel
-//    }currentDeviceModel;
 
-@interface MobilePlayerViewContrl : UIViewController<MovieControlsDelegate,courseTableDelegate>
-{
+
+
+@interface MobilePlayerViewContrl : UIViewController<MovieControlsDelegate,courseTableDelegate>{
     
-    BOOL isplayed;//视频是否播放；
-    BOOL istouched;//收放状态栏
-    int touchTime;
+
     
     NSTimer *myTimer;
     NSTimer *myProgressTimer;
@@ -73,10 +59,17 @@
     
     
     
-    
-    
+
     BOOL hasNeverPlayed;//从来没有播放过
     BOOL isToPlay;//是否正在播放
+    
+    
+    
+    BOOL isplayed;//视频是否播放；
+    
+    //触摸屏幕时使用
+    BOOL istouched;//收放状态栏
+    int touchTime;//7秒钟之后自动隐藏
 
 }
 

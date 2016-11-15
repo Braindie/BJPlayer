@@ -9,6 +9,8 @@
 #import "PlayerViewController.h"
 #import "MobilePlayerViewContrl.h"
 
+
+
 @interface PlayerViewController ()
 @property (nonatomic, strong) MobilePlayerViewContrl *moviePlayerCtrl;
 @property (nonatomic, strong) UIView *topBackView;//播放按钮视图（最好自己封装一个View）
@@ -41,6 +43,30 @@
 
     [self initView];
 }
+
+////在需要旋转的界面中写方法
+//- (void)viewWillAppear:(BOOL)animated{
+//    [self interfaceOrientation:UIInterfaceOrientationLandscapeLeft];
+//}
+//
+//- (void)viewDidDisappear:(BOOL)animated{
+//    [self interfaceOrientation:UIInterfaceOrientationPortrait];
+//}
+//
+//- (void)interfaceOrientation:(UIInterfaceOrientation)orientation
+//{
+//    //强制转换
+//    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+//        SEL selector = NSSelectorFromString(@"setOrientation:");
+//        NSInvocation * invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+//        [invocation setSelector:selector];
+//        [invocation setTarget:[UIDevice currentDevice]];
+//        int val = orientation;
+//        [invocation setArgument:&val atIndex:2];
+//        [invocation invoke];
+//    }
+//}
+
 - (void)dealloc{
     
     [self.moviePlayerCtrl removeThisView];
@@ -60,9 +86,8 @@
     playBtn.backgroundColor = [UIColor lightGrayColor];
     [playBtn addTarget:self action:@selector(playBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.topBackView addSubview:playBtn];
-    
-    
 }
+
 
 - (void)playBtnClicked{
     //点击播放按钮后加载播放器
@@ -127,19 +152,24 @@
     
     if (isVertical)
     {
-        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationPortrait] forKey:@"orientation"];//这句话是防止手动先把设备置为横屏,导致下面的语句失效.
+        //横屏
+//        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationPortrait] forKey:@"orientation"];//这句话是防止手动先把设备置为横屏,导致下面的语句失效.
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
 //        self.navigationController.view.bounds = CGRectMake(self.navigationController.view.bounds.origin.x, self.navigationController.view.bounds.origin.y, self.view.frame.size.height, self.view.frame.size.width);
 
         [self isHorizontalUpDate];
+        self.navigationController.navigationBar.hidden = YES;
+
     }
     else
     {
         //横屏点击按钮, 旋转到竖屏
-        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];//这句话是防止手动先把设备置为竖屏,导致下面的语句失效.
+//        [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];//这句话是防止手动先把设备置为竖屏,导致下面的语句失效.
         [[UIDevice currentDevice] setValue:[NSNumber numberWithInteger:UIDeviceOrientationPortrait] forKey:@"orientation"];
 //        self.navigationController.view.bounds = CGRectMake(self.navigationController.view.bounds.origin.x, self.navigationController.view.bounds.origin.y, self.view.frame.size.height, self.view.frame.size.width);
         [self notHorizontalUpDate];
+        self.navigationController.navigationBar.hidden = NO;
+
     }
 
     
@@ -153,8 +183,6 @@
             
             self.navigationController.view.transform =isVertical? CGAffineTransformMakeRotation(M_PI_2) : CGAffineTransformIdentity;
         }];
-        self.navigationController.view.bounds = CGRectMake(self.navigationController.view.bounds.origin.x, self.navigationController.view.bounds.origin.y, self.view.frame.size.height, self.view.frame.size.width);
-//        self.navigationController.view.bounds = CGRectMake(self.navigationController.view.bounds.origin.x, self.navigationController.view.bounds.origin.y, 480,320);
 
 
         

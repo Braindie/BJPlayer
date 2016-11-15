@@ -7,6 +7,7 @@
 //
 
 #import "BaseNavigationController.h"
+#import "PlayerViewController.h"
 
 @interface BaseNavigationController ()
 
@@ -22,6 +23,23 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+//允许旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+/**
+ *  topviewController就是当前导航控制器所控制的viewcontrol
+ */
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    if ([self.topViewController isKindOfClass:[PlayerViewController class]])
+    {
+        return self.topViewController.supportedInterfaceOrientations;
+    }
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 /*

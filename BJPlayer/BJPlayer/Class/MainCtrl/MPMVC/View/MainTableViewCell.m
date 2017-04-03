@@ -7,6 +7,7 @@
 //
 
 #import "MainTableViewCell.h"
+#import "UIImageView+WebCache.h"
 
 @implementation MainTableViewCell
 
@@ -19,6 +20,18 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+    NSURL *imageUrl = [NSURL URLWithString:_model.imageUrl];
+    [self.mainImage sd_setImageWithURL:imageUrl];
+    
+    self.titleLabel.text = _model.title;
+    
 }
 
 @end

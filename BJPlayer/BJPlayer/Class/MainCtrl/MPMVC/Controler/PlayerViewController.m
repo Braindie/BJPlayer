@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"视频播放页面";
+    self.title = @"MediaPlayer播放";
     self.view.backgroundColor = [UIColor lightGrayColor];
     
     

@@ -181,8 +181,6 @@
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:nil];
     
-    
-    
     //准备播放通知
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayerPreparedToPlay:)

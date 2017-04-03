@@ -7,8 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewCtrl.h"
-#import "BaseNavigationController.h"
+#import "MainTabBarController.h"
 
 @interface AppDelegate ()
 
@@ -20,18 +19,48 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     
+    
+
+    
+    
+
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    MainViewCtrl *mainViewCtrl = [[MainViewCtrl alloc] init];
-    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:mainViewCtrl];
-    self.window.rootViewController = nav;
+
+//
+    MainTabBarController *mainTBViewCtrl = [[MainTabBarController alloc] init];
+    self.window.rootViewController = mainTBViewCtrl;
 
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     
     
+    
+//    // 设定位置和大小
+//    CGRect frame = CGRectMake(0,0,[UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height);
+//    //    frame.size = [UIImage imageNamed:@"loading.gif"].size;
+//    // 读取gif图片数据
+//    NSData *gif = [NSData dataWithContentsOfFile: [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"gif"]];
+//    // view生成
+//    UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];
+//    webView.userInteractionEnabled = NO;//用户不可交互
+//    [webView loadData:gif MIMEType:@"image/gif" textEncodingName:@"UTF-8" baseURL:nil];
+//    webView.backgroundColor = [UIColor blackColor];
+//    webView.opaque = NO;
+//    [self.window addSubview:webView];
+    
+    //沉睡3s进入主界面
+//    [NSThread sleepForTimeInterval:3.0f];
+    
+//    [webView removeFromSuperview];
+    
+    
+    
     return YES;
 }
+
+
 //- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
 //    return UIInterfaceOrientationMaskAll;//支持所有方向
 //}

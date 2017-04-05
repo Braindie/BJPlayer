@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "MainTableModel.h"
 #import "PlayerViewController.h"
+#import "DownloadModel.h"
 
 static NSString *cellId = @"MainTableViewCell";
 
@@ -156,6 +157,11 @@ static NSString *cellId = @"MainTableViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PlayerViewController *vc = [[PlayerViewController alloc] init];
+    vc.isLocalPlayer = NO;
+    MainTableModel *mainModel = self.myModelArr[indexPath.row];
+    DownloadModel *downloadModel = [[DownloadModel alloc] init];
+    downloadModel.savePath = mainModel.sourceUrl;
+    vc.downloadModel = downloadModel;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

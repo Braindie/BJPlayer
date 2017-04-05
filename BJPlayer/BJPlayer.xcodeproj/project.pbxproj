@@ -18,7 +18,6 @@
 		E52F00691E8F7F9100C22E23 /* BJRefresh.xib in Resources */ = {isa = PBXBuildFile; fileRef = E52F004A1E8F7F9100C22E23 /* BJRefresh.xib */; };
 		E52F006A1E8F7F9100C22E23 /* CourseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */; };
 		E52F006B1E8F7F9100C22E23 /* CourseTableViewContrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */; };
-		E52F006C1E8F7F9100C22E23 /* mobileMPMoviePlayerContrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00511E8F7F9100C22E23 /* mobileMPMoviePlayerContrl.m */; };
 		E52F006D1E8F7F9100C22E23 /* MobilePlayerViewContrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00531E8F7F9100C22E23 /* MobilePlayerViewContrl.m */; };
 		E52F006E1E8F7F9100C22E23 /* MovieControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00551E8F7F9100C22E23 /* MovieControlsView.m */; };
 		E52F006F1E8F7F9100C22E23 /* myhintView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00571E8F7F9100C22E23 /* myhintView.m */; };
@@ -147,8 +146,6 @@
 		E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableCell.m; sourceTree = "<group>"; };
 		E52F004E1E8F7F9100C22E23 /* CourseTableViewContrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableViewContrl.h; sourceTree = "<group>"; };
 		E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableViewContrl.m; sourceTree = "<group>"; };
-		E52F00501E8F7F9100C22E23 /* mobileMPMoviePlayerContrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mobileMPMoviePlayerContrl.h; sourceTree = "<group>"; };
-		E52F00511E8F7F9100C22E23 /* mobileMPMoviePlayerContrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mobileMPMoviePlayerContrl.m; sourceTree = "<group>"; };
 		E52F00521E8F7F9100C22E23 /* MobilePlayerViewContrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobilePlayerViewContrl.h; sourceTree = "<group>"; };
 		E52F00531E8F7F9100C22E23 /* MobilePlayerViewContrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobilePlayerViewContrl.m; sourceTree = "<group>"; };
 		E52F00541E8F7F9100C22E23 /* MovieControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieControlsView.h; sourceTree = "<group>"; };
@@ -386,22 +383,20 @@
 		E52F004B1E8F7F9100C22E23 /* MPPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				E52F004C1E8F7F9100C22E23 /* CourseTableCell.h */,
-				E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */,
-				E52F004E1E8F7F9100C22E23 /* CourseTableViewContrl.h */,
-				E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */,
-				E52F00501E8F7F9100C22E23 /* mobileMPMoviePlayerContrl.h */,
-				E52F00511E8F7F9100C22E23 /* mobileMPMoviePlayerContrl.m */,
 				E52F00521E8F7F9100C22E23 /* MobilePlayerViewContrl.h */,
 				E52F00531E8F7F9100C22E23 /* MobilePlayerViewContrl.m */,
 				E52F00541E8F7F9100C22E23 /* MovieControlsView.h */,
 				E52F00551E8F7F9100C22E23 /* MovieControlsView.m */,
+				E52F004E1E8F7F9100C22E23 /* CourseTableViewContrl.h */,
+				E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */,
+				E52F004C1E8F7F9100C22E23 /* CourseTableCell.h */,
+				E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */,
 				E52F00561E8F7F9100C22E23 /* myhintView.h */,
 				E52F00571E8F7F9100C22E23 /* myhintView.m */,
-				E52F00581E8F7F9100C22E23 /* MyMoviePlayerViewController.h */,
-				E52F00591E8F7F9100C22E23 /* MyMoviePlayerViewController.m */,
 				E52F005A1E8F7F9100C22E23 /* topBackView.h */,
 				E52F005B1E8F7F9100C22E23 /* topBackView.m */,
+				E52F00581E8F7F9100C22E23 /* MyMoviePlayerViewController.h */,
+				E52F00591E8F7F9100C22E23 /* MyMoviePlayerViewController.m */,
 			);
 			path = MPPlayer;
 			sourceTree = "<group>";
@@ -917,7 +912,6 @@
 				E52F00721E8F7F9100C22E23 /* UserModel.m in Sources */,
 				E52F00641E8F7F9100C22E23 /* AMProgressViewGradient.m in Sources */,
 				E5B424CC1D90F2F000FCB78F /* ASIHTTPRequest.m in Sources */,
-				E52F006C1E8F7F9100C22E23 /* mobileMPMoviePlayerContrl.m in Sources */,
 				E5B424CB1D90F2F000FCB78F /* ASIFormDataRequest.m in Sources */,
 				E5B424CA1D90F2F000FCB78F /* ASIDownloadCache.m in Sources */,
 				E5A4241F1D9222FA00AEA1B5 /* FMDatabaseQueue.m in Sources */,

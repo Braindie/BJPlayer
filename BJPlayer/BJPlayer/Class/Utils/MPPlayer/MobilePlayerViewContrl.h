@@ -2,11 +2,12 @@
 //  MobilePlayerViewContrl.h
 //  MobileStudy
 //
-//  Created by chenxili on 14/12/10.
+//  Created by zhangwenjun on 14/12/10.
 //
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
@@ -24,7 +25,7 @@
 //#import "CommonData.h"
 #import "MovieControlsView.h"
 #import "CourseTableViewContrl.h"
-#import "mobileMPMoviePlayerContrl.h"
+//#import "mobileMPMoviePlayerContrl.h"
 #import "myhintView.h"
 
 
@@ -34,9 +35,6 @@
 
 
 @interface MobilePlayerViewContrl : UIViewController<MovieControlsDelegate,courseTableDelegate>{
-    
-
-    
     NSTimer *myTimer;
     NSTimer *myProgressTimer;
     float playingTime;//播放时间（断点）
@@ -56,13 +54,9 @@
     
     NSInteger showErrTimes;
     
-    
-    
-    
 
     BOOL hasNeverPlayed;//从来没有播放过
     BOOL isToPlay;//是否正在播放
-    
     
     
     BOOL isplayed;//视频是否播放；
@@ -72,49 +66,63 @@
     int touchTime;//7秒钟之后自动隐藏
 
 }
+//是否是本地视频
+@property (nonatomic, assign) BOOL isLocalPlay;
+
+//视频播放控制器
+@property (nonatomic, strong) MPMoviePlayerViewController *myMoviePlayer;
+
+#pragma mark - 菊花和Gif图二选一
+@property (nonatomic, strong) UIView *playTopView;//等待标志的背景图
+@property (nonatomic, strong) UIImageView* playLoadImgView;//等待标志(可以是Gif图）
+@property (nonatomic, strong) UIActivityIndicatorView *zhuanView;//菊花转
+
+//进度、音量、亮度提示
+@property(nonatomic,strong)myhintView * hintView;//声音、亮度提示
+//播放控件视图
+@property (nonatomic,strong) MovieControlsView *myMovieControlsView;
+//
+@property(nonatomic,strong) UIView *myCourseBackView;
+////按钮图
+@property(nonatomic, strong)UIView *topView;
+
+//视频URL
+@property(nonatomic,strong)NSDictionary *myCourseDic;
+
+
 
 
 //@property(nonatomic, weak) id<MyCourseDetailMovieDelegate> delegate;//回传进度
 @property(nonatomic,strong)NSMutableArray *myMovieArray;
 @property(nonatomic,strong)NSMutableArray *myMPArr;//包含的视频、音频
-@property(nonatomic,strong)NSDictionary *myCourseDic;
 //@property(nonatomic,strong)NSDictionary *myCourseDetailDic;
 @property(nonatomic,strong)NSURL *movieUrl;
 @property(nonatomic,strong)NSString *myCourseID;
 @property(nonatomic,strong)NSString *myChapterID;
 @property(nonatomic,strong)NSString *classroomID;
 @property(nonatomic,assign) int myIndex;
-@property(nonatomic,assign) BOOL isLocalPlay;
 @property (nonatomic,assign) BOOL isPrePlay;
 @property(nonatomic,copy)NSString *chapterParentID;
-@property(nonatomic,strong)mobileMPMoviePlayerContrl *myMoviePlayer;
 
 
-@property(nonatomic,strong)UIImageView* playLoadImgView;//等待标志
-@property(nonatomic,strong)UIView *playTopView;//等待标志的背景
 //@property(nonatomic,assign)PlaySourseType  myPlaySourseType;
 
 
 
 @property(nonatomic,strong)CourseTableViewContrl *myCourseTableView;
-@property(nonatomic,strong)myhintView * hintView;//声音、亮度提示
-@property(nonatomic,assign) BOOL isSourseClick;
-@property(nonatomic,strong) UIView *myCourseBackView;
 
-@property(nonatomic, strong)UIView *topView;        //按钮图
+@property(nonatomic,assign) BOOL isSourseClick;
 @property(nonatomic, strong)UIButton *mybackBtn;    //收起按钮
 
-#pragma mark - 已整理
-//播放控件视图
-@property (nonatomic,strong) MovieControlsView *myMovieControlsView;
+//外部调用播放事件
+- (void) Play;
+
 
 -(void)moviePlayerSetContentUrl;
 -(void)getMovieMPArr;
 -(void) StopTimer;
 -(void)SaveLearnRecords;
 
-//外部调用播放事件
--(void) Play;
 
 -(void) removeThisView;
 

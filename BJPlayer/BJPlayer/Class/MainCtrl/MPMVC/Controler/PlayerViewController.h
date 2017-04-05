@@ -10,5 +10,9 @@
 #import "DownloadModel.h"
 
 @interface PlayerViewController : UIViewController
-@property (nonatomic, strong) DownloadModel *downLoadModel;
+//播放资源model
+@property (nonatomic, strong) DownloadModel *downloadModel;
+//是否是本地播放
+@property (nonatomic, assign) BOOL isLocalPlayer;
+
 @end

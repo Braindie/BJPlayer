@@ -176,7 +176,8 @@ static NSString *downloadedID = @"DownloadedCell";
         
     }else{
         PlayerViewController *vc = [[PlayerViewController alloc] init];
-        vc.downLoadModel = self.myDownLoadOverArr[indexPath.row];
+        vc.isLocalPlayer = YES;
+        vc.downloadModel = self.myDownLoadOverArr[indexPath.row];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

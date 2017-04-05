@@ -2,23 +2,23 @@
 //  MobilePlayerViewContrl.m
 //  MobileStudy
 //
-//  Created by chenxili on 14/12/10.
+//  Created by zhangwenjun on 14/12/10.
 //
 //
 
 #import "MobilePlayerViewContrl.h"
-#import "AppDelegate.h"
+//#import "AppDelegate.h"
 //#import "UploadManager.h"
 //#import "GlobalFunc.h"
 //#import "Base64+DES.h"
 //#import "NSString+Digest.h"
-#import "UIImageView+WebCache.h"
-#import "UIImage+GIF.h"
+//#import "UIImageView+WebCache.h"
+//#import "UIImage+GIF.h"
 
 #define Use_TouchMovie 0
 
 @interface MobilePlayerViewContrl ()
-
+@property (nonatomic, copy) NSString *urlStr;
 @end
 
 @implementation MobilePlayerViewContrl
@@ -27,6 +27,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SaveLearnRecords) name:@"SaveLearnRecords" object:nil];
+
     //添加播放器
     [self AddNormalViews];
 }
@@ -35,12 +37,11 @@
 #pragma mark - 布局
 -(void)AddNormalViews{
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SaveLearnRecords) name:@"SaveLearnRecords" object:nil];
-    //    userCourseChapterTb=[LocalDataBase GetTableWithType:@"user_icr_rco" HasUser:NO];//断点播放
-    //    [GlobalData GetInstance].GB_Playtime=0;
+//    userCourseChapterTb=[LocalDataBase GetTableWithType:@"user_icr_rco" HasUser:NO];//断点播放
+//    [GlobalData GetInstance].GB_Playtime=0;
     
     //播放控制器
-    self.myMoviePlayer=[[mobileMPMoviePlayerContrl alloc] init];
+    self.myMoviePlayer=[[MPMoviePlayerViewController alloc] init];
     self.myMoviePlayer.moviePlayer.scalingMode=MPMovieScalingModeAspectFit;
     self.myMoviePlayer.moviePlayer.allowsAirPlay=YES;
     self.myMoviePlayer.moviePlayer.controlStyle=MPMovieControlStyleNone;
@@ -50,45 +51,56 @@
     [self addChildViewController:self.myMoviePlayer];
     [self.view addSubview:self.myMoviePlayer.view];
     
-    
-    //标识背景    //背景Logo
+    /*
+    //等待标志的背景图
     self.playTopView = [[UIView alloc] init];
     self.playTopView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.playTopView.backgroundColor = [UIColor clearColor];
     self.playTopView.center=self.playLoadImgView.center;
-    [self.view addSubview:self.playTopView];
+    [self.myMoviePlayer.view addSubview:self.playTopView];
+    //等待标志(可以是Gif图)
     self.playLoadImgView = [[UIImageView alloc] init];
-//    self.playLoadImgView.backgroundColor = [UIColor orangeColor];
-//    self.playLoadImgView.image = [UIImage imageNamed:@"diaobao"];
+    self.playLoadImgView.backgroundColor = [UIColor orangeColor];
+    self.playLoadImgView.image = [UIImage imageNamed:@"diaobao"];
     self.playLoadImgView.frame = CGRectMake(self.view.frame.size.width/2-310/8, self.view.frame.size.height/2-424/8, 424/4, 310/4);
-    
-    //加载gif图，网络图片好像自动加载
     NSString *path = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"gif"];
     NSData *data = [NSData dataWithContentsOfFile:path];
     UIImage *image = [UIImage sd_animatedGIFWithData:data];
     self.playLoadImgView.image = image;
-    
     [self.playTopView addSubview:self.playLoadImgView];
-
+     */
     
+    //菊花转
+    UIActivityIndicatorView *zhuanView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    zhuanView.frame = CGRectMake(self.myMoviePlayer.view.frame.size.width/2-18, self.myMoviePlayer.view.frame.size.height/2-18, 37, 37);
+    [self.myMoviePlayer.view addSubview:zhuanView];
+    [zhuanView startAnimating];
+    
+
     //进度、音量、亮度提示
+    [self addHintView];
+    
+    //添加控制界面（透明）
+    [self addmovieControlsView];
+    
+    //目录界面
+    [self addOtherView];
+}
+
+//进度、音量、亮度提示
+- (void)addHintView{
     self.hintView=[[myhintView alloc] init];
     self.hintView.hidden=YES;
     self.hintView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     self.hintView.frame=CGRectMake(0, 0, 140, 140);
     self.hintView.center=self.view.center;
-    [self.view addSubview:self.hintView];
+    [self.myMoviePlayer.view addSubview:self.hintView];
     self.hintView.layer.cornerRadius = 5;
     self.hintView.layer.masksToBounds = YES;
-    
-    //添加控制界面（透明）
-    [self  AddmovieControlsView];
-    
-    //目录界面
-    [self AddOtherView];
 }
+
 //添加控制界面（透明）
--(void)AddmovieControlsView{
+-(void)addmovieControlsView{
     self.myMovieControlsView=[[MovieControlsView alloc] init];
     [self.myMoviePlayer.view addSubview:self.myMovieControlsView];
     self.myMovieControlsView.delegate=self;
@@ -96,7 +108,7 @@
 }
 
 //目录界面
-- (void)AddOtherView{
+- (void)addOtherView{
     self.myCourseBackView=[[UIView alloc] initWithFrame:CGRectMake(self.myMoviePlayer.view.frame.size.width-272, 0, 272,320)];
     //    self.myCourseBackView.backgroundColor=RGBACOLOR(0, 0, 0, 0.8);
     self.myCourseBackView.backgroundColor = [UIColor orangeColor];
@@ -202,16 +214,19 @@
     
     showErrTimes = 0;
     
-    
-    
-    
-    //http://120.25.226.186:32812/resources/videos/minion_01.mp4
-    
-    //网络视频
-    //    NSString *url = @"http://120.25.226.186:32812/resources/videos/minion_01.mp4";
-    
-    //本地视频
-    NSString *url = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];
+
+    if (_isLocalPlay) {
+        //本地视频（分为沙盒和Bundle中的视图）
+//        NSString *str = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];//Bundle
+        NSString *str = [self.myCourseDic objectForKey:@"myURL"];//沙盒绝对路径
+        self.urlStr = [str copy];
+    }else{
+        //网络视频
+//        _urlStr = @"http://120.25.226.186:32812/resources/videos/minion_02.mp4";
+        NSString *str = [self.myCourseDic objectForKey:@"myURL"];
+        self.urlStr = [str copy];
+    }
+
     
 #if  0
     //测试高清视频时用的时时内容
@@ -219,14 +234,23 @@
     NSString* encodedString = [NSString stringWithFormat:@"http://127.0.0.1:%d/zhuzixiaoout.mp4",GB_Port] ;
 #else
     //将网址含有的中文、空格等转化
-    NSString* encodedString =[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString* encodedString =[_urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 #endif
     
     
     [self.myMoviePlayer.moviePlayer prepareToPlay];
     self.myMoviePlayer.moviePlayer.movieSourceType = MPMovieLoadStateUnknown;
+    if (_isLocalPlay) {
+        //本地视频
+//        self.myMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
         [self.myMoviePlayer.moviePlayer setContentURL:[NSURL fileURLWithPath:encodedString]];
-//    [self.myMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:encodedString]];
+//        [self.myMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:encodedString]];
+
+    }else{
+        //网络视频
+        self.myMoviePlayer.moviePlayer.movieSourceType = MPMovieSourceTypeStreaming;
+        [self.myMoviePlayer.moviePlayer setContentURL:[NSURL URLWithString:encodedString]];
+    }
 //    self.myMoviePlayer.moviePlayer.useApplicationAudioSession = NO;//放弃了
     [self.myMoviePlayer.moviePlayer play];
     

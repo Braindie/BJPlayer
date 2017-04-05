@@ -8,15 +8,19 @@
 
 #import "PlayerViewController.h"
 #import "MobilePlayerViewContrl.h"
-
+#import "UIImageView+WebCache.h"
 
 
 @interface PlayerViewController ()
+//播放控制器
 @property (nonatomic, strong) MobilePlayerViewContrl *moviePlayerCtrl;
-@property (nonatomic, strong) UIView *topBackView;//播放按钮视图（最好自己封装一个View）
+
+//未播放时的背景图片//播放按钮视图（最好自己封装一个View）
+@property (nonatomic, strong) UIImageView *backImageView;
+
+
 @property (nonatomic, strong) NSDictionary *urlDic;
 //@property (nonatomic, strong) NSMutableArray *myDataArr;
-
 @end
 
 @implementation PlayerViewController
@@ -34,13 +38,9 @@
     self.title = @"MediaPlayer播放";
     self.view.backgroundColor = [UIColor lightGrayColor];
     
-    
-    
-    
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(RotationClicked) name:@"888888" object:nil];
 
+    //初始化未播放时的界面
     [self initView];
 }
 
@@ -67,56 +67,61 @@
 //    }
 //}
 
-- (void)dealloc{
-    
-    [self.moviePlayerCtrl removeThisView];
-    [self.moviePlayerCtrl removeFromParentViewController];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)initView{
-
-    //包含播放按钮的视图
-    self.topBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width*9/16)];
-    self.topBackView.backgroundColor = [UIColor orangeColor];
-    [self.view addSubview:self.topBackView];
+    //背景图片
+    self.backImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width*9/16)];
+    self.backImageView.userInteractionEnabled = YES;
+    self.backImageView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.backImageView];
+    
+    NSURL *imageUrl = [NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1491214025476&di=e366ae73a26c02deb8b9ee93c63cca7b&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3Defe9a6aa0e55b3199cf9827d73a88286%2F537a84d6277f9e2f4722f7a31b30e924b999f37c.jpg"];
+    [self.backImageView sd_setImageWithURL:imageUrl];
+    
+    /*毛玻璃效果*/
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
+    effectView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width*9/16);
+    [self.backImageView addSubview:effectView];
+    
+    //播放按钮
     UIButton *playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    playBtn.frame = CGRectMake(self.topBackView.frame.size.width/2-50, 50, 100, 30);
-    [playBtn setTitle:@"播放" forState:UIControlStateNormal];
-    playBtn.backgroundColor = [UIColor lightGrayColor];
-    [playBtn addTarget:self action:@selector(playBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    [self.topBackView addSubview:playBtn];
+    playBtn.frame = CGRectMake(self.backImageView.frame.size.width/2-50, self.backImageView.frame.size.height/2-50, 100, 100);
+    [playBtn setImage:[UIImage imageNamed:@"button_playermini"] forState:UIControlStateNormal];
+//    [playBtn setTitle:@"播放" forState:UIControlStateNormal];
+    playBtn.backgroundColor = [UIColor clearColor];
+    [playBtn addTarget:self action:@selector(playBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.backImageView addSubview:playBtn];
 }
 
-
-- (void)playBtnClicked{
-    //点击播放按钮后加载播放器
-    [self AddMoviePlayer];
+#pragma mark - 播放按钮点击事件
+- (void)playBtnAction{
+    //初始化视频播放器
+    [self addMoviePlayer];
     
-    NSString *fileName = [NSString stringWithFormat:@"%@",self.downLoadModel.title];
-    NSString *filePath = [NSString stringWithFormat:@"%@",self.downLoadModel.targetPath];
-    
+    NSString *fileName = [NSString stringWithFormat:@"%@",self.downloadModel.title];
+    NSString *filePath = [NSString stringWithFormat:@"%@",self.downloadModel.targetPath];
     NSLog(@"%@的文件路径为%@",fileName,filePath);
-    self.urlDic = [NSDictionary dictionaryWithObject:self.downLoadModel.filePath forKey:@"myURL"];
-    
+    if (_isLocalPlayer) {
+//        NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//        NSString *documentsDirectory = [paths objectAtIndex:0];
+//        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, fileName];
+//        self.urlDic = [NSDictionary dictionaryWithObject:fullPath forKey:@"myURL"];
+
+        self.urlDic = [NSDictionary dictionaryWithObject:filePath forKey:@"myURL"];
+        NSLog(@"%@的本地路径为%@",fileName,filePath);
+    }else{
+        self.urlDic = [NSDictionary dictionaryWithObject:self.downloadModel.savePath forKey:@"myURL"];
+        NSLog(@"%@的网络路径为%@",fileName,self.downloadModel.savePath);
+    }
+
+
+    //发送URL
     NSURL *url = [NSURL URLWithString:filePath];
     [self playMoviePlayerWithUrl:url];
 }
 
-//创建视频播放器
--(void)playMoviePlayerWithUrl:(NSURL *)movieUrl{
-    
-    self.topBackView.hidden=YES;
-    self.moviePlayerCtrl.view.hidden=NO;
-//    self.moviePlayerCtrl.myIndex=myIndex;
-    self.moviePlayerCtrl.myCourseDic = self.urlDic;
-    self.moviePlayerCtrl.isLocalPlay=YES;//本地播放
-//    self.moviePlayerCtrl.myMovieArray=self.chapterArr;
-    [self.moviePlayerCtrl Play];
-}
-
-
-- (void)AddMoviePlayer{
+#pragma mark - 初始化视频播放器并发送URL
+- (void)addMoviePlayer{
     self.moviePlayerCtrl = [[MobilePlayerViewContrl alloc] init];
     self.moviePlayerCtrl.view.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.width*9/16);
     //    self.moviePlayerCtrl.delegate=self;
@@ -133,9 +138,26 @@
     [self addChildViewController:self.moviePlayerCtrl];
     [self.view addSubview:self.moviePlayerCtrl.view];
     
-//    moviePlayerCtrl.myMoviePlayer.moviePlayer.controlStyle=MPMovieControlStyleNone;
-
+    //    moviePlayerCtrl.myMoviePlayer.moviePlayer.controlStyle=MPMovieControlStyleNone;
 }
+
+-(void)playMoviePlayerWithUrl:(NSURL *)movieUrl{
+    //隐藏蒙版
+    self.backImageView.hidden=YES;
+    //显示播放器
+    self.moviePlayerCtrl.view.hidden=NO;
+//    self.moviePlayerCtrl.myIndex=myIndex;
+    //视频URL
+    self.moviePlayerCtrl.myCourseDic = self.urlDic;
+    //是否本地播放（必传）
+    self.moviePlayerCtrl.isLocalPlay = self.isLocalPlayer;
+//    self.moviePlayerCtrl.myMovieArray=self.chapterArr;
+    //调用播放方法
+    [self.moviePlayerCtrl Play];
+}
+
+
+
 
 #pragma mark 屏幕旋转
 -(void)RotationClicked{
@@ -233,13 +255,13 @@
     self.moviePlayerCtrl.playTopView.frame=CGRectMake(0, 0, self.moviePlayerCtrl.view.frame.size.width, self.moviePlayerCtrl.view.frame.size.height);
     self.moviePlayerCtrl.playLoadImgView.frame=CGRectMake(self.moviePlayerCtrl.view.frame.size.width/2-310/6, self.moviePlayerCtrl.view.frame.size.height/2-424/6, 310/3, 424/3);
     
-    self.topBackView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.backImageView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 //    homeScrollView.hidden=YES;
 //    self.myTopBar.hidden=YES;
 //    seplineView1.hidden=YES;
 //    seplineView2.hidden=YES;
     self.moviePlayerCtrl.myMovieControlsView.isHorizontal=YES;
-    if (self.topBackView.hidden==NO){
+    if (self.backImageView.hidden==NO){
 //        [self.topBackView UPdateFrame];
     }
     self.moviePlayerCtrl.myCourseBackView.frame=CGRectMake(self.moviePlayerCtrl.view.frame.size.width-272, 0, 272,self.view.frame.size.height);
@@ -261,7 +283,7 @@
     self.moviePlayerCtrl.playLoadImgView.frame=CGRectMake(self.moviePlayerCtrl.view.frame.size.width/2-310/8, self.moviePlayerCtrl.view.frame.size.height/2-424/8, 310/4, 424/4);
     
     //播放按钮视图
-    self.topBackView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width*9/16);
+    self.backImageView.frame=CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.width*9/16);
     
 //    homeScrollView.hidden=NO;
 //    self.myTopBar.hidden=NO;
@@ -269,7 +291,7 @@
 //    seplineView2.hidden=NO;
     self.moviePlayerCtrl.myCourseBackView.hidden=YES;
     
-    if (self.topBackView.hidden==NO){
+    if (self.backImageView.hidden==NO){
 //        [self.moviePlayerCtrl.topBackView UPdateFrame];
     }
     
@@ -284,6 +306,15 @@
     
 //    [self.myTableView reloadData];
 
+}
+
+
+
+- (void)dealloc{
+    
+    [self.moviePlayerCtrl removeThisView];
+    [self.moviePlayerCtrl removeFromParentViewController];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {

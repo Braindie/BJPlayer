@@ -16,7 +16,7 @@
 @property (nonatomic ,strong) NSString *title;
 //url网络路径
 @property (nonatomic, strong) NSString *savePath;
-//本地路径
+//本地路径,url网络路径
 @property (nonatomic, strong) NSString *filePath;
 //下载状态
 @property (nonatomic ,assign) NSInteger downloadState;

@@ -19,7 +19,9 @@
     return self;
 }
 
+//初始化播放控件
 - (void)initView{
+    
     self.backgroundColor=[UIColor clearColor];
     
     //上部浮出框
@@ -44,9 +46,6 @@
     self.titileLab.font=[UIFont systemFontOfSize:13];
     self.titileLab.textAlignment=NSTextAlignmentCenter;
     [self.topViewBar addSubview:self.titileLab];
-    
-    
-    
     
     //底部浮出框
     self.bottomViewBar=[[UIView alloc] init];
@@ -129,8 +128,7 @@
     [self.bottomViewBar addSubview:self.lockBtn];
 }
 
-
-
+//更新进度条
 - (void)drawRect:(CGRect)rect{
     // Drawing code
     float width=self.frame.size.width;

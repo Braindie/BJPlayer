@@ -1,6 +1,6 @@
 # BJPlayer
 
-### MPMoviePlayerViewController<MediaPlayer>播放视频
+# MPMoviePlayerViewController<MediaPlayer>播放视频
 
 此类是封装了MPMoviePlayerViewController，优化了播放器界面，能够播放在线或本地视频，横竖屏的转换，手势调节进度，改变声音或亮度，自动播放下一节等功能。
 
@@ -38,43 +38,31 @@
 - (void) Play;
 ```
 
-#### 其他
+#### 其他 ####
 - 毛玻璃效果使用了`UIVisualEffectView`>=iOS8
 - NSBundle和沙盒的区别
 - 沙盒的路径每次重新编译后会改变？（模拟器和真机的区别）？
 
-===
 
-### AVPlayer<AVFoundation>播放视频
+
+# AVPlayer<AVFoundation>播放视频
 （敬请期待）
 
-===
-
-### ASI下载
+# ASI下载
 单例模式，断点续传
 
-===
-
-### 封装FMDB保存数据
+# 封装FMDB保存数据
 保存下载数据
 
-===
-
-### 字体大小自适应的类别UILabel+BJFont
+# 字体大小自适应的类别UILabel+BJFont
 runtime
 
-===
-
-### 下拉刷新，下拉加载BJRefresh
+# 下拉刷新，下拉加载BJRefresh
 KVO
 
-===
-
-### 进度条AMProgressView
+# 进度条AMProgressView
 待整理
 
-===
-
-### 启动图GIF
+# 启动图GIF
 使用gif实现启动图的动画效果
 

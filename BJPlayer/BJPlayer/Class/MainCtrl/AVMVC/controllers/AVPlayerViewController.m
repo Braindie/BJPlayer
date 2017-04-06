@@ -7,9 +7,10 @@
 //
 
 #import "AVPlayerViewController.h"
+#import "BJAVPlayerView.h"
 
 @interface AVPlayerViewController ()
-
+@property (nonatomic, strong) BJAVPlayerView *playerView;
 @end
 
 @implementation AVPlayerViewController
@@ -19,7 +20,16 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"AVPlayer";
     self.view.backgroundColor = [UIColor orangeColor];
+    
+    [self buildUI];
 }
+
+- (void)buildUI{
+    self.playerView = [BJAVPlayerView initBJAVPlayerView];
+    [self.view addSubview:self.playerView];
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

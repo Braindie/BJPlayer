@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E501007E1E95EF07001200D7 /* BJAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E501007D1E95EF07001200D7 /* BJAVPlayerView.m */; };
+		E50100801E9609B4001200D7 /* BJAVPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E501007F1E9609B4001200D7 /* BJAVPlayerView.xib */; };
 		E52F00381E8F7F6100C22E23 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = E52F00361E8F7F6100C22E23 /* loading.gif */; };
 		E52F00391E8F7F6100C22E23 /* wildAnimal.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E52F00371E8F7F6100C22E23 /* wildAnimal.mp4 */; };
 		E52F00631E8F7F9100C22E23 /* AMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F003D1E8F7F9100C22E23 /* AMProgressView.m */; };
@@ -127,6 +129,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E501007C1E95EF07001200D7 /* BJAVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BJAVPlayerView.h; path = BJPlayer/Class/Utils/AVPlayer/BJAVPlayerView.h; sourceTree = SOURCE_ROOT; };
+		E501007D1E95EF07001200D7 /* BJAVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BJAVPlayerView.m; path = BJPlayer/Class/Utils/AVPlayer/BJAVPlayerView.m; sourceTree = SOURCE_ROOT; };
+		E501007F1E9609B4001200D7 /* BJAVPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BJAVPlayerView.xib; sourceTree = "<group>"; };
+		E50100811E960FC3001200D7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E52F00361E8F7F6100C22E23 /* loading.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loading.gif; sourceTree = "<group>"; };
 		E52F00371E8F7F6100C22E23 /* wildAnimal.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = wildAnimal.mp4; sourceTree = "<group>"; };
 		E52F003C1E8F7F9100C22E23 /* AMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMProgressView.h; sourceTree = "<group>"; };
@@ -222,7 +228,6 @@
 		E54B30191DD99A8000EC08E4 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		E577F09B1D8FD8E900CAD0BE /* BJPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BJPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E577F09F1D8FD8E900CAD0BE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		E577F0A11D8FD8E900CAD0BE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E577F0A21D8FD8E900CAD0BE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E577F0AA1D8FD8E900CAD0BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E577F0AF1D8FD8E900CAD0BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -334,14 +339,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E501007B1E95E672001200D7 /* AVPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				E501007C1E95EF07001200D7 /* BJAVPlayerView.h */,
+				E501007D1E95EF07001200D7 /* BJAVPlayerView.m */,
+				E501007F1E9609B4001200D7 /* BJAVPlayerView.xib */,
+			);
+			path = AVPlayer;
+			sourceTree = "<group>";
+		};
 		E52F003A1E8F7F9100C22E23 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				E52F003B1E8F7F9100C22E23 /* AMProgressView */,
+				E52F004B1E8F7F9100C22E23 /* MPPlayer */,
+				E501007B1E95E672001200D7 /* AVPlayer */,
 				E52F00401E8F7F9100C22E23 /* ASIDownload */,
 				E52F00471E8F7F9100C22E23 /* BJRefresh */,
-				E52F004B1E8F7F9100C22E23 /* MPPlayer */,
 				E52F005C1E8F7F9100C22E23 /* ZDBModel */,
+				E52F003B1E8F7F9100C22E23 /* AMProgressView */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -559,8 +575,8 @@
 			isa = PBXGroup;
 			children = (
 				E577F0B51D8FDAFE00CAD0BE /* Class */,
-				E577F0A11D8FD8E900CAD0BE /* AppDelegate.h */,
 				E577F0A21D8FD8E900CAD0BE /* AppDelegate.m */,
+				E50100811E960FC3001200D7 /* AppDelegate.h */,
 				E577F0AA1D8FD8E900CAD0BE /* Assets.xcassets */,
 				E577F0AF1D8FD8E900CAD0BE /* Info.plist */,
 				E577F09E1D8FD8E900CAD0BE /* Supporting Files */,
@@ -835,6 +851,7 @@
 				E5D66A031DD417F800810600 /* progress0.png in Resources */,
 				E5D66A121DD417F800810600 /* video_lock0.png in Resources */,
 				E5D66A0F1DD417F800810600 /* video_episode.png in Resources */,
+				E50100801E9609B4001200D7 /* BJAVPlayerView.xib in Resources */,
 				E5D66A221DD417F800810600 /* voice_no.png in Resources */,
 				E5D66A011DD417F800810600 /* point0.png in Resources */,
 				E5D66A1A1DD417F800810600 /* video_next0.png in Resources */,
@@ -894,6 +911,7 @@
 				E52F006F1E8F7F9100C22E23 /* myhintView.m in Sources */,
 				E54B30271DD99A8000EC08E4 /* UIImageView+HighlightedWebCache.m in Sources */,
 				E52F00741E8F7F9100C22E23 /* ZDBModel.m in Sources */,
+				E501007E1E95EF07001200D7 /* BJAVPlayerView.m in Sources */,
 				E52F00651E8F7F9100C22E23 /* BaseModel.m in Sources */,
 				E54B30231DD99A8000EC08E4 /* UIButton+WebCache.m in Sources */,
 				E5B424C81D90F2F000FCB78F /* ASIDataCompressor.m in Sources */,

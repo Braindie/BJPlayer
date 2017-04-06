@@ -46,7 +46,8 @@
 
 
 # AVPlayer<AVFoundation>播放视频
-（敬请期待）
+使用AVPlayer播放视频时，提供视频信息的是AVPlayerItem<br>
+使用KVO键值观察其属性`status`，当属性为`AVPlayerItemStatusReadyToPlay`时才可播放。
 
 # ASI下载
 单例模式，断点续传

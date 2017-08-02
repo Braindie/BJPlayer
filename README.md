@@ -55,8 +55,6 @@
 # 封装FMDB保存数据
 保存下载数据
 
-# 字体大小自适应的类别UILabel+BJFont
-runtime
 
 # 下拉刷新，下拉加载BJRefresh
 KVO

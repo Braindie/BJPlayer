@@ -8,9 +8,11 @@
 
 #import "AVPlayerViewController.h"
 #import "BJAVPlayerView.h"
+#import "BJYoukuPlayerButton.h"
 
 @interface AVPlayerViewController ()
 @property (nonatomic, strong) BJAVPlayerView *playerView;
+@property (nonatomic, strong) BJYoukuPlayerButton *youkuBtn;
 @end
 
 @implementation AVPlayerViewController
@@ -19,14 +21,28 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"AVPlayer";
-    self.view.backgroundColor = [UIColor orangeColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self buildUI];
 }
 
 - (void)buildUI{
-    self.playerView = [BJAVPlayerView initBJAVPlayerView];
-    [self.view addSubview:self.playerView];
+    
+    _youkuBtn = [[BJYoukuPlayerButton alloc] initWithFrame:CGRectMake(0, 0, 60, 60) withState:BJYoukuPlayerButtonStatePlay];
+    _youkuBtn.center = CGPointMake(self.view.center.x, self.view.center.y);
+    [_youkuBtn addTarget:self action:@selector(youKuPlayMethod) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_youkuBtn];
+    
+//    self.playerView = [BJAVPlayerView initBJAVPlayerView];
+//    [self.view addSubview:self.playerView];
+}
+
+- (void)youKuPlayMethod{
+    if (_youkuBtn.buttonState == BJYoukuPlayerButtonStatePause) {
+        _youkuBtn.buttonState = BJYoukuPlayerButtonStatePlay;
+    }else{
+        _youkuBtn.buttonState = BJYoukuPlayerButtonStatePause;
+    }
 }
 
 

@@ -5,6 +5,7 @@
 //  Created by zhangwenjun on 2018/6/14.
 //  Copyright © 2018年 zhangwenjun. All rights reserved.
 //
+//鸣谢：https://github.com/mengxianliang/XLPlayButton
 
 #import "BJYoukuPlayerButton.h"
 
@@ -36,20 +37,21 @@ static CGFloat animationDuration = 0.35f;
 - (instancetype)initWithFrame:(CGRect)frame withState:(BJYoukuPlayerButtonState)state{
     self = [super initWithFrame:frame];
     if (self) {
+        [self bulidUI];
         if (state == BJYoukuPlayerButtonStatePlay) {
             self.buttonState = state;
         }
-        [self bulidUI];
     }
     return self;
 }
 
 - (void)bulidUI{
-    [self addleftLineLayer];
-    [self addRightLineLayer];
     
     [self addLiftCircle];
     [self addRightCircle];
+    
+    [self addleftLineLayer];
+    [self addRightLineLayer];
     
     [self addTriangleCotainerLayer];
 }
@@ -60,17 +62,19 @@ static CGFloat animationDuration = 0.35f;
  */
 - (void)addleftLineLayer{
     CGFloat width = self.layer.bounds.size.width;
-    
+    //创建竖线路径
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:CGPointMake(width*0.2, width*0.9)];
     [path addLineToPoint:CGPointMake(width*0.2, width*0.1)];
-    
+    //创建竖线显示层
     _leftLineLayer = [CAShapeLayer layer];
     _leftLineLayer.path = path.CGPath;
     _leftLineLayer.fillColor = [UIColor clearColor].CGColor;
     _leftLineLayer.strokeColor = BlueColor.CGColor;
     _leftLineLayer.lineWidth = [self lineWidth];
+    //终点类型为圆形
     _leftLineLayer.lineCap = kCALineCapRound;
+    //连接点为圆形
     _leftLineLayer.lineJoin = kCALineJoinRound;
     [self.layer addSublayer:_leftLineLayer];
 }
@@ -97,6 +101,9 @@ static CGFloat animationDuration = 0.35f;
 }
 
 
+/**
+ 添加左侧弧线
+ */
 - (void)addLiftCircle{
     CGFloat width = self.layer.bounds.size.width;
     
@@ -118,6 +125,10 @@ static CGFloat animationDuration = 0.35f;
     [self.layer addSublayer:_leftCircleLayer];
 }
 
+
+/**
+ 添加右侧弧线
+ */
 - (void)addRightCircle{
     CGFloat width = self.layer.bounds.size.width;
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -138,7 +149,9 @@ static CGFloat animationDuration = 0.35f;
     [self.layer addSublayer:_rightCircleLayer];
 }
 
-
+/**
+ 添加中心图标
+ */
 - (void)addTriangleCotainerLayer{
     CGFloat width = self.layer.bounds.size.width;
     
@@ -188,42 +201,61 @@ static CGFloat animationDuration = 0.35f;
     return self.layer.bounds.size.width * 0.18;
 }
 
+#pragma mark - 点击事件
+#pragma mark -- 开始事件
 - (void)showPlayAnimation{
-    
+    //左竖线变短
     [self strokeEndAnimationFrom:1 to:0 onLayer:_leftLineLayer name:nil duration:animationDuration/2 delegate:nil];
+    //右竖线变短
     [self strokeEndAnimationFrom:1 to:0 onLayer:_rightLineLayer name:nil duration:animationDuration/2 delegate:nil];
+    
+    //左弧线边长
     [self strokeEndAnimationFrom:0 to:1 onLayer:_leftCircleLayer name:nil duration:animationDuration delegate:nil];
+    //右弧线变长
     [self strokeEndAnimationFrom:0 to:1 onLayer:_rightCircleLayer name:nil duration:animationDuration delegate:nil];
     
+    //旋转图标
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(animationDuration/4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self actionRotateAnimationClockwise:NO];
     });
     
+    //显示中心图标
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(animationDuration/2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self actionTriangleAlphaAnimationFrom:0 to:1 duration:animationDuration/2];
     });
+
 }
 
+#pragma mark -- 暂停事件
 - (void)showPauseAnimation {
+    //左弧线变短
     [self strokeEndAnimationFrom:1 to:0 onLayer:_leftCircleLayer name:nil duration:animationDuration delegate:nil];
+    //右弧线变短
     [self strokeEndAnimationFrom:1 to:0 onLayer:_rightCircleLayer name:nil duration:animationDuration delegate:nil];
+
+    //隐藏中心图标
     [self actionTriangleAlphaAnimationFrom:1 to:0 duration:animationDuration/2];
+    
+    //旋转图标
     [self actionRotateAnimationClockwise:YES];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(animationDuration/2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //左竖线变长
         [self strokeEndAnimationFrom:0 to:1 onLayer:_leftLineLayer name:nil duration:animationDuration/2 delegate:nil];
+        //右竖线边长
         [self strokeEndAnimationFrom:0 to:1 onLayer:_rightLineLayer name:nil duration:animationDuration/2 delegate:nil];
     });
 }
 
-
-
+#pragma mark - 基本动画
+#pragma mark -- strokeEnd动画
 - (CABasicAnimation *)strokeEndAnimationFrom:(CGFloat)fromValue to:(CGFloat)toValue onLayer:(CALayer *)layer name:(NSString *)animationName duration:(CGFloat)duration delegate:(id)delegate{
     
     CABasicAnimation *strokeEndAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     strokeEndAnimation.duration = duration;
     strokeEndAnimation.fromValue = @(fromValue);
     strokeEndAnimation.toValue = @(toValue);
+    //这两个属性设定保证在动画执行之后不自动还原
     strokeEndAnimation.fillMode = kCAFillModeForwards;
     strokeEndAnimation.removedOnCompletion = NO;
     [strokeEndAnimation setValue:animationName forKey:@"animationName"];
@@ -232,7 +264,7 @@ static CGFloat animationDuration = 0.35f;
     return strokeEndAnimation;
 }
 
-
+#pragma mark -- transform.rotation动画
 - (void)actionRotateAnimationClockwise:(BOOL)clockwise {
     //逆时针旋转
     CGFloat startAngle = 0.0;
@@ -254,6 +286,7 @@ static CGFloat animationDuration = 0.35f;
     [self.layer addAnimation:roateAnimation forKey:nil];
 }
 
+#pragma mark -- opacity动画
 - (void)actionTriangleAlphaAnimationFrom:(CGFloat)from to:(CGFloat)to duration:(CGFloat)duration{
     
     CABasicAnimation *alphaAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
@@ -268,12 +301,11 @@ static CGFloat animationDuration = 0.35f;
 
 
 
-
+#pragma mark - 按钮点击事件
 - (void)setButtonState:(BJYoukuPlayerButtonState)buttonState{
     if (_isAnimating == YES) {
         return;
     }
-    
     _buttonState = buttonState;
     _isAnimating = YES;
     
@@ -287,12 +319,6 @@ static CGFloat animationDuration = 0.35f;
         _isAnimating = NO;
     });
 }
-
-
-
-
-
-
 
 
 

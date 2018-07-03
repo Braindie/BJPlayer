@@ -60,9 +60,6 @@
 保存下载数据
 
 
-# 下拉刷新，下拉加载BJRefresh
-KVO
-
 # 进度条AMProgressView
 待整理
 

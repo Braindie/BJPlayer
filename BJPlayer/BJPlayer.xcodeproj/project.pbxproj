@@ -15,8 +15,6 @@
 		E52F00651E8F7F9100C22E23 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00421E8F7F9100C22E23 /* BaseModel.m */; };
 		E52F00661E8F7F9100C22E23 /* FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00441E8F7F9100C22E23 /* FileModel.m */; };
 		E52F00671E8F7F9100C22E23 /* FilesDownManage.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00461E8F7F9100C22E23 /* FilesDownManage.m */; };
-		E52F00681E8F7F9100C22E23 /* BJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00491E8F7F9100C22E23 /* BJRefresh.m */; };
-		E52F00691E8F7F9100C22E23 /* BJRefresh.xib in Resources */ = {isa = PBXBuildFile; fileRef = E52F004A1E8F7F9100C22E23 /* BJRefresh.xib */; };
 		E52F006A1E8F7F9100C22E23 /* CourseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */; };
 		E52F006B1E8F7F9100C22E23 /* CourseTableViewContrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */; };
 		E52F006D1E8F7F9100C22E23 /* MobilePlayerViewContrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00531E8F7F9100C22E23 /* MobilePlayerViewContrl.m */; };
@@ -134,9 +132,6 @@
 		E52F00441E8F7F9100C22E23 /* FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileModel.m; sourceTree = "<group>"; };
 		E52F00451E8F7F9100C22E23 /* FilesDownManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesDownManage.h; sourceTree = "<group>"; };
 		E52F00461E8F7F9100C22E23 /* FilesDownManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesDownManage.m; sourceTree = "<group>"; };
-		E52F00481E8F7F9100C22E23 /* BJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJRefresh.h; sourceTree = "<group>"; };
-		E52F00491E8F7F9100C22E23 /* BJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJRefresh.m; sourceTree = "<group>"; };
-		E52F004A1E8F7F9100C22E23 /* BJRefresh.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BJRefresh.xib; sourceTree = "<group>"; };
 		E52F004C1E8F7F9100C22E23 /* CourseTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableCell.h; sourceTree = "<group>"; };
 		E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableCell.m; sourceTree = "<group>"; };
 		E52F004E1E8F7F9100C22E23 /* CourseTableViewContrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableViewContrl.h; sourceTree = "<group>"; };
@@ -441,7 +436,6 @@
 				E52F004B1E8F7F9100C22E23 /* MPPlayer */,
 				E501007B1E95E672001200D7 /* AVPlayer */,
 				E52F00401E8F7F9100C22E23 /* ASIDownload */,
-				E52F00471E8F7F9100C22E23 /* BJRefresh */,
 				E52F005C1E8F7F9100C22E23 /* ZDBModel */,
 			);
 			path = Utils;
@@ -458,16 +452,6 @@
 				E52F00461E8F7F9100C22E23 /* FilesDownManage.m */,
 			);
 			path = ASIDownload;
-			sourceTree = "<group>";
-		};
-		E52F00471E8F7F9100C22E23 /* BJRefresh */ = {
-			isa = PBXGroup;
-			children = (
-				E52F00481E8F7F9100C22E23 /* BJRefresh.h */,
-				E52F00491E8F7F9100C22E23 /* BJRefresh.m */,
-				E52F004A1E8F7F9100C22E23 /* BJRefresh.xib */,
-			);
-			path = BJRefresh;
 			sourceTree = "<group>";
 		};
 		E52F004B1E8F7F9100C22E23 /* MPPlayer */ = {
@@ -1109,7 +1093,6 @@
 				E5D66A0D1DD417F800810600 /* video_directory.png in Resources */,
 				E5D66A191DD417F800810600 /* video_next.png in Resources */,
 				E52F00381E8F7F6100C22E23 /* loading.gif in Resources */,
-				E52F00691E8F7F9100C22E23 /* BJRefresh.xib in Resources */,
 				E5D66A0B1DD417F800810600 /* video_back_b.png in Resources */,
 				E5D669FB1DD417F800810600 /* back.png in Resources */,
 				E5D66A161DD417F800810600 /* video_max0.png in Resources */,
@@ -1190,7 +1173,6 @@
 				E52F006B1E8F7F9100C22E23 /* CourseTableViewContrl.m in Sources */,
 				E54B2FF51DD98E3F00EC08E4 /* BaseNavigationController.m in Sources */,
 				E587494720EB626E00FA0467 /* KxAudioManager.m in Sources */,
-				E52F00681E8F7F9100C22E23 /* BJRefresh.m in Sources */,
 				E52F006F1E8F7F9100C22E23 /* myhintView.m in Sources */,
 				E52F00741E8F7F9100C22E23 /* ZDBModel.m in Sources */,
 				E587494520EB626E00FA0467 /* KxMovieGLView.m in Sources */,

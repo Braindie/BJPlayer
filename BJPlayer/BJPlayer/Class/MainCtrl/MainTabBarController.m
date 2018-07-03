@@ -9,6 +9,7 @@
 #import "MainTabBarController.h"
 #import "MainViewCtrl.h"
 #import "AVPlayerViewController.h"
+#import "FFMpegViewController.h"
 
 @interface MainTabBarController ()
 
@@ -31,7 +32,6 @@
                                                         image:[UIImage imageNamed:@"Main_tabBar10"]
                                                 selectedImage:[UIImage imageNamed:@"Main_tabBar11"]];
     UINavigationController *mainVC = [[UINavigationController alloc] initWithRootViewController:vc1];
-//    mainVC.navigationItem.title = @"视频";
     [mainVC setTabBarItem:item1];
     
     AVPlayerViewController *vc2 = [[AVPlayerViewController alloc] init];
@@ -39,10 +39,16 @@
                                                         image:[UIImage imageNamed:@"Main_tabBar12"]
                                                 selectedImage:[UIImage imageNamed:@"Main_tabBar13"]];
     UINavigationController *avVC = [[UINavigationController alloc] initWithRootViewController:vc2];
-//    [avVC setTabBarItem:item2];
     [vc2 setTabBarItem:item2];
     
-    self.viewControllers = @[mainVC, avVC];
+    FFMpegViewController *vc3 = [[FFMpegViewController alloc] init];
+    UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"FFMpeg"
+                                                        image:[UIImage imageNamed:@"Main_tabBar10"]
+                                                selectedImage:[UIImage imageNamed:@"Main_tabBar11"]];
+    UINavigationController *ffVC = [[UINavigationController alloc] initWithRootViewController:vc3];
+    [vc3 setTabBarItem:item3];
+    
+    self.viewControllers = @[mainVC, avVC,ffVC];
     
 }
 

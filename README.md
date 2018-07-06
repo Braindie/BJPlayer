@@ -49,23 +49,26 @@
 使用AVPlayer播放视频时，提供视频信息的是AVPlayerItem<br>
 使用KVO键值观察其属性`status`，当属性为`AVPlayerItemStatusReadyToPlay`时才可播放。
 
-# 直播
+# FFMpeg直播
 使用FFMpeg实现拉流</br>
 使用kxmovie进行视频播放</br>
 
-# ASI下载
+
+# 其他
+
+## ASI下载
 单例模式，断点续传
 
-# 封装FMDB保存数据
+## FMDB保存数据
 保存下载数据
 
 
-# 进度条AMProgressView
-待整理
-
-# 启动图GIF
+## GIF启动图
 使用gif实现启动图的动画效果
 
-# 播放暂停动画
+## AMProgressView进度条
+未使用
+
+## CALayer播放暂停动画
 使用Layer实现播放暂停的动画效果
 

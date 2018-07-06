@@ -560,10 +560,10 @@
 		E548889620D24E3F00C81ED4 /* AMProgressView */ = {
 			isa = PBXGroup;
 			children = (
+				E548889A20D24E3F00C81ED4 /* AMProgressView.h */,
 				E548889720D24E3F00C81ED4 /* AMProgressView.m */,
 				E548889820D24E3F00C81ED4 /* AMProgressViewGradient.h */,
 				E548889920D24E3F00C81ED4 /* AMProgressViewGradient.m */,
-				E548889A20D24E3F00C81ED4 /* AMProgressView.h */,
 			);
 			path = AMProgressView;
 			sourceTree = "<group>";

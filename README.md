@@ -49,7 +49,7 @@
 使用AVPlayer播放视频时，提供视频信息的是AVPlayerItem<br>
 使用KVO键值观察其属性`status`，当属性为`AVPlayerItemStatusReadyToPlay`时才可播放。
 
-# FFMpeg直播
+# FFMpeg直播（不支持arm64架构真机没法跑，只能用模拟器了）
 使用FFMpeg实现拉流</br>
 使用kxmovie进行视频播放</br>
 

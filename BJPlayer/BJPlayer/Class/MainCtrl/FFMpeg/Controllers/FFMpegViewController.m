@@ -6,7 +6,7 @@
 //
 
 #import "FFMpegViewController.h"
-#import "KxMovieViewController.h"
+//#import "KxMovieViewController.h"
 
 @interface FFMpegViewController ()
 
@@ -34,9 +34,9 @@
 
 
 - (void)onClickedOKbtn:(UIButton *)sender{
-    NSString *url = @"http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8";
-    KxMovieViewController *vc = [KxMovieViewController movieViewControllerWithContentPath:url parameters:nil];
-    [self presentViewController:vc animated:YES completion:nil];
+//    NSString *url = @"http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8";
+//    KxMovieViewController *vc = [KxMovieViewController movieViewControllerWithContentPath:url parameters:nil];
+//    [self presentViewController:vc animated:YES completion:nil];
 }
 
 

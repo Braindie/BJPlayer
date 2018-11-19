@@ -8,11 +8,9 @@
 
 #import "AVPlayerViewController.h"
 #import "BJAVPlayerView.h"
-#import "BJYoukuPlayerButton.h"
 
 @interface AVPlayerViewController ()
 @property (nonatomic, strong) BJAVPlayerView *playerView;
-@property (nonatomic, strong) BJYoukuPlayerButton *youkuBtn;
 @end
 
 @implementation AVPlayerViewController
@@ -27,23 +25,10 @@
 }
 
 - (void)buildUI{
-    
-    _youkuBtn = [[BJYoukuPlayerButton alloc] initWithFrame:CGRectMake(0, 0, 60, 60) withState:BJYoukuPlayerButtonStatePlay];
-    _youkuBtn.center = CGPointMake(self.view.center.x, self.view.center.y);
-    [_youkuBtn addTarget:self action:@selector(youKuPlayMethod) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_youkuBtn];
-    
-//    self.playerView = [BJAVPlayerView initBJAVPlayerView];
-//    [self.view addSubview:self.playerView];
+    self.playerView = [BJAVPlayerView initBJAVPlayerView];
+    [self.view addSubview:self.playerView];
 }
 
-- (void)youKuPlayMethod{
-    if (_youkuBtn.buttonState == BJYoukuPlayerButtonStatePause) {
-        _youkuBtn.buttonState = BJYoukuPlayerButtonStatePlay;
-    }else{
-        _youkuBtn.buttonState = BJYoukuPlayerButtonStatePause;
-    }
-}
 
 
 

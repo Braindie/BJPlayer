@@ -217,8 +217,9 @@
 
     if (_isLocalPlay) {
         //本地视频（分为沙盒和Bundle中的视图）
+        NSString *str = [[NSBundle mainBundle] pathForResource:@"boomboom" ofType:@"mp4"];//Bundle
 //        NSString *str = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];//Bundle
-        NSString *str = [self.myCourseDic objectForKey:@"myURL"];//沙盒绝对路径
+//        NSString *str = [self.myCourseDic objectForKey:@"myURL"];//沙盒绝对路径
         self.urlStr = [str copy];
     }else{
         //网络视频

@@ -29,7 +29,6 @@
 		E52F00811E8F8AC700C22E23 /* AVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00801E8F8AC700C22E23 /* AVPlayerViewController.m */; };
 		E52F00991E8FA48100C22E23 /* DownloadViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00851E8FA48100C22E23 /* DownloadViewCtrl.m */; };
 		E52F009A1E8FA48100C22E23 /* MainViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00871E8FA48100C22E23 /* MainViewCtrl.m */; };
-		E52F009B1E8FA48100C22E23 /* MainWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00891E8FA48100C22E23 /* MainWebViewController.m */; };
 		E52F009C1E8FA48100C22E23 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F008B1E8FA48100C22E23 /* PlayerViewController.m */; };
 		E52F009D1E8FA48100C22E23 /* DownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F008E1E8FA48100C22E23 /* DownloadModel.m */; };
 		E52F009E1E8FA48100C22E23 /* DownloadedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00911E8FA48100C22E23 /* DownloadedCell.m */; };
@@ -58,6 +57,7 @@
 		E5B424CD1D90F2F000FCB78F /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B424C31D90F2F000FCB78F /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E5B424CE1D90F2F000FCB78F /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B424C51D90F2F000FCB78F /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E5B424DE1D91120700FCB78F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E5B424DD1D91120700FCB78F /* Reachability.m */; };
+		E5B6AD542292BCF30007BB47 /* boomboom.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E5B6AD532292BCF30007BB47 /* boomboom.mp4 */; };
 		E5D669FB1DD417F800810600 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D669D31DD417F800810600 /* back.png */; };
 		E5D669FC1DD417F800810600 /* fast.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D669D41DD417F800810600 /* fast.png */; };
 		E5D669FD1DD417F800810600 /* init_html_off.png in Resources */ = {isa = PBXBuildFile; fileRef = E5D669D51DD417F800810600 /* init_html_off.png */; };
@@ -150,8 +150,6 @@
 		E52F00851E8FA48100C22E23 /* DownloadViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewCtrl.m; sourceTree = "<group>"; };
 		E52F00861E8FA48100C22E23 /* MainViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCtrl.h; sourceTree = "<group>"; };
 		E52F00871E8FA48100C22E23 /* MainViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCtrl.m; sourceTree = "<group>"; };
-		E52F00881E8FA48100C22E23 /* MainWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainWebViewController.h; sourceTree = "<group>"; };
-		E52F00891E8FA48100C22E23 /* MainWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainWebViewController.m; sourceTree = "<group>"; };
 		E52F008A1E8FA48100C22E23 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		E52F008B1E8FA48100C22E23 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		E52F008D1E8FA48100C22E23 /* DownloadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadModel.h; sourceTree = "<group>"; };
@@ -206,6 +204,7 @@
 		E5B424DD1D91120700FCB78F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		E5B424F41D9128BE00FCB78F /* BJPlayer-PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BJPlayer-PrefixHeader.pch"; sourceTree = "<group>"; };
 		E5B424F51D91296C00FCB78F /* CommentData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentData.h; sourceTree = "<group>"; };
+		E5B6AD532292BCF30007BB47 /* boomboom.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = boomboom.mp4; sourceTree = "<group>"; };
 		E5D669D31DD417F800810600 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		E5D669D41DD417F800810600 /* fast.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fast.png; sourceTree = "<group>"; };
 		E5D669D51DD417F800810600 /* init_html_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = init_html_off.png; sourceTree = "<group>"; };
@@ -397,8 +396,6 @@
 				E52F008B1E8FA48100C22E23 /* PlayerViewController.m */,
 				E52F00841E8FA48100C22E23 /* DownloadViewCtrl.h */,
 				E52F00851E8FA48100C22E23 /* DownloadViewCtrl.m */,
-				E52F00881E8FA48100C22E23 /* MainWebViewController.h */,
-				E52F00891E8FA48100C22E23 /* MainWebViewController.m */,
 			);
 			path = Controler;
 			sourceTree = "<group>";
@@ -528,6 +525,7 @@
 		E577F0BA1D8FDAFE00CAD0BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E5B6AD532292BCF30007BB47 /* boomboom.mp4 */,
 				E5F2D1821E9207F300E5B32A /* LaunchView.xib */,
 				E52F00361E8F7F6100C22E23 /* loading.gif */,
 				E52F00371E8F7F6100C22E23 /* wildAnimal.mp4 */,
@@ -696,7 +694,7 @@
 				TargetAttributes = {
 					E577F09A1D8FD8E900CAD0BE = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = TZUCHNJSDZ;
+						DevelopmentTeam = F79H2LLK8B;
 					};
 				};
 			};
@@ -705,6 +703,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -746,6 +745,7 @@
 				E5D66A011DD417F800810600 /* point0.png in Resources */,
 				E5D66A1A1DD417F800810600 /* video_next0.png in Resources */,
 				E5D66A141DD417F800810600 /* video_lock_no0.png in Resources */,
+				E5B6AD542292BCF30007BB47 /* boomboom.mp4 in Resources */,
 				E5D66A171DD417F800810600 /* video_min.png in Resources */,
 				E5D66A071DD417F800810600 /* progress_point.png in Resources */,
 				E5D66A1E1DD417F800810600 /* video_play_x0.png in Resources */,
@@ -847,7 +847,6 @@
 				E52F006A1E8F7F9100C22E23 /* CourseTableCell.m in Sources */,
 				E52F009E1E8FA48100C22E23 /* DownloadedCell.m in Sources */,
 				E5D66A251DD4554E00810600 /* GlobalData.m in Sources */,
-				E52F009B1E8FA48100C22E23 /* MainWebViewController.m in Sources */,
 				E52F009C1E8FA48100C22E23 /* PlayerViewController.m in Sources */,
 				E577F0A31D8FD8E900CAD0BE /* AppDelegate.m in Sources */,
 				E52F00721E8F7F9100C22E23 /* UserModel.m in Sources */,
@@ -967,7 +966,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = TZUCHNJSDZ;
+				DEVELOPMENT_TEAM = F79H2LLK8B;
 				GCC_PREFIX_HEADER = "BJPlayer/BJPlayer-PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -978,7 +977,7 @@
 					"$(SRCROOT)/BJPlayer/Class/ThirdLibrary/FFmpeg-iOS/include",
 				);
 				INFOPLIST_FILE = BJPlayer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ${SDK_DIR}/user/include/libxml2";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -998,7 +997,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = TZUCHNJSDZ;
+				DEVELOPMENT_TEAM = F79H2LLK8B;
 				GCC_PREFIX_HEADER = "BJPlayer/BJPlayer-PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1009,7 +1008,7 @@
 					"$(SRCROOT)/BJPlayer/Class/ThirdLibrary/FFmpeg-iOS/include",
 				);
 				INFOPLIST_FILE = BJPlayer/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks ${SDK_DIR}/user/include/libxml2";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

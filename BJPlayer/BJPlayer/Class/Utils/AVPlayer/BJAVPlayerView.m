@@ -106,7 +106,11 @@
     [self.playerView bringSubviewToFront:_playButton];
     
     
-    NSURL *url = [NSURL URLWithString:@"http://120.25.226.186:32812/resources/videos/minion_02.mp4"];
+//    NSString *str = [[NSBundle mainBundle] pathForResource:@"boomboom" ofType:@"mp4"];//Bundle
+////    NSString *str = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];//Bundle
+//    NSURL *url = [NSURL fileURLWithPath:str];
+    
+    NSURL *url = [NSURL URLWithString:@"http://video.qulianwu.com/boomboom.mp4"];
     _playerItem = [AVPlayerItem playerItemWithURL:url];
     [_player replaceCurrentItemWithPlayerItem:_playerItem];
     //观察status属性
@@ -146,7 +150,7 @@
                 NSLog(@"准备播放");
                 // CMTime 本身是一个结构体
                 CMTime duration = item.duration; // 获取视频长度
-                NSLog(@"%.2f", CMTimeGetSeconds(duration));
+                NSLog(@"视频长度：%.2f", CMTimeGetSeconds(duration));
                 // 设置视频时间
 //                [self setMaxDuration:CMTimeGetSeconds(duration)];
                 // 播放
@@ -163,6 +167,8 @@
 //        NSTimeInterval timeInterval = [self availableDurationRanges]; // 缓冲时间
 //        CGFloat totalDuration = CMTimeGetSeconds(_playerItem.duration); // 总时间
 //        [self.loadedProgress setProgress:timeInterval / totalDuration animated:YES];
+    } else {
+        NSLog(@"Unknow");
     }
 }
 

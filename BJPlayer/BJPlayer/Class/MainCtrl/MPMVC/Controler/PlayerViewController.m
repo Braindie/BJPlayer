@@ -116,7 +116,13 @@
 
 
     //发送URL
-    NSURL *url = [NSURL URLWithString:filePath];
+//    NSURL *url = [NSURL URLWithString:filePath];
+    
+    
+//    NSString *str = [[NSBundle mainBundle] pathForResource:@"boomboom" ofType:@"mp4"];//Bundle
+    NSString *str = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];//Bundle
+    NSURL *url = [NSURL fileURLWithPath:str];
+    
     [self playMoviePlayerWithUrl:url];
 }
 

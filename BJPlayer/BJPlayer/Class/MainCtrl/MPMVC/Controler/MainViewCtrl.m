@@ -157,7 +157,7 @@ static NSString *cellId = @"MainTableViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     PlayerViewController *vc = [[PlayerViewController alloc] init];
-    vc.isLocalPlayer = NO;
+    vc.isLocalPlayer = YES;
     MainTableModel *mainModel = self.myModelArr[indexPath.row];
     DownloadModel *downloadModel = [[DownloadModel alloc] init];
     downloadModel.savePath = mainModel.sourceUrl;

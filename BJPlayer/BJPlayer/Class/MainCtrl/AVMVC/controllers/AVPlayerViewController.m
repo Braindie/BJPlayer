@@ -26,7 +26,9 @@
 
 - (void)buildUI{
     self.playerView = [BJAVPlayerView initBJAVPlayerView];
+    self.playerView.frame = CGRectMake(0, kNavBarHeight, kScreenWidth, kScreenHeight*14/25);
     [self.view addSubview:self.playerView];
+    
 }
 
 

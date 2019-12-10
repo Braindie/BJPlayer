@@ -12,6 +12,16 @@
 //
 //#endif /* CommentData_h */
 
+#define kScreenWidth [UIScreen mainScreen].bounds.size.width
+#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
+#define kISPhoneX ([[UIApplication sharedApplication] delegate].window.safeAreaInsets.bottom > 0)
+
+#define kStatusBarHeight (kISPhoneX ? 44.f : 20.f) // 加括号啊，不加有坑
+
+#define kNavBarHeight (kStatusBarHeight + 44.f)
+
+#define kTabBarHeight 49.f
 
 typedef enum
 {

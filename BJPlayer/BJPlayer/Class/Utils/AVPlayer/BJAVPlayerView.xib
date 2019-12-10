@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="BJAVPlayerView">
-            <rect key="frame" x="0.0" y="0.0" width="395" height="230"/>
+            <rect key="frame" x="0.0" y="0.0" width="395" height="402"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KRh-9O-0ZV">
                     <rect key="frame" x="0.0" y="0.0" width="395" height="221"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ACa-G0-3dW">
+                        <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ACa-G0-3dW">
                             <rect key="frame" x="0.0" y="0.0" width="395" height="50"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ItY-cD-Rpb">
@@ -48,33 +47,40 @@
                                 <constraint firstItem="N7w-do-1aO" firstAttribute="centerY" secondItem="ACa-G0-3dW" secondAttribute="centerY" id="yPl-h7-Q1K"/>
                             </constraints>
                         </view>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NJe-Rk-cbB">
+                        <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NJe-Rk-cbB">
                             <rect key="frame" x="0.0" y="181" width="395" height="40"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8yf-cj-mtj">
-                                    <rect key="frame" x="15" y="9" width="13" height="22"/>
+                                    <rect key="frame" x="10" y="5" width="30" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="30" id="XHj-v3-5Ee"/>
+                                        <constraint firstAttribute="height" constant="30" id="zsU-Hc-CyP"/>
+                                    </constraints>
                                     <state key="normal" image="player_play_bottom_window"/>
+                                    <connections>
+                                        <action selector="playAndPauseAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="Xjz-Gc-sjA"/>
+                                    </connections>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ovz-Y2-Q3j">
-                                    <rect key="frame" x="43" y="12" width="36.5" height="16"/>
+                                    <rect key="frame" x="50" y="12" width="36.5" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yzu-bt-HAv">
-                                    <rect key="frame" x="252" y="12" width="36.5" height="16"/>
+                                    <rect key="frame" x="259" y="12" width="36.5" height="16"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ge9-cg-w5X">
-                                    <rect key="frame" x="85" y="5" width="154" height="31"/>
+                                    <rect key="frame" x="92" y="5" width="154" height="31"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="150" id="Hgg-UF-c69"/>
                                     </constraints>
                                 </slider>
                                 <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bcr-Sx-cL2">
-                                    <rect key="frame" x="87" y="19" width="150" height="2"/>
+                                    <rect key="frame" x="94" y="19" width="150" height="2"/>
                                 </progressView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrl-Z9-z7H">
                                     <rect key="frame" x="364" y="9" width="16" height="22"/>
@@ -83,7 +89,7 @@
                             </subviews>
                             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="8yf-cj-mtj" firstAttribute="leading" secondItem="NJe-Rk-cbB" secondAttribute="leading" constant="15" id="02m-Qp-csE"/>
+                                <constraint firstItem="8yf-cj-mtj" firstAttribute="leading" secondItem="NJe-Rk-cbB" secondAttribute="leading" constant="10" id="02m-Qp-csE"/>
                                 <constraint firstItem="rrl-Z9-z7H" firstAttribute="centerY" secondItem="NJe-Rk-cbB" secondAttribute="centerY" id="3yT-Sd-iOO"/>
                                 <constraint firstItem="bcr-Sx-cL2" firstAttribute="leading" secondItem="ge9-cg-w5X" secondAttribute="leading" id="8re-OP-Zx3"/>
                                 <constraint firstItem="Ovz-Y2-Q3j" firstAttribute="centerY" secondItem="NJe-Rk-cbB" secondAttribute="centerY" id="CNL-SN-Krg"/>
@@ -91,7 +97,7 @@
                                 <constraint firstItem="ge9-cg-w5X" firstAttribute="centerY" secondItem="NJe-Rk-cbB" secondAttribute="centerY" id="Lct-z8-Veq"/>
                                 <constraint firstItem="bcr-Sx-cL2" firstAttribute="centerY" secondItem="NJe-Rk-cbB" secondAttribute="centerY" id="QJJ-Hv-L8e"/>
                                 <constraint firstItem="Yzu-bt-HAv" firstAttribute="leading" secondItem="ge9-cg-w5X" secondAttribute="trailing" constant="15" id="Sva-C5-YAL"/>
-                                <constraint firstItem="Ovz-Y2-Q3j" firstAttribute="leading" secondItem="8yf-cj-mtj" secondAttribute="trailing" constant="15" id="b4f-AT-Z6d"/>
+                                <constraint firstItem="Ovz-Y2-Q3j" firstAttribute="leading" secondItem="8yf-cj-mtj" secondAttribute="trailing" constant="10" id="b4f-AT-Z6d"/>
                                 <constraint firstItem="Yzu-bt-HAv" firstAttribute="centerY" secondItem="NJe-Rk-cbB" secondAttribute="centerY" id="dxz-bN-5e1"/>
                                 <constraint firstItem="ge9-cg-w5X" firstAttribute="leading" secondItem="Ovz-Y2-Q3j" secondAttribute="trailing" constant="7.5" id="sVq-4e-xnv"/>
                                 <constraint firstItem="bcr-Sx-cL2" firstAttribute="trailing" secondItem="ge9-cg-w5X" secondAttribute="trailing" id="uc6-s1-V4g"/>
@@ -99,21 +105,15 @@
                                 <constraint firstAttribute="height" constant="40" id="zkb-8u-cda"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h0G-Wm-xcR">
-                            <rect key="frame" x="300" y="98" width="80" height="71"/>
-                            <state key="normal" image="player_start_iphone_fullscreen"/>
-                        </button>
                     </subviews>
-                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="ACa-G0-3dW" firstAttribute="leading" secondItem="KRh-9O-0ZV" secondAttribute="leading" id="1nu-cP-7yT"/>
-                        <constraint firstAttribute="trailing" secondItem="h0G-Wm-xcR" secondAttribute="trailing" constant="15" id="7Us-qh-gFO"/>
                         <constraint firstAttribute="trailing" secondItem="ACa-G0-3dW" secondAttribute="trailing" id="8HC-cB-N8n"/>
                         <constraint firstAttribute="width" secondItem="KRh-9O-0ZV" secondAttribute="height" multiplier="25:14" id="Bbj-Ay-hWC"/>
                         <constraint firstItem="NJe-Rk-cbB" firstAttribute="leading" secondItem="KRh-9O-0ZV" secondAttribute="leading" id="Rdq-sB-Cff"/>
                         <constraint firstAttribute="bottom" secondItem="NJe-Rk-cbB" secondAttribute="bottom" id="VLF-UD-Y6J"/>
                         <constraint firstAttribute="trailing" secondItem="NJe-Rk-cbB" secondAttribute="trailing" id="YbQ-xy-bks"/>
-                        <constraint firstItem="NJe-Rk-cbB" firstAttribute="top" secondItem="h0G-Wm-xcR" secondAttribute="bottom" constant="12" id="nDa-Ea-hpt"/>
                         <constraint firstItem="ACa-G0-3dW" firstAttribute="top" secondItem="KRh-9O-0ZV" secondAttribute="top" id="qb2-lp-B4W"/>
                     </constraints>
                 </view>
@@ -134,7 +134,6 @@
                 <outlet property="loadedProgress" destination="bcr-Sx-cL2" id="H72-y6-AF7"/>
                 <outlet property="moreBtn" destination="shQ-RK-BcG" id="N3C-Um-EQ0"/>
                 <outlet property="playBtn" destination="8yf-cj-mtj" id="wNc-1X-PkV"/>
-                <outlet property="playButton" destination="h0G-Wm-xcR" id="5Vh-qq-ndL"/>
                 <outlet property="playProgress" destination="ge9-cg-w5X" id="YLp-Bu-IRS"/>
                 <outlet property="playerView" destination="KRh-9O-0ZV" id="b2r-Bc-gbs"/>
                 <outlet property="rotationBtn" destination="rrl-Z9-z7H" id="Fea-MI-Knw"/>
@@ -142,7 +141,7 @@
                 <outlet property="topView" destination="ACa-G0-3dW" id="fRE-tu-gxH"/>
                 <outlet property="topViewTop" destination="qb2-lp-B4W" id="fCv-2Q-dTB"/>
             </connections>
-            <point key="canvasLocation" x="-314.5" y="105"/>
+            <point key="canvasLocation" x="85.599999999999994" y="161.01949025487258"/>
         </view>
     </objects>
     <resources>
@@ -150,6 +149,5 @@
         <image name="icmpv_more_light" width="20" height="20"/>
         <image name="player_fullScreen_iphone" width="16" height="16"/>
         <image name="player_play_bottom_window" width="13" height="15"/>
-        <image name="player_start_iphone_fullscreen" width="80" height="71"/>
     </resources>
 </document>

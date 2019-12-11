@@ -28,30 +28,31 @@ static NSString *downloadedID = @"DownloadedCell";
 
 @implementation DownloadViewCtrl
 
+#pragma mark - lazy
 - (UITableView *)downloadTableView{
     if (!_downloadTableView) {
-        _downloadTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStylePlain];
-        _downloadTableView.backgroundColor = [UIColor lightGrayColor];
+        _downloadTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, kNavBarHeight+90, kScreenWidth, kNavBarHeight) style:UITableViewStylePlain];
+        _downloadTableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         _downloadTableView.delegate = self;
         _downloadTableView.dataSource = self;
     }
     return _downloadTableView;
 }
 
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [FilesDownManage sharedFilesDownManage].downloadDelegate = self;
-    self.isDownloading = YES;
-    self.view.backgroundColor = [UIColor orangeColor];
-    [self buildUI];
-
-    //刷新数据
-    [self getDownLoadData];
-    //刷新单元格
-    [self.downloadTableView reloadData];
+- (UISegmentedControl *)segmentedControl {
+    if (!_segmentedControl) {
+        NSArray *segmentedData = @[@"下载中",@"已下载"];
+        _segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentedData];
+        _segmentedControl.frame = CGRectMake(kScreenWidth/2-60, kNavBarHeight+30, 120, 30);
+        _segmentedControl.tintColor = [UIColor orangeColor];
+        _segmentedControl.selectedSegmentIndex = 0;
+        NSDictionary *highlightAttributes = [NSDictionary dictionaryWithObject:[UIColor redColor] forKey:NSForegroundColorAttributeName];
+        [_segmentedControl setTitleTextAttributes:highlightAttributes forState:UIControlStateHighlighted];
+        [_segmentedControl addTarget:self action:@selector(doSomethingInSegment:) forControlEvents:UIControlEventValueChanged];
+    }
+    return _segmentedControl;
 }
+
 
 - (NSMutableArray *)myDownLoadingArr{
     if (!_myDownLoadingArr) {
@@ -65,6 +66,47 @@ static NSString *downloadedID = @"DownloadedCell";
     }
     return _myDownLoadOverArr;
 }
+
+#pragma mark - cycle
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    [FilesDownManage sharedFilesDownManage].downloadDelegate = self;
+    self.isDownloading = YES;
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    
+    [self buildUI];
+    
+    //刷新数据
+    [self getDownLoadData];
+    //刷新单元格
+    [self.downloadTableView reloadData];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.segmentedControl.hidden = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    self.segmentedControl.hidden = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.segmentedControl.hidden = YES;
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    //    self.segmentedControl.hidden = YES;
+}
+
+
+
+#pragma mark - Data
 //获取未下载和已下载列表
 - (void)getDownLoadData{
     
@@ -93,27 +135,15 @@ static NSString *downloadedID = @"DownloadedCell";
     }
 }
 
+#pragma mark - UI
 - (void)buildUI{
-    NSArray *segmentedData = [[NSArray alloc] initWithObjects:@"下载中",@"已下载", nil];
-    _segmentedControl = [[UISegmentedControl alloc] initWithItems:segmentedData];
-    _segmentedControl.frame = CGRectMake(self.navigationController.view.frame.size.width/2-60, 25, 120, 30);
-    
-    _segmentedControl.tintColor = [UIColor orangeColor];
-    _segmentedControl.selectedSegmentIndex = 0;
-    
-    NSDictionary *highlightAttributes = [NSDictionary dictionaryWithObject:[UIColor redColor] forKey:NSForegroundColorAttributeName];
-    [_segmentedControl setTitleTextAttributes:highlightAttributes forState:UIControlStateHighlighted];
-    [_segmentedControl addTarget:self action:@selector(doSomethingInSegment:) forControlEvents:UIControlEventValueChanged];
-    
-    [self.navigationController.view addSubview:_segmentedControl];
-    
-    
-    //
+    [self.view addSubview:self.segmentedControl];
+
     [self.view addSubview:self.downloadTableView];
 }
 
 
-
+#pragma mark - other
 - (void)doSomethingInSegment:(UISegmentedControl *)seg{
     if (seg.selectedSegmentIndex) {
         NSLog(@"已下载%ld",seg.selectedSegmentIndex);
@@ -123,6 +153,20 @@ static NSString *downloadedID = @"DownloadedCell";
         self.isDownloading = YES;
     }
     [self.downloadTableView reloadData];
+}
+
+- (void)finishedDownload{
+    
+    //更新下载中和已下载的数据
+    [self getDownLoadData];
+    //刷新单元格
+    [self.downloadTableView reloadData];
+    
+//    //正在下载的
+//    if ([self.myDataArr count] == 0)
+//    {
+//        self.myInfoLable.hidden = NO;
+//    }
 }
 
 
@@ -182,11 +226,6 @@ static NSString *downloadedID = @"DownloadedCell";
     }
 }
 
-
-
-
-
-
 #pragma mark - DownloadDelegate
 - (void)updateCellProgress:(NSString *)title withDownProgress:(NSString *)downProgress withTotalSize:(NSString *)size{
     NSArray* cellArr = [self.downloadTableView visibleCells];//获取单元格视图的cell数组
@@ -235,49 +274,6 @@ static NSString *downloadedID = @"DownloadedCell";
         }
     }
 }
-- (void)finishedDownload{
-    
-    //更新下载中和已下载的数据
-    [self getDownLoadData];
-    //刷新单元格
-    [self.downloadTableView reloadData];
-    
-//    //正在下载的
-//    if ([self.myDataArr count] == 0)
-//    {
-//        self.myInfoLable.hidden = NO;
-//    }
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.segmentedControl.hidden = NO;
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    self.segmentedControl.hidden = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.segmentedControl.hidden = YES;
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-//    self.segmentedControl.hidden = YES;
-}
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-
 
 
 @end

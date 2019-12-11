@@ -8,5 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewCtrl : UIViewController<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
+@interface MainViewCtrl : UIViewController
 @end

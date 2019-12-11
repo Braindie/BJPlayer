@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		8792EC928C2C449622D1B75C /* libPods-BJPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 620B6E1064BB3E284C44C58B /* libPods-BJPlayer.a */; };
+		A4A813C323A0E37D009AD342 /* MPMovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A813C223A0E37D009AD342 /* MPMovieViewController.m */; };
+		A4A8154823A0E414009AD342 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154423A0E414009AD342 /* BaseNavigationController.m */; };
+		A4A8154923A0E414009AD342 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154523A0E414009AD342 /* MainTabBarController.m */; };
+		A4A8154C23A0E4A4009AD342 /* MainViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154A23A0E4A3009AD342 /* MainViewCtrl.m */; };
+		A4A8155023A0EC09009AD342 /* AVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154F23A0EC09009AD342 /* AVPlayerViewController.m */; };
 		E501007E1E95EF07001200D7 /* BJAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E501007D1E95EF07001200D7 /* BJAVPlayerView.m */; };
 		E50100801E9609B4001200D7 /* BJAVPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E501007F1E9609B4001200D7 /* BJAVPlayerView.xib */; };
 		E52F00381E8F7F6100C22E23 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = E52F00361E8F7F6100C22E23 /* loading.gif */; };
@@ -15,20 +20,12 @@
 		E52F00651E8F7F9100C22E23 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00421E8F7F9100C22E23 /* BaseModel.m */; };
 		E52F00661E8F7F9100C22E23 /* FileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00441E8F7F9100C22E23 /* FileModel.m */; };
 		E52F00671E8F7F9100C22E23 /* FilesDownManage.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00461E8F7F9100C22E23 /* FilesDownManage.m */; };
-		E52F006A1E8F7F9100C22E23 /* CourseTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */; };
-		E52F006B1E8F7F9100C22E23 /* CourseTableViewContrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */; };
 		E52F006D1E8F7F9100C22E23 /* MobilePlayerViewContrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00531E8F7F9100C22E23 /* MobilePlayerViewContrl.m */; };
 		E52F006E1E8F7F9100C22E23 /* MovieControlsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00551E8F7F9100C22E23 /* MovieControlsView.m */; };
-		E52F006F1E8F7F9100C22E23 /* myhintView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00571E8F7F9100C22E23 /* myhintView.m */; };
-		E52F00701E8F7F9100C22E23 /* MyMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00591E8F7F9100C22E23 /* MyMoviePlayerViewController.m */; };
-		E52F00711E8F7F9100C22E23 /* topBackView.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F005B1E8F7F9100C22E23 /* topBackView.m */; };
 		E52F00721E8F7F9100C22E23 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F005E1E8F7F9100C22E23 /* UserModel.m */; };
 		E52F00731E8F7F9100C22E23 /* ZDBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00601E8F7F9100C22E23 /* ZDBHelper.m */; };
 		E52F00741E8F7F9100C22E23 /* ZDBModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00621E8F7F9100C22E23 /* ZDBModel.m */; };
-		E52F007E1E8F8AA800C22E23 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F007D1E8F8AA800C22E23 /* MainTabBarController.m */; };
-		E52F00811E8F8AC700C22E23 /* AVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00801E8F8AC700C22E23 /* AVPlayerViewController.m */; };
 		E52F00991E8FA48100C22E23 /* DownloadViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00851E8FA48100C22E23 /* DownloadViewCtrl.m */; };
-		E52F009A1E8FA48100C22E23 /* MainViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00871E8FA48100C22E23 /* MainViewCtrl.m */; };
 		E52F009C1E8FA48100C22E23 /* PlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F008B1E8FA48100C22E23 /* PlayerViewController.m */; };
 		E52F009D1E8FA48100C22E23 /* DownloadModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F008E1E8FA48100C22E23 /* DownloadModel.m */; };
 		E52F009E1E8FA48100C22E23 /* DownloadedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00911E8FA48100C22E23 /* DownloadedCell.m */; };
@@ -39,7 +36,6 @@
 		E52F00A31E8FA48100C22E23 /* MainTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E52F00981E8FA48100C22E23 /* MainTableViewCell.xib */; };
 		E548889B20D24E4000C81ED4 /* AMProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E548889720D24E3F00C81ED4 /* AMProgressView.m */; };
 		E548889C20D24E4000C81ED4 /* AMProgressViewGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = E548889920D24E3F00C81ED4 /* AMProgressViewGradient.m */; };
-		E54B2FF51DD98E3F00EC08E4 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E54B2FF41DD98E3F00EC08E4 /* BaseNavigationController.m */; };
 		E577F0A01D8FD8E900CAD0BE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E577F09F1D8FD8E900CAD0BE /* main.m */; };
 		E577F0A31D8FD8E900CAD0BE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E577F0A21D8FD8E900CAD0BE /* AppDelegate.m */; };
 		E577F0AB1D8FD8E900CAD0BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E577F0AA1D8FD8E900CAD0BE /* Assets.xcassets */; };
@@ -107,6 +103,16 @@
 		5846DCD53182F41398D246FD /* Pods-BJPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BJPlayer/Pods-BJPlayer.debug.xcconfig"; sourceTree = "<group>"; };
 		620B6E1064BB3E284C44C58B /* libPods-BJPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BJPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71772E64FB575DB0EE39781A /* Pods-BJPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-BJPlayer/Pods-BJPlayer.release.xcconfig"; sourceTree = "<group>"; };
+		A4A813C123A0E37D009AD342 /* MPMovieViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPMovieViewController.h; sourceTree = "<group>"; };
+		A4A813C223A0E37D009AD342 /* MPMovieViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPMovieViewController.m; sourceTree = "<group>"; };
+		A4A8154423A0E414009AD342 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
+		A4A8154523A0E414009AD342 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
+		A4A8154623A0E414009AD342 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
+		A4A8154723A0E414009AD342 /* MainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
+		A4A8154A23A0E4A3009AD342 /* MainViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCtrl.m; sourceTree = "<group>"; };
+		A4A8154B23A0E4A3009AD342 /* MainViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCtrl.h; sourceTree = "<group>"; };
+		A4A8154E23A0EC09009AD342 /* AVPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerViewController.h; sourceTree = "<group>"; };
+		A4A8154F23A0EC09009AD342 /* AVPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerViewController.m; sourceTree = "<group>"; };
 		E501007C1E95EF07001200D7 /* BJAVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BJAVPlayerView.h; path = BJPlayer/Class/Utils/AVPlayer/BJAVPlayerView.h; sourceTree = SOURCE_ROOT; };
 		E501007D1E95EF07001200D7 /* BJAVPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BJAVPlayerView.m; path = BJPlayer/Class/Utils/AVPlayer/BJAVPlayerView.m; sourceTree = SOURCE_ROOT; };
 		E501007F1E9609B4001200D7 /* BJAVPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BJAVPlayerView.xib; sourceTree = "<group>"; };
@@ -122,34 +128,18 @@
 		E52F00441E8F7F9100C22E23 /* FileModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileModel.m; sourceTree = "<group>"; };
 		E52F00451E8F7F9100C22E23 /* FilesDownManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesDownManage.h; sourceTree = "<group>"; };
 		E52F00461E8F7F9100C22E23 /* FilesDownManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesDownManage.m; sourceTree = "<group>"; };
-		E52F004C1E8F7F9100C22E23 /* CourseTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableCell.h; sourceTree = "<group>"; };
-		E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableCell.m; sourceTree = "<group>"; };
-		E52F004E1E8F7F9100C22E23 /* CourseTableViewContrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseTableViewContrl.h; sourceTree = "<group>"; };
-		E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseTableViewContrl.m; sourceTree = "<group>"; };
 		E52F00521E8F7F9100C22E23 /* MobilePlayerViewContrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobilePlayerViewContrl.h; sourceTree = "<group>"; };
 		E52F00531E8F7F9100C22E23 /* MobilePlayerViewContrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobilePlayerViewContrl.m; sourceTree = "<group>"; };
 		E52F00541E8F7F9100C22E23 /* MovieControlsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MovieControlsView.h; sourceTree = "<group>"; };
 		E52F00551E8F7F9100C22E23 /* MovieControlsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MovieControlsView.m; sourceTree = "<group>"; };
-		E52F00561E8F7F9100C22E23 /* myhintView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myhintView.h; sourceTree = "<group>"; };
-		E52F00571E8F7F9100C22E23 /* myhintView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myhintView.m; sourceTree = "<group>"; };
-		E52F00581E8F7F9100C22E23 /* MyMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMoviePlayerViewController.h; sourceTree = "<group>"; };
-		E52F00591E8F7F9100C22E23 /* MyMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMoviePlayerViewController.m; sourceTree = "<group>"; };
-		E52F005A1E8F7F9100C22E23 /* topBackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = topBackView.h; sourceTree = "<group>"; };
-		E52F005B1E8F7F9100C22E23 /* topBackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = topBackView.m; sourceTree = "<group>"; };
 		E52F005D1E8F7F9100C22E23 /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
 		E52F005E1E8F7F9100C22E23 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		E52F005F1E8F7F9100C22E23 /* ZDBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDBHelper.h; sourceTree = "<group>"; };
 		E52F00601E8F7F9100C22E23 /* ZDBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDBHelper.m; sourceTree = "<group>"; };
 		E52F00611E8F7F9100C22E23 /* ZDBModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDBModel.h; sourceTree = "<group>"; };
 		E52F00621E8F7F9100C22E23 /* ZDBModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDBModel.m; sourceTree = "<group>"; };
-		E52F007C1E8F8AA800C22E23 /* MainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
-		E52F007D1E8F8AA800C22E23 /* MainTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTabBarController.m; sourceTree = "<group>"; };
-		E52F007F1E8F8AC700C22E23 /* AVPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVPlayerViewController.h; sourceTree = "<group>"; };
-		E52F00801E8F8AC700C22E23 /* AVPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVPlayerViewController.m; sourceTree = "<group>"; };
 		E52F00841E8FA48100C22E23 /* DownloadViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadViewCtrl.h; sourceTree = "<group>"; };
 		E52F00851E8FA48100C22E23 /* DownloadViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadViewCtrl.m; sourceTree = "<group>"; };
-		E52F00861E8FA48100C22E23 /* MainViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCtrl.h; sourceTree = "<group>"; };
-		E52F00871E8FA48100C22E23 /* MainViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCtrl.m; sourceTree = "<group>"; };
 		E52F008A1E8FA48100C22E23 /* PlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerViewController.h; sourceTree = "<group>"; };
 		E52F008B1E8FA48100C22E23 /* PlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerViewController.m; sourceTree = "<group>"; };
 		E52F008D1E8FA48100C22E23 /* DownloadModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadModel.h; sourceTree = "<group>"; };
@@ -167,8 +157,6 @@
 		E548889820D24E3F00C81ED4 /* AMProgressViewGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMProgressViewGradient.h; sourceTree = "<group>"; };
 		E548889920D24E3F00C81ED4 /* AMProgressViewGradient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMProgressViewGradient.m; sourceTree = "<group>"; };
 		E548889A20D24E3F00C81ED4 /* AMProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMProgressView.h; sourceTree = "<group>"; };
-		E54B2FF31DD98E3F00EC08E4 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseNavigationController.h; sourceTree = "<group>"; };
-		E54B2FF41DD98E3F00EC08E4 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
 		E577F09B1D8FD8E900CAD0BE /* BJPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BJPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E577F09F1D8FD8E900CAD0BE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E577F0A21D8FD8E900CAD0BE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -268,6 +256,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A4A8154323A0E414009AD342 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				A4A8154623A0E414009AD342 /* BaseNavigationController.h */,
+				A4A8154423A0E414009AD342 /* BaseNavigationController.m */,
+				A4A8154723A0E414009AD342 /* MainTabBarController.h */,
+				A4A8154523A0E414009AD342 /* MainTabBarController.m */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		A4A8154D23A0EC09009AD342 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				A4A8154E23A0EC09009AD342 /* AVPlayerViewController.h */,
+				A4A8154F23A0EC09009AD342 /* AVPlayerViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		C6147CEAFF40D9C5D5DFD3B2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,16 +341,6 @@
 				E52F00531E8F7F9100C22E23 /* MobilePlayerViewContrl.m */,
 				E52F00541E8F7F9100C22E23 /* MovieControlsView.h */,
 				E52F00551E8F7F9100C22E23 /* MovieControlsView.m */,
-				E52F004E1E8F7F9100C22E23 /* CourseTableViewContrl.h */,
-				E52F004F1E8F7F9100C22E23 /* CourseTableViewContrl.m */,
-				E52F004C1E8F7F9100C22E23 /* CourseTableCell.h */,
-				E52F004D1E8F7F9100C22E23 /* CourseTableCell.m */,
-				E52F00561E8F7F9100C22E23 /* myhintView.h */,
-				E52F00571E8F7F9100C22E23 /* myhintView.m */,
-				E52F005A1E8F7F9100C22E23 /* topBackView.h */,
-				E52F005B1E8F7F9100C22E23 /* topBackView.m */,
-				E52F00581E8F7F9100C22E23 /* MyMoviePlayerViewController.h */,
-				E52F00591E8F7F9100C22E23 /* MyMoviePlayerViewController.m */,
 			);
 			path = MPPlayer;
 			sourceTree = "<group>";
@@ -363,18 +361,9 @@
 		E52F00781E8F8A7400C22E23 /* AVMVC */ = {
 			isa = PBXGroup;
 			children = (
-				E52F00791E8F8A7400C22E23 /* controllers */,
+				A4A8154D23A0EC09009AD342 /* Controller */,
 			);
 			path = AVMVC;
-			sourceTree = "<group>";
-		};
-		E52F00791E8F8A7400C22E23 /* controllers */ = {
-			isa = PBXGroup;
-			children = (
-				E52F007F1E8F8AC700C22E23 /* AVPlayerViewController.h */,
-				E52F00801E8F8AC700C22E23 /* AVPlayerViewController.m */,
-			);
-			path = controllers;
 			sourceTree = "<group>";
 		};
 		E52F00821E8FA48100C22E23 /* MPMVC */ = {
@@ -390,8 +379,8 @@
 		E52F00831E8FA48100C22E23 /* Controler */ = {
 			isa = PBXGroup;
 			children = (
-				E52F00861E8FA48100C22E23 /* MainViewCtrl.h */,
-				E52F00871E8FA48100C22E23 /* MainViewCtrl.m */,
+				A4A813C123A0E37D009AD342 /* MPMovieViewController.h */,
+				A4A813C223A0E37D009AD342 /* MPMovieViewController.m */,
 				E52F008A1E8FA48100C22E23 /* PlayerViewController.h */,
 				E52F008B1E8FA48100C22E23 /* PlayerViewController.m */,
 				E52F00841E8FA48100C22E23 /* DownloadViewCtrl.h */,
@@ -481,6 +470,7 @@
 		E577F0B51D8FDAFE00CAD0BE /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				A4A8154323A0E414009AD342 /* Base */,
 				E577F0B91D8FDAFE00CAD0BE /* MainCtrl */,
 				E577F0B61D8FDAFE00CAD0BE /* Categories */,
 				E52F003A1E8F7F9100C22E23 /* Utils */,
@@ -511,10 +501,8 @@
 		E577F0B91D8FDAFE00CAD0BE /* MainCtrl */ = {
 			isa = PBXGroup;
 			children = (
-				E54B2FF31DD98E3F00EC08E4 /* BaseNavigationController.h */,
-				E54B2FF41DD98E3F00EC08E4 /* BaseNavigationController.m */,
-				E52F007C1E8F8AA800C22E23 /* MainTabBarController.h */,
-				E52F007D1E8F8AA800C22E23 /* MainTabBarController.m */,
+				A4A8154B23A0E4A3009AD342 /* MainViewCtrl.h */,
+				A4A8154A23A0E4A3009AD342 /* MainViewCtrl.m */,
 				E52F00821E8FA48100C22E23 /* MPMVC */,
 				E52F00781E8F8A7400C22E23 /* AVMVC */,
 				E58748BD20EB61FA00FA0467 /* FFMpeg */,
@@ -833,18 +821,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E52F00731E8F7F9100C22E23 /* ZDBHelper.m in Sources */,
-				E52F007E1E8F8AA800C22E23 /* MainTabBarController.m in Sources */,
 				E5B424C71D90F2F000FCB78F /* ASIAuthenticationDialog.m in Sources */,
-				E52F006B1E8F7F9100C22E23 /* CourseTableViewContrl.m in Sources */,
-				E54B2FF51DD98E3F00EC08E4 /* BaseNavigationController.m in Sources */,
-				E52F006F1E8F7F9100C22E23 /* myhintView.m in Sources */,
 				E52F00741E8F7F9100C22E23 /* ZDBModel.m in Sources */,
 				E501007E1E95EF07001200D7 /* BJAVPlayerView.m in Sources */,
+				A4A8154923A0E414009AD342 /* MainTabBarController.m in Sources */,
 				E52F00651E8F7F9100C22E23 /* BaseModel.m in Sources */,
 				E5B424C81D90F2F000FCB78F /* ASIDataCompressor.m in Sources */,
 				E52F006D1E8F7F9100C22E23 /* MobilePlayerViewContrl.m in Sources */,
 				E52F00A21E8FA48100C22E23 /* MainTableViewCell.m in Sources */,
-				E52F006A1E8F7F9100C22E23 /* CourseTableCell.m in Sources */,
 				E52F009E1E8FA48100C22E23 /* DownloadedCell.m in Sources */,
 				E5D66A251DD4554E00810600 /* GlobalData.m in Sources */,
 				E52F009C1E8FA48100C22E23 /* PlayerViewController.m in Sources */,
@@ -853,21 +837,21 @@
 				E5B424CC1D90F2F000FCB78F /* ASIHTTPRequest.m in Sources */,
 				E5B424CB1D90F2F000FCB78F /* ASIFormDataRequest.m in Sources */,
 				E5B424CA1D90F2F000FCB78F /* ASIDownloadCache.m in Sources */,
+				A4A8155023A0EC09009AD342 /* AVPlayerViewController.m in Sources */,
 				E5B424CD1D90F2F000FCB78F /* ASIInputStream.m in Sources */,
 				E5B424C91D90F2F000FCB78F /* ASIDataDecompressor.m in Sources */,
 				E52F009D1E8FA48100C22E23 /* DownloadModel.m in Sources */,
 				E52F006E1E8F7F9100C22E23 /* MovieControlsView.m in Sources */,
 				E52F00661E8F7F9100C22E23 /* FileModel.m in Sources */,
-				E52F00701E8F7F9100C22E23 /* MyMoviePlayerViewController.m in Sources */,
 				E5B424DE1D91120700FCB78F /* Reachability.m in Sources */,
-				E52F00811E8F8AC700C22E23 /* AVPlayerViewController.m in Sources */,
-				E52F00711E8F7F9100C22E23 /* topBackView.m in Sources */,
 				E52F00991E8FA48100C22E23 /* DownloadViewCtrl.m in Sources */,
 				E548889B20D24E4000C81ED4 /* AMProgressView.m in Sources */,
-				E52F009A1E8FA48100C22E23 /* MainViewCtrl.m in Sources */,
 				E52F00671E8F7F9100C22E23 /* FilesDownManage.m in Sources */,
+				A4A8154C23A0E4A4009AD342 /* MainViewCtrl.m in Sources */,
 				E52F00A01E8FA48100C22E23 /* DownloadingCell.m in Sources */,
+				A4A8154823A0E414009AD342 /* BaseNavigationController.m in Sources */,
 				E5B424CE1D90F2F000FCB78F /* ASINetworkQueue.m in Sources */,
+				A4A813C323A0E37D009AD342 /* MPMovieViewController.m in Sources */,
 				E5F2D1861E92283A00E5B32A /* MainTableModel.m in Sources */,
 				E58748C320EB61FA00FA0467 /* FFMpegViewController.m in Sources */,
 				E577F0A01D8FD8E900CAD0BE /* main.m in Sources */,

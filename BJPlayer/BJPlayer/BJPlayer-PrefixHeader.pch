@@ -16,5 +16,6 @@
 #import "GlobalData.h"
 
 
+#import <KTVHTTPCache/KTVHTTPCache.h>
 
 #endif /* BJPlayer_PrefixHeader_pch */

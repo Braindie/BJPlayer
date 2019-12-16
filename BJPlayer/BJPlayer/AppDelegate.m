@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MainTabBarController.h"
 
+
 @interface AppDelegate ()
 
 @end
@@ -20,7 +21,8 @@
 
     
     
-
+    NSError * error;
+    [KTVHTTPCache proxyStart:&error];
     
     
 

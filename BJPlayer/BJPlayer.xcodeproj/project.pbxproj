@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8792EC928C2C449622D1B75C /* libPods-BJPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 620B6E1064BB3E284C44C58B /* libPods-BJPlayer.a */; };
+		A419F7DA23A78D50002BC2BA /* BJAudioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A419F7D923A78D50002BC2BA /* BJAudioViewController.m */; };
 		A4A813C323A0E37D009AD342 /* MPMovieViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A813C223A0E37D009AD342 /* MPMovieViewController.m */; };
 		A4A8154823A0E414009AD342 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154423A0E414009AD342 /* BaseNavigationController.m */; };
 		A4A8154923A0E414009AD342 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154523A0E414009AD342 /* MainTabBarController.m */; };
@@ -103,6 +104,8 @@
 		5846DCD53182F41398D246FD /* Pods-BJPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BJPlayer/Pods-BJPlayer.debug.xcconfig"; sourceTree = "<group>"; };
 		620B6E1064BB3E284C44C58B /* libPods-BJPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BJPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		71772E64FB575DB0EE39781A /* Pods-BJPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-BJPlayer/Pods-BJPlayer.release.xcconfig"; sourceTree = "<group>"; };
+		A419F7D823A78D50002BC2BA /* BJAudioViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BJAudioViewController.h; sourceTree = "<group>"; };
+		A419F7D923A78D50002BC2BA /* BJAudioViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BJAudioViewController.m; sourceTree = "<group>"; };
 		A4A813C123A0E37D009AD342 /* MPMovieViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MPMovieViewController.h; sourceTree = "<group>"; };
 		A4A813C223A0E37D009AD342 /* MPMovieViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MPMovieViewController.m; sourceTree = "<group>"; };
 		A4A8154423A0E414009AD342 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
@@ -256,6 +259,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A419F7D723A78D34002BC2BA /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				A419F7D823A78D50002BC2BA /* BJAudioViewController.h */,
+				A419F7D923A78D50002BC2BA /* BJAudioViewController.m */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		A4A8154323A0E414009AD342 /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,8 +461,8 @@
 			isa = PBXGroup;
 			children = (
 				E577F0B51D8FDAFE00CAD0BE /* Class */,
-				E577F0A21D8FD8E900CAD0BE /* AppDelegate.m */,
 				E50100811E960FC3001200D7 /* AppDelegate.h */,
+				E577F0A21D8FD8E900CAD0BE /* AppDelegate.m */,
 				E577F0AA1D8FD8E900CAD0BE /* Assets.xcassets */,
 				E577F0AF1D8FD8E900CAD0BE /* Info.plist */,
 				E577F09E1D8FD8E900CAD0BE /* Supporting Files */,
@@ -501,6 +513,7 @@
 		E577F0B91D8FDAFE00CAD0BE /* MainCtrl */ = {
 			isa = PBXGroup;
 			children = (
+				A419F7D723A78D34002BC2BA /* Audio */,
 				A4A8154B23A0E4A3009AD342 /* MainViewCtrl.h */,
 				A4A8154A23A0E4A3009AD342 /* MainViewCtrl.m */,
 				E52F00821E8FA48100C22E23 /* MPMVC */,
@@ -659,8 +672,6 @@
 				E577F0971D8FD8E900CAD0BE /* Sources */,
 				E577F0981D8FD8E900CAD0BE /* Frameworks */,
 				E577F0991D8FD8E900CAD0BE /* Resources */,
-				1DB274F26ECB708C5C952713 /* [CP] Embed Pods Frameworks */,
-				F7442FA7EDCB51DE51879B7C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -765,21 +776,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1DB274F26ECB708C5C952713 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BJPlayer/Pods-BJPlayer-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		698E63E7609A627A315618F0 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -796,21 +792,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F7442FA7EDCB51DE51879B7C /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BJPlayer/Pods-BJPlayer-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -847,6 +828,7 @@
 				E52F00991E8FA48100C22E23 /* DownloadViewCtrl.m in Sources */,
 				E548889B20D24E4000C81ED4 /* AMProgressView.m in Sources */,
 				E52F00671E8F7F9100C22E23 /* FilesDownManage.m in Sources */,
+				A419F7DA23A78D50002BC2BA /* BJAudioViewController.m in Sources */,
 				A4A8154C23A0E4A4009AD342 /* MainViewCtrl.m in Sources */,
 				E52F00A01E8FA48100C22E23 /* DownloadingCell.m in Sources */,
 				A4A8154823A0E414009AD342 /* BaseNavigationController.m in Sources */,

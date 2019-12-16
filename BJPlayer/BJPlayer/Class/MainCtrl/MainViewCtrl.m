@@ -13,6 +13,7 @@
 #import "MPMovieViewController.h"
 #import "AVPlayerViewController.h"
 #import "FFMpegViewController.h"
+#import "BJAudioViewController.h"
 
 
 @interface MainViewCtrl ()<UITableViewDelegate,UITableViewDataSource>
@@ -48,7 +49,8 @@
     if (!_myDataArr) {
         _myDataArr = @[@{@"title":@"MPMoviePlayer",@"imageUrl":@""},
                        @{@"title":@"AVPlayer",@"imageUrl":@""},
-                       @{@"title":@"基于FFMpeg",@"imageUrl":@""}];
+                       @{@"title":@"基于FFMpeg",@"imageUrl":@""},
+                       @{@"title":@"Audio",@"imageUrl":@""}];
     }
     return _myDataArr;
 }
@@ -82,12 +84,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         MPMovieViewController *vc = [[MPMovieViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.row == 1) {
         AVPlayerViewController *vc = [[AVPlayerViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.row == 2) {
         FFMpegViewController *vc = [[FFMpegViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if (indexPath.row == 3) {
+        BJAudioViewController *vc = [[BJAudioViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

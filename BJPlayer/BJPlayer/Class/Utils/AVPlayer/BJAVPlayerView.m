@@ -13,9 +13,11 @@
 
 @interface BJAVPlayerView ()
 
+// 相当于Controller层
 @property (nonatomic, strong) AVPlayer *player;
+// 相当于View层
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
-//相当于model层
+// 相当于Model层
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 
 
@@ -62,21 +64,7 @@
 
 @implementation BJAVPlayerView
 
-- (AVPlayer *)player {
-    if (!_player) {
-        _player = [[AVPlayer alloc] init];
-    }
-    return _player;
-}
-
-- (AVPlayerLayer *)playerLayer {
-    if (!_playerLayer) {
-        _playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    }
-    return _playerLayer;
-}
-
-
+#pragma mark - cycle
 + (instancetype)initBJAVPlayerView{
     return [[[NSBundle mainBundle] loadNibNamed:@"BJAVPlayerView" owner:self options:nil] lastObject];
 }
@@ -88,13 +76,15 @@
     self.playProgress.value = 0.0;
     self.loadedProgress.progress = 0.0;
     
-    // 播放器UI
-    [self.playerView.layer addSublayer:self.playerLayer];
+
+    // 数据
+//    [self loadData];
+    [self loadCacheData];
+    
+    // UI
+    [self.playerView.layer addSublayer:_playerLayer];
     [self.playerView bringSubviewToFront:_topView];
     [self.playerView bringSubviewToFront:_downView];
-    
-    // 播放器数据
-    [self loadData];
 }
 
 - (void)layoutSubviews{
@@ -112,17 +102,18 @@
 //    NSString *str = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];
 //    NSURL *url = [NSURL fileURLWithPath:str];
     
+    
+//    NSURL *url = [NSURL URLWithString:@"https://media.w3.org/2010/05/sintel/trailer.mp4"];
+
     NSURL *url = [NSURL URLWithString:@"http://video.qulianwu.com/boomboom.mp4"];
-    
-    
     _playerItem = [AVPlayerItem playerItemWithURL:url];
     
+    // Model
     // KVO
     // 观察status属性
     [_playerItem addObserver:self forKeyPath:@"status" options:(NSKeyValueObservingOptionNew) context:nil];
     // 观察缓冲进度
     [_playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-    
     // 通知
     // 播放完成
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
@@ -132,9 +123,28 @@
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterForegroundNotification) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     
-    [_player replaceCurrentItemWithPlayerItem:_playerItem];
+    // Conroller
+    _player = [[AVPlayer alloc] initWithPlayerItem:_playerItem];
+
+    
+    // View
+    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
 }
 
+- (void)loadCacheData {
+//    NSURL *proxyUrl = [KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:@"http://video.qulianwu.com/boomboom.mp4"]];
+    NSURL *proxyUrl = [KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:@"https://media.w3.org/2010/05/sintel/trailer.mp4"]];
+    
+    _player = [AVPlayer playerWithURL:proxyUrl];
+    
+    _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    
+//    [_player play];
+}
+
+
+#pragma mark - Action
+// 播放、暂停
 - (IBAction)playAndPauseAction:(id)sender {
     if (_isPlaying) {
         [_player pause];
@@ -148,11 +158,12 @@
     }
 }
 
+// 设置总时长
 - (void) setMaxDuration:(float)time{
-    
+    NSLog(@"总时长%f",time);
 }
 
-
+// 视频播放完成通知
 - (void)playbackFinished:(NSNotification *)notification {
     NSLog(@"视频播放完成通知");
     
@@ -161,7 +172,7 @@
     [_playerItem seekToTime:kCMTimeZero];
 }
 
-
+// 隐藏工具条
 - (void)portraitHide{
     _isShowToolBar = NO;
     
@@ -169,13 +180,13 @@
         self.topViewTop.constant = -(self.topView.frame.size.height);
         self.downViewBottom.constant = -(self.downView.frame.size.height);
         [self layoutIfNeeded];
-        
-
     } completion:^(BOOL finished) {
         self.topView.hidden = YES;
         self.downView.hidden = YES;
     }];
 }
+
+// 显示工具条
 - (void)portraitShow{
     _isShowToolBar = YES;
     
@@ -184,7 +195,6 @@
         self.downViewBottom.constant = 0;
         [self layoutIfNeeded];
         
-
     } completion:^(BOOL finished) {
         self.topView.hidden = NO;
         self.downView.hidden = NO;

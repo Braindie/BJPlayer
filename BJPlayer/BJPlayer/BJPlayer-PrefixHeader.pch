@@ -17,5 +17,6 @@
 
 
 #import <KTVHTTPCache/KTVHTTPCache.h>
+#import <VIMediaCache/VIMediaCache.h>
 
 #endif /* BJPlayer_PrefixHeader_pch */

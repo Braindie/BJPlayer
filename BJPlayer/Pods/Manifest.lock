@@ -25,12 +25,14 @@ PODS:
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
+  - VIMediaCache (0.3)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - FMDB (~> 2.6.2)
   - KTVHTTPCache (~> 2.0.0)
   - SDWebImage (~> 3.7.5)
+  - VIMediaCache (~> 0.3)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -40,6 +42,7 @@ SPEC REPOS:
     - KTVCocoaHTTPServer
     - KTVHTTPCache
     - SDWebImage
+    - VIMediaCache
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -48,7 +51,8 @@ SPEC CHECKSUMS:
   KTVCocoaHTTPServer: df8d7b861e603ff8037e9b2138aca2563a6b768d
   KTVHTTPCache: 588c3eb16f6bd1e6fde1e230dabfb7bd4e490a4d
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  VIMediaCache: 02c03af2adf2526eddc8ee3b06e41f26e9546f38
 
-PODFILE CHECKSUM: 5602991d2b16cb5c4aa6f9d21e0cd78daa55e1cf
+PODFILE CHECKSUM: ab7025ce53472d8865595bbe8d4c5a94dc76729b
 
 COCOAPODS: 1.7.5

@@ -5,4 +5,5 @@ target 'BJPlayer' do
   pod 'SDWebImage', '~> 3.7.5'
   pod 'FMDB', '~> 2.6.2'
   pod 'KTVHTTPCache', '~> 2.0.0'#KTVCocoaHTTPServer (1.0.0)、CocoaAsyncSocket (7.6.3)
+  pod 'VIMediaCache', '~> 0.3'
 end

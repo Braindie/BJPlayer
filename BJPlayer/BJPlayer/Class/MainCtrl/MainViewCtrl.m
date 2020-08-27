@@ -119,6 +119,7 @@
     
     CGRect frame = CGRectMake(0,0,[UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height);
     UIImageView *qidongImage = [[UIImageView alloc] initWithFrame:frame];
+    qidongImage.contentMode = UIViewContentModeScaleAspectFill;
     NSString *path = [[NSBundle mainBundle] pathForResource:@"loading" ofType:@"gif"];
     NSData *data = [NSData dataWithContentsOfFile:path];
     UIImage *image = [UIImage sd_animatedGIFWithData:data];

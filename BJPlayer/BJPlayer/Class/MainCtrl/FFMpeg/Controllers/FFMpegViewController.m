@@ -7,6 +7,7 @@
 
 #import "FFMpegViewController.h"
 //#import "KxMovieViewController.h"
+ #import "avformat.h"
 
 @interface FFMpegViewController ()
 

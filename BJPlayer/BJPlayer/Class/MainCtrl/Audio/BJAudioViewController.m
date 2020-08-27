@@ -40,16 +40,20 @@
     [self.view addSubview:btn1];
     
     
-    self.urlStr = @"http://audio-1252935738.file.myqcloud.com/1533867727_0fdb8b8843466621fb27d1447519ba35.mp3";
-//    self.urlStr = @"https://media.w3.org/2010/05/sintel/trailer.mp4";
+//    self.urlStr = @"http://audio-1252935738.file.myqcloud.com/1533867727_0fdb8b8843466621fb27d1447519ba35.mp3";
+    self.urlStr = @"https://media.w3.org/2010/05/sintel/trailer.mp4";
     
     self.urlStr = [self.urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
-    
-//    [self loadKTVHTTPCacheData];
+    // 使用VIMediaCache
     [self loadVIMediaCache];
+    
+    // 使用KTVHTTPCache
+//    [self loadKTVHTTPCache];
+    
 }
 
+// 使用VIMediaCache缓存
 - (void)loadVIMediaCache {
     VIResourceLoaderManager *resourceLoaderManager = [VIResourceLoaderManager new];
     self.resourceLoaderManager = resourceLoaderManager;
@@ -59,7 +63,8 @@
     [self.cashPlayer play];
 }
 
-- (void)loadKTVHTTPCacheData {
+// 使用KTVHTTPCacheData缓存
+- (void)loadKTVHTTPCache {
     NSURL *URL = [KTVHTTPCache proxyURLWithOriginalURL:[NSURL URLWithString:self.urlStr]];
     
     self.cashPlayer = [AVPlayer playerWithURL:URL];

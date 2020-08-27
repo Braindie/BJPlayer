@@ -20,10 +20,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     
-    
+    // 启动HttpServer
     NSError * error;
     [KTVHTTPCache proxyStart:&error];
-    
+    [KTVHTTPCache logSetConsoleLogEnable:YES];
     
 
     

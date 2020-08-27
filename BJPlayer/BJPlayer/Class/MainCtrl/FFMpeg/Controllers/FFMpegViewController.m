@@ -6,8 +6,8 @@
 //
 
 #import "FFMpegViewController.h"
-//#import "KxMovieViewController.h"
- #import "avformat.h"
+#import "KxMovieViewController.h"
+// #import "avformat.h"
 
 @interface FFMpegViewController ()
 
@@ -35,9 +35,10 @@
 
 
 - (void)onClickedOKbtn:(UIButton *)sender{
+    NSString *url = @"http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
 //    NSString *url = @"http://live.hkstv.hk.lxdns.com/live/hks/playlist.m3u8";
-//    KxMovieViewController *vc = [KxMovieViewController movieViewControllerWithContentPath:url parameters:nil];
-//    [self presentViewController:vc animated:YES completion:nil];
+    KxMovieViewController *vc = [KxMovieViewController movieViewControllerWithContentPath:url parameters:nil];
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 

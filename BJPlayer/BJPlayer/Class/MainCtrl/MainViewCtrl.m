@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 
 #import "MPMovieViewController.h"
-#import "AVPlayerViewController.h"
+#import "BJAVPlayerViewController.h"
 #import "FFMpegViewController.h"
 #import "BJAudioViewController.h"
 
@@ -47,10 +47,10 @@
 
 - (NSArray *)myDataArr{
     if (!_myDataArr) {
-        _myDataArr = @[@{@"title":@"MPMoviePlayer",@"imageUrl":@""},
-                       @{@"title":@"AVPlayer",@"imageUrl":@""},
-                       @{@"title":@"基于FFMpeg",@"imageUrl":@""},
-                       @{@"title":@"Audio",@"imageUrl":@""}];
+        _myDataArr = @[@{@"title":@"MediaPlayer",@"imageUrl":@""},
+                       @{@"title":@"AVFoundation",@"imageUrl":@""},
+                       @{@"title":@"FFMpeg",@"imageUrl":@""},
+                       @{@"title":@"Cache",@"imageUrl":@""}];
     }
     return _myDataArr;
 }
@@ -87,7 +87,7 @@
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.row == 1) {
-        AVPlayerViewController *vc = [[AVPlayerViewController alloc] init];
+        BJAVPlayerViewController *vc = [[BJAVPlayerViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     } else if (indexPath.row == 2) {

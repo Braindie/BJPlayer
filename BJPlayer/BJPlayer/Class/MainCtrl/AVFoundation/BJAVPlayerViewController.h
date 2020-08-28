@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AVPlayerViewController : UIViewController
+@interface BJAVPlayerViewController : UIViewController
 
 @end

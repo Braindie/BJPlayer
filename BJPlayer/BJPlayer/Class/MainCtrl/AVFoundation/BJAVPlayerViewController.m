@@ -6,14 +6,14 @@
 //  Copyright © 2017年 zhangwenjun. All rights reserved.
 //
 
-#import "AVPlayerViewController.h"
+#import "BJAVPlayerViewController.h"
 #import "BJAVPlayerView.h"
 
-@interface AVPlayerViewController ()
+@interface BJAVPlayerViewController ()
 @property (nonatomic, strong) BJAVPlayerView *playerView;
 @end
 
-@implementation AVPlayerViewController
+@implementation BJAVPlayerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,7 +26,11 @@
 
 - (void)buildUI{
     self.playerView = [BJAVPlayerView initBJAVPlayerView];
-    self.playerView.frame = CGRectMake(0, kNavBarHeight, kScreenWidth, kScreenHeight*14/25);
+    if (@available(iOS 11.0, *)) {
+        self.playerView.frame = CGRectMake(0, kNavBarHeight, kScreenWidth, kScreenHeight*14/25);
+    } else {
+        // Fallback on earlier versions
+    }
     [self.view addSubview:self.playerView];
     
 }

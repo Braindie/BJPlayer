@@ -243,7 +243,7 @@ static void avStreamFPSTimeBase(AVStream *st, CGFloat defaultTimeBase, CGFloat *
         *pTimeBase = timebase;
 }
 
-static NSArray *collectStreams(AVFormatContext *formatCtx, enum AVMediaType codecType)
+static NSArray *collectStreams(AVFormatContext *formatCtx, enum FF_AVMediaType codecType)
 {
     NSMutableArray *ma = [NSMutableArray array];
     for (NSInteger i = 0; i < formatCtx->nb_streams; ++i)

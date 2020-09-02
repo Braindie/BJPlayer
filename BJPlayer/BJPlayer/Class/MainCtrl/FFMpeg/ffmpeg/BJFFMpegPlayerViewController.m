@@ -11,7 +11,12 @@
 #import "BJFFMpegMovieManager.h"
 
 
-@interface BJFFMpegPlayerViewController ()
+#import "ST_AudioPlayer.h"
+#import "CommonUtil.h"
+
+@interface BJFFMpegPlayerViewController (){
+    ST_AudioPlayer *_aduioPlayer;
+}
 
 @property (nonatomic, strong) BJFFMpegMovieManager *video;
 @property (nonatomic, assign) float lastFrameTime;
@@ -41,49 +46,54 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+}
+
+//- (void)playAction {
+//
+//    NSString *filePath = [CommonUtil bundlePath:@"wildAnimal.mp4"];
+//    _aduioPlayer = [[ST_AudioPlayer alloc] initWithFilePath:filePath];
+//
+//    [_aduioPlayer start];
+//}
+
+- (void)playAction {
 
 //    NSString *url = @"http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8";
 
-    NSString *url = @"http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
+//    NSString *url = @"http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8";
 
 //    NSString *url = @"http://video.qulianwu.com/boomboom.mp4";
 
-//    NSString *url = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];
+    NSString *url = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];
 
 //    NSString *url = @"http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8";
 
-    
-    
+
+
     self.video = [[BJFFMpegMovieManager alloc] initWithVideo:url];
-    
-    
+
     int tns, thh, tmm, tss;
     tns = self.video.duration;
     thh = tns / 3600;
     tmm = (tns % 3600) / 60;
     tss = tns % 60;
-}
 
-- (void)playAction {
-        
     [self.video seekTime:0.0];
 
-    [NSTimer scheduledTimerWithTimeInterval: 1 / self.video.fps
-                                     target:self
-                                   selector:@selector(displayNextFrame:)
-                                   userInfo:nil
-                                    repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1/self.video.fps repeats:YES block:^(NSTimer * _Nonnull timer) {
+        // 下一帧
+        [self.video stepFrame];
+
+        // 获取下一帧画面
+        NSLog(@"%@", self.video.currentImage);
+        self.imageView.image = self.video.currentImage;
+    }];
+    
+    NSString *filePath = [CommonUtil bundlePath:@"wildAnimal.mp4"];
+    _aduioPlayer = [[ST_AudioPlayer alloc] initWithFilePath:filePath];
+
+    [_aduioPlayer start];
 }
 
-- (void)displayNextFrame:(NSTimer *)timer {
-    
-    // 下一帧
-    [self.video stepFrame];
-    
-    // 获取下一帧画面
-    NSLog(@"%@", self.video.currentImage);
-    self.imageView.image = self.video.currentImage;
-}
 
 @end

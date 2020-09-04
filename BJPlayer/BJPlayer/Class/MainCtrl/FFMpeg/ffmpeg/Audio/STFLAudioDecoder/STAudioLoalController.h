@@ -7,14 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "STFFmpegLocalAudioDecoder.h"
 
 @interface STAudioLoalController : NSObject
 
 - (instancetype)initWith:(NSString *)filePath packetBufferTimePercent:(float)packetBufferTimePercent;
 
 - (NSInteger)getChannels;
+
 - (NSInteger)getAudioSampleRate;
 
 - (int)readSamples:(short *)samples size:(int)size;
+
 @end

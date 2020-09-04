@@ -8,6 +8,8 @@
 
 #import "ST_AudioPlayer.h"
 #import "ST_AudioOutput.h"
+
+// 解码相关
 #import "STAudioLoalController.h"
 
 @interface ST_AudioPlayer()<FillDataOutputDelegate>
@@ -68,7 +70,6 @@
 - (void)start
 {
     if (_audioOutput) {
-        
         [_audioOutput play];
     }
 }

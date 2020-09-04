@@ -7,18 +7,17 @@
 //
 
 #import "STAudioLoalController.h"
+#import "STFFmpegLocalAudioDecoder.h"
 #import "STMediaCache.h"
 
 #define CHANNEL_PER_FRAME    2
 #define BITS_PER_CHANNEL        16
 #define BITS_PER_BYTE        8
 
-@interface STAudioLoalController()
-{
+@interface STAudioLoalController() {
     STFFmpegLocalAudioDecoder * _deCoder;
     STAudioLocalPacket *_currentAccompanyPacket;
     int _currentAccompanyPacketCursor;
-
 }
 
 @property (nonatomic, strong) NSString *filePath;
@@ -35,8 +34,7 @@
 @implementation STAudioLoalController
 
 
-- (instancetype)initWith:(NSString *)filePath packetBufferTimePercent:(float)packetBufferTimePercent
-{
+- (instancetype)initWith:(NSString *)filePath packetBufferTimePercent:(float)packetBufferTimePercent {
     self = [super init];
     
     if (self) {
@@ -54,23 +52,35 @@
         
         _deCoder.packetBufferSize = _packetBufferSize;
         
+        // 用到了生产模式消费模式搞了一个线程不间断的生产数据,然后放到队列中,系统快消耗完了就去补货
         [self doStartDecoder];
         
     }
     return self;
 }
 
-
-- (NSInteger)getChannels
-{
+- (NSInteger)getChannels {
     return [_deCoder getChannels];
 }
 
-- (NSInteger)getAudioSampleRate
-{
+- (NSInteger)getAudioSampleRate {
     return [_deCoder getAudioSampleRate];
 }
 
+#pragma mark -
+- (void)doStartDecoder {
+    [self performSelector:@selector(startDecoder) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:@[NSRunLoopCommonModes]];
+}
+
+- (void)startDecoder {
+    while (self.audioCache.getQueueCount < self.audioCache.capacity) {
+        // 解码线程.....
+        STAudioLocalPacket *packet = [_deCoder decodePacket];
+        [self.audioCache publish:packet];
+//        NSLog(@"🐲---------%d", self.audioCache.getQueueCount);
+    }
+    
+}
 
 + (void)networkRequestThreadEntryPoint:(id)__unused object {
     @autoreleasepool {
@@ -94,27 +104,8 @@
     return _networkRequestThread;
 }
 
-
-- (void)doStartDecoder
-{
-    
-    [self performSelector:@selector(startDecoder) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:@[NSRunLoopCommonModes]];
-}
-
-
-- (void)startDecoder
-{
-    while (self.audioCache.getQueueCount < self.audioCache.capacity) {
-        // 解码线程.....
-        STAudioLocalPacket *packet = [_deCoder decodePacket];
-        [self.audioCache publish:packet];
-//        NSLog(@"🐲---------%d", self.audioCache.getQueueCount);
-    }
-    
-}
-
-- (int)readSamples:(short *)samples size:(int)size
-{
+#pragma mark -
+- (int)readSamples:(short *)samples size:(int)size {
     int result = -1;
     int fillCuror = 0;
     int sampleCursor = 0;
@@ -164,9 +155,9 @@
     
     
     return result;
-    
 }
 
+#pragma mark -
 - (STMediaCache *)audioCache
 {
     if (!_audioCache) {

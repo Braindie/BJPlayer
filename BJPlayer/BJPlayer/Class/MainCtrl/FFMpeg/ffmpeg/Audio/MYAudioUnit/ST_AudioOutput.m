@@ -7,12 +7,8 @@
 //
 
 #import "ST_AudioOutput.h"
-
 #import <AudioToolbox/AudioToolbox.h>
-//#import <Accelerate/Accelerate.h>
 #import "ST_AudioSession.h"
-#import "CommonUtil.h"
-
 
 static const AudioUnitElement inputElement = 1;
 
@@ -24,8 +20,8 @@ static OSStatus STInputRenderCallback(void * inRefCon,
                                       AudioBufferList * __nullable    ioData);
 static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
 
+
 @interface ST_AudioOutput(){
-    
     SInt16 *_outData;
 }
 
@@ -34,10 +30,9 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
 @property (nonatomic, assign) AudioUnit ioUnit;
 @property (nonatomic, assign) AUNode convertNote;
 @property (nonatomic, assign) AudioUnit convertUnit;
-
 @property (nonatomic, weak) id <FillDataOutputDelegate> delegate;
-@end
 
+@end
 
 
 @implementation ST_AudioOutput
@@ -45,19 +40,16 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
 - (id)initWithChannels:(NSInteger)channels
             sampleRate:(NSInteger)sampleRate
         bytesPerSample:(NSInteger)bytePerSample
-      fileDataDelegate:(id<FillDataOutputDelegate>)fileDataDelegate
-
-{
+      fileDataDelegate:(id<FillDataOutputDelegate>)fileDataDelegate {
     self = [super init];
     
     if (self) {
         
+        /// 创建AVAudioSession会话，管理获取y硬件信息
         [[ST_AudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback];
         [[ST_AudioSession sharedInstance] setPreferredSampleRate:sampleRate];
         [[ST_AudioSession sharedInstance] setPreferredLatency:1*1024.0/sampleRate];
         [[ST_AudioSession sharedInstance] setActive:YES];
-        
-        
         [[ST_AudioSession sharedInstance] addRouteChangeListener];
         
         [self addAudioSessionInterruptedObserver];
@@ -68,22 +60,22 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
         _sampleRate = sampleRate;
         _channels = channels;
         
+        
+        /// 确定AudioUnit类型
         [self createAudioUnitGrap];
     }
     
     return self;
 }
 
-
-- (void)createAudioUnitGrap
-{
+#pragma mark -
+- (void)createAudioUnitGrap {
     
     OSStatus status = noErr;
     
     status = NewAUGraph(&_auGraph);
     CheckStatus(status, @"NewAUGraph create Error", YES);
     
-
     [self addAudioUnitNodes];
     
     // 必须在获取AudioUnit 之前打开整个_auGraph
@@ -101,8 +93,10 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     CheckStatus(status, @"Could not initialize AUGraph", YES);
 }
 
-- (void)addAudioUnitNodes
-{
+#pragma mark --
+/// 获取AUNode
+- (void)addAudioUnitNodes {
+    
     OSStatus status = noErr;
     
     AudioComponentDescription ioDescription;
@@ -129,9 +123,8 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     
 }
 
-
-- (void)getUnitsFromNodes
-{
+/// 获取AudioUnit
+- (void)getUnitsFromNodes {
     
     OSStatus status = noErr;
     
@@ -142,8 +135,8 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     CheckStatus(status, @"AUGraphNodeInfo _convertUnit Error", YES);
 }
 
-- (void)setAudioUnitProPerties
-{
+/// 设置AudioUnit
+- (void)setAudioUnitProPerties {
     
     OSStatus status = noErr;
     AudioStreamBasicDescription streamFormat = [self nonInterleavedPCMFormatWithChannels:_channels];
@@ -179,8 +172,8 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     CheckStatus(status, @"augraph recorder normal unit set client format error", YES);
 }
 
-- (AudioStreamBasicDescription)nonInterleavedPCMFormatWithChannels:(UInt32)channels
-{
+- (AudioStreamBasicDescription)nonInterleavedPCMFormatWithChannels:(UInt32)channels {
+    
     UInt32 bytesPerSample = sizeof(Float32);
     
     AudioStreamBasicDescription asbd;
@@ -195,12 +188,12 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     asbd.mFramesPerPacket = 1;
     asbd.mChannelsPerFrame = channels;
     
-    
     return asbd;
 }
 
-- (void)makeNodeConnections
-{
+/// 设置连接
+- (void)makeNodeConnections {
+    
     OSStatus status = noErr;
     
     status = AUGraphConnectNodeInput(_auGraph, _convertNote, 0, _ioNNode, 0);
@@ -215,28 +208,23 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     CheckStatus(status, @"Could not set render callback on mixer input scope, element 1", YES);
 }
 
-- (BOOL)play
-
-{
+#pragma mark -
+- (BOOL)play {
     OSStatus status = AUGraphStart(_auGraph);
     CheckStatus(status, @"Could not start AUGraph", YES);
-
-    
     return YES;
 }
 
-- (void)stop
-{
+- (void)stop {
     OSStatus status = AUGraphStop(_auGraph);
     CheckStatus(status, @"Could not stop AUGraph", YES);
 }
 
+#pragma mark -
 // AudioSession 被打断的通知
-- (void)addAudioSessionInterruptedObserver
-{
+- (void)addAudioSessionInterruptedObserver {
     [self removeAudioSessionInterruptedObserver];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onNotificationAudioInterrupted:)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onNotificationAudioInterrupted:)
                                                  name:AVAudioSessionInterruptionNotification
                                                object:[AVAudioSession sharedInstance]];
 }
@@ -255,30 +243,23 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     }
 }
 
-- (void)removeAudioSessionInterruptedObserver
-{
+- (void)removeAudioSessionInterruptedObserver {
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:AVAudioSessionInterruptionNotification
                                                   object:nil];
 }
 
-
-- (void)dealloc
-{
+- (void)dealloc {
     if (_outData) {
-        
         free(_outData);
         _outData = NULL;
-        
     }
-    
     
     [self destroyAudioUnitGraph];
     [self removeAudioSessionInterruptedObserver];
 }
 
-- (void)destroyAudioUnitGraph
-{
+- (void)destroyAudioUnitGraph {
     AUGraphStop(_auGraph);
     AUGraphUninitialize(_auGraph);
     AUGraphClose(_auGraph);
@@ -293,8 +274,7 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
            atTimeStamp:(const AudioTimeStamp *)timeStamp
             forElement:(UInt32)element
           numberFrames:(UInt32)numFrames
-                 flags:(AudioUnitRenderActionFlags *)flags
-{
+                 flags:(AudioUnitRenderActionFlags *)flags {
     
     NSLog(@"🙂%lf", [ST_AudioSession sharedInstance].audioSession.preferredIOBufferDuration);
     for (int iBuffer = 0; iBuffer < ioData->mNumberBuffers; ++iBuffer) {
@@ -303,10 +283,8 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
         memset(ioData->mBuffers[iBuffer].mData, 0, ioData->mBuffers[iBuffer].mDataByteSize);
     }
     
-    
     if (_delegate) {
         [_delegate fillAudioData:_outData numFrames:numFrames numChannels:_channels];
-        
         
         for (int iBuffer = 0; iBuffer < ioData->mNumberBuffers;  ++iBuffer) {
 
@@ -318,17 +296,15 @@ static void CheckStatus(OSStatus status, NSString *message, BOOL fatal);
     return noErr;
 }
 
-
-
 @end
+
 
 static OSStatus STInputRenderCallback(void * inRefCon,
                                       AudioUnitRenderActionFlags *    ioActionFlags,
                                       const AudioTimeStamp *            inTimeStamp,
                                       UInt32                            inBusNumber,
                                       UInt32                            inNumberFrames,
-                                      AudioBufferList * __nullable    ioData)
-{
+                                      AudioBufferList * __nullable    ioData) {
     
  
     
@@ -341,8 +317,7 @@ static OSStatus STInputRenderCallback(void * inRefCon,
                              flags:ioActionFlags];
 }
 
-static void CheckStatus(OSStatus status, NSString *message, BOOL fatal)
-{
+static void CheckStatus(OSStatus status, NSString *message, BOOL fatal) {
     
     if(status != noErr)
     {

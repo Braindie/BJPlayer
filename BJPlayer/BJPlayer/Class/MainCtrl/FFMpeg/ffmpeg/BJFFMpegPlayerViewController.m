@@ -10,9 +10,7 @@
 
 #import "BJFFMpegMovieManager.h"
 
-
 #import "ST_AudioPlayer.h"
-#import "CommonUtil.h"
 
 @interface BJFFMpegPlayerViewController (){
     ST_AudioPlayer *_aduioPlayer;
@@ -64,7 +62,7 @@
 
 //    NSString *url = @"http://video.qulianwu.com/boomboom.mp4";
 
-    NSString *url = [[NSBundle mainBundle] pathForResource:@"wildAnimal" ofType:@"mp4"];
+    NSString *url = [[NSBundle mainBundle] pathForResource:@"boomboom" ofType:@"mp4"];
 
 //    NSString *url = @"http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8";
 
@@ -89,8 +87,7 @@
         self.imageView.image = self.video.currentImage;
     }];
     
-    NSString *filePath = [CommonUtil bundlePath:@"wildAnimal.mp4"];
-    _aduioPlayer = [[ST_AudioPlayer alloc] initWithFilePath:filePath];
+    _aduioPlayer = [[ST_AudioPlayer alloc] initWithFilePath:url];
 
     [_aduioPlayer start];
 }

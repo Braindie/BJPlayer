@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8792EC928C2C449622D1B75C /* libPods-BJPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 620B6E1064BB3E284C44C58B /* libPods-BJPlayer.a */; };
 		A43BEAD724F91E4700DB7616 /* FFMpegViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A43BEAD124F91E4700DB7616 /* FFMpegViewController.m */; };
-		A43BEAD824F91E4700DB7616 /* BJFFMpegMovieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A43BEAD324F91E4700DB7616 /* BJFFMpegMovieManager.m */; };
 		A43BEAD924F91E4700DB7616 /* BJFFMpegPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A43BEAD424F91E4700DB7616 /* BJFFMpegPlayerViewController.m */; };
 		A43BEB0D24F91FEA00DB7616 /* BJAVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A43BEAEE24F91FEA00DB7616 /* BJAVPlayerView.m */; };
 		A43BEB0E24F91FEA00DB7616 /* BJAVPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A43BEAEF24F91FEA00DB7616 /* BJAVPlayerView.xib */; };
@@ -46,17 +45,16 @@
 		A4A8154823A0E414009AD342 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154423A0E414009AD342 /* BaseNavigationController.m */; };
 		A4A8154923A0E414009AD342 /* MainTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154523A0E414009AD342 /* MainTabBarController.m */; };
 		A4A8154C23A0E4A4009AD342 /* MainViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = A4A8154A23A0E4A3009AD342 /* MainViewCtrl.m */; };
-		A4AC07B424FFA5840048EDC6 /* CommonUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC079C24FFA5840048EDC6 /* CommonUtil.m */; };
-		A4AC07B524FFA5840048EDC6 /* ST_AudioOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC079E24FFA5840048EDC6 /* ST_AudioOutput.m */; };
-		A4AC07B624FFA5840048EDC6 /* ST_AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07A124FFA5840048EDC6 /* ST_AudioPlayer.mm */; };
-		A4AC07B724FFA5840048EDC6 /* AVAudioSession+ST_RouteUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07A324FFA5840048EDC6 /* AVAudioSession+ST_RouteUtils.m */; };
-		A4AC07B824FFA5840048EDC6 /* ST_AudioSession.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07A524FFA5840048EDC6 /* ST_AudioSession.m */; };
-		A4AC07B924FFA5840048EDC6 /* STFFmpegLocalAudioDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07AB24FFA5840048EDC6 /* STFFmpegLocalAudioDecoder.m */; };
-		A4AC07BA24FFA5840048EDC6 /* STAudioLoalController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07AC24FFA5840048EDC6 /* STAudioLoalController.m */; };
-		A4AC07BB24FFA5840048EDC6 /* STAudioLocalPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07AE24FFA5840048EDC6 /* STAudioLocalPacket.m */; };
-		A4AC07BC24FFA5840048EDC6 /* STBSRateObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07AF24FFA5840048EDC6 /* STBSRateObjc.m */; };
-		A4AC07BD24FFA5840048EDC6 /* STMediaCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07B024FFA5840048EDC6 /* STMediaCache.m */; };
-		A4AC07BE24FFA5840048EDC6 /* STLinkedBlockingQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A4AC07B124FFA5840048EDC6 /* STLinkedBlockingQueue.m */; };
+		A4D89DB32500E89C00C100E5 /* BJFFMpegMovieManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89D9B2500E89C00C100E5 /* BJFFMpegMovieManager.m */; };
+		A4D89DB42500E89C00C100E5 /* STFFmpegLocalAudioDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DA32500E89C00C100E5 /* STFFmpegLocalAudioDecoder.m */; };
+		A4D89DB52500E89C00C100E5 /* STAudioLoalController.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DA42500E89C00C100E5 /* STAudioLoalController.m */; };
+		A4D89DB62500E89C00C100E5 /* STAudioLocalPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DA62500E89C00C100E5 /* STAudioLocalPacket.m */; };
+		A4D89DB72500E89C00C100E5 /* STBSRateObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DA72500E89C00C100E5 /* STBSRateObjc.m */; };
+		A4D89DB82500E89C00C100E5 /* STMediaCache.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DA82500E89C00C100E5 /* STMediaCache.m */; };
+		A4D89DB92500E89C00C100E5 /* STLinkedBlockingQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DA92500E89C00C100E5 /* STLinkedBlockingQueue.m */; };
+		A4D89DBA2500E89C00C100E5 /* ST_AudioOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DAD2500E89C00C100E5 /* ST_AudioOutput.m */; };
+		A4D89DBB2500E89C00C100E5 /* ST_AudioPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DAF2500E89C00C100E5 /* ST_AudioPlayer.mm */; };
+		A4D89DBC2500E89C00C100E5 /* ST_AudioSession.m in Sources */ = {isa = PBXBuildFile; fileRef = A4D89DB22500E89C00C100E5 /* ST_AudioSession.m */; };
 		E52F00381E8F7F6100C22E23 /* loading.gif in Resources */ = {isa = PBXBuildFile; fileRef = E52F00361E8F7F6100C22E23 /* loading.gif */; };
 		E52F00391E8F7F6100C22E23 /* wildAnimal.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E52F00371E8F7F6100C22E23 /* wildAnimal.mp4 */; };
 		E52F00651E8F7F9100C22E23 /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E52F00421E8F7F9100C22E23 /* BaseModel.m */; };
@@ -134,9 +132,7 @@
 		71772E64FB575DB0EE39781A /* Pods-BJPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BJPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-BJPlayer/Pods-BJPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		A43BEAD024F91E4700DB7616 /* FFMpegViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFMpegViewController.h; sourceTree = "<group>"; };
 		A43BEAD124F91E4700DB7616 /* FFMpegViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFMpegViewController.m; sourceTree = "<group>"; };
-		A43BEAD324F91E4700DB7616 /* BJFFMpegMovieManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJFFMpegMovieManager.m; sourceTree = "<group>"; };
 		A43BEAD424F91E4700DB7616 /* BJFFMpegPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJFFMpegPlayerViewController.m; sourceTree = "<group>"; };
-		A43BEAD524F91E4700DB7616 /* BJFFMpegMovieManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJFFMpegMovieManager.h; sourceTree = "<group>"; };
 		A43BEAD624F91E4700DB7616 /* BJFFMpegPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJFFMpegPlayerViewController.h; sourceTree = "<group>"; };
 		A43BEAEB24F91FEA00DB7616 /* BJAVPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJAVPlayerViewController.h; sourceTree = "<group>"; };
 		A43BEAED24F91FEA00DB7616 /* BJAVPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJAVPlayerView.h; sourceTree = "<group>"; };
@@ -287,29 +283,27 @@
 		A4A8154723A0E414009AD342 /* MainTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTabBarController.h; sourceTree = "<group>"; };
 		A4A8154A23A0E4A3009AD342 /* MainViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCtrl.m; sourceTree = "<group>"; };
 		A4A8154B23A0E4A3009AD342 /* MainViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCtrl.h; sourceTree = "<group>"; };
-		A4AC079C24FFA5840048EDC6 /* CommonUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonUtil.m; sourceTree = "<group>"; };
-		A4AC079D24FFA5840048EDC6 /* AVAudioSession+ST_RouteUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVAudioSession+ST_RouteUtils.h"; sourceTree = "<group>"; };
-		A4AC079E24FFA5840048EDC6 /* ST_AudioOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ST_AudioOutput.m; sourceTree = "<group>"; };
-		A4AC079F24FFA5840048EDC6 /* ST_AudioSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ST_AudioSession.h; sourceTree = "<group>"; };
-		A4AC07A024FFA5840048EDC6 /* CommonUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonUtil.h; sourceTree = "<group>"; };
-		A4AC07A124FFA5840048EDC6 /* ST_AudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ST_AudioPlayer.mm; sourceTree = "<group>"; };
-		A4AC07A224FFA5840048EDC6 /* ST_AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ST_AudioOutput.h; sourceTree = "<group>"; };
-		A4AC07A324FFA5840048EDC6 /* AVAudioSession+ST_RouteUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVAudioSession+ST_RouteUtils.m"; sourceTree = "<group>"; };
-		A4AC07A424FFA5840048EDC6 /* ST_AudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ST_AudioPlayer.h; sourceTree = "<group>"; };
-		A4AC07A524FFA5840048EDC6 /* ST_AudioSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ST_AudioSession.m; sourceTree = "<group>"; };
-		A4AC07A724FFA5840048EDC6 /* STAudioLocalPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAudioLocalPacket.h; sourceTree = "<group>"; };
-		A4AC07A824FFA5840048EDC6 /* WTFFmpegProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTFFmpegProtocol.h; sourceTree = "<group>"; };
-		A4AC07A924FFA5840048EDC6 /* STMediaCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMediaCache.h; sourceTree = "<group>"; };
-		A4AC07AA24FFA5840048EDC6 /* STBSRateObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBSRateObjc.h; sourceTree = "<group>"; };
-		A4AC07AB24FFA5840048EDC6 /* STFFmpegLocalAudioDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFFmpegLocalAudioDecoder.m; sourceTree = "<group>"; };
-		A4AC07AC24FFA5840048EDC6 /* STAudioLoalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAudioLoalController.m; sourceTree = "<group>"; };
-		A4AC07AD24FFA5840048EDC6 /* STLinkedBlockingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLinkedBlockingQueue.h; sourceTree = "<group>"; };
-		A4AC07AE24FFA5840048EDC6 /* STAudioLocalPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAudioLocalPacket.m; sourceTree = "<group>"; };
-		A4AC07AF24FFA5840048EDC6 /* STBSRateObjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBSRateObjc.m; sourceTree = "<group>"; };
-		A4AC07B024FFA5840048EDC6 /* STMediaCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STMediaCache.m; sourceTree = "<group>"; };
-		A4AC07B124FFA5840048EDC6 /* STLinkedBlockingQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLinkedBlockingQueue.m; sourceTree = "<group>"; };
-		A4AC07B224FFA5840048EDC6 /* STAudioLoalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAudioLoalController.h; sourceTree = "<group>"; };
-		A4AC07B324FFA5840048EDC6 /* STFFmpegLocalAudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFFmpegLocalAudioDecoder.h; sourceTree = "<group>"; };
+		A4D89D9B2500E89C00C100E5 /* BJFFMpegMovieManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BJFFMpegMovieManager.m; sourceTree = "<group>"; };
+		A4D89D9C2500E89C00C100E5 /* BJFFMpegMovieManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BJFFMpegMovieManager.h; sourceTree = "<group>"; };
+		A4D89D9F2500E89C00C100E5 /* STAudioLocalPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAudioLocalPacket.h; sourceTree = "<group>"; };
+		A4D89DA02500E89C00C100E5 /* WTFFmpegProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTFFmpegProtocol.h; sourceTree = "<group>"; };
+		A4D89DA12500E89C00C100E5 /* STMediaCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STMediaCache.h; sourceTree = "<group>"; };
+		A4D89DA22500E89C00C100E5 /* STBSRateObjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STBSRateObjc.h; sourceTree = "<group>"; };
+		A4D89DA32500E89C00C100E5 /* STFFmpegLocalAudioDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STFFmpegLocalAudioDecoder.m; sourceTree = "<group>"; };
+		A4D89DA42500E89C00C100E5 /* STAudioLoalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAudioLoalController.m; sourceTree = "<group>"; };
+		A4D89DA52500E89C00C100E5 /* STLinkedBlockingQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STLinkedBlockingQueue.h; sourceTree = "<group>"; };
+		A4D89DA62500E89C00C100E5 /* STAudioLocalPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STAudioLocalPacket.m; sourceTree = "<group>"; };
+		A4D89DA72500E89C00C100E5 /* STBSRateObjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STBSRateObjc.m; sourceTree = "<group>"; };
+		A4D89DA82500E89C00C100E5 /* STMediaCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STMediaCache.m; sourceTree = "<group>"; };
+		A4D89DA92500E89C00C100E5 /* STLinkedBlockingQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STLinkedBlockingQueue.m; sourceTree = "<group>"; };
+		A4D89DAA2500E89C00C100E5 /* STAudioLoalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STAudioLoalController.h; sourceTree = "<group>"; };
+		A4D89DAB2500E89C00C100E5 /* STFFmpegLocalAudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STFFmpegLocalAudioDecoder.h; sourceTree = "<group>"; };
+		A4D89DAD2500E89C00C100E5 /* ST_AudioOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ST_AudioOutput.m; sourceTree = "<group>"; };
+		A4D89DAE2500E89C00C100E5 /* ST_AudioSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ST_AudioSession.h; sourceTree = "<group>"; };
+		A4D89DAF2500E89C00C100E5 /* ST_AudioPlayer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ST_AudioPlayer.mm; sourceTree = "<group>"; };
+		A4D89DB02500E89C00C100E5 /* ST_AudioOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ST_AudioOutput.h; sourceTree = "<group>"; };
+		A4D89DB12500E89C00C100E5 /* ST_AudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ST_AudioPlayer.h; sourceTree = "<group>"; };
+		A4D89DB22500E89C00C100E5 /* ST_AudioSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ST_AudioSession.m; sourceTree = "<group>"; };
 		E50100811E960FC3001200D7 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E51FF24D21257778009F76F4 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		E51FF24F21257791009F76F4 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -447,12 +441,10 @@
 		A43BEAD224F91E4700DB7616 /* ffmpeg */ = {
 			isa = PBXGroup;
 			children = (
-				A4AC079B24FFA5840048EDC6 /* MYAudioUnit */,
-				A4AC07A624FFA5840048EDC6 /* STFLAudioDecoder */,
-				A43BEAD524F91E4700DB7616 /* BJFFMpegMovieManager.h */,
-				A43BEAD324F91E4700DB7616 /* BJFFMpegMovieManager.m */,
 				A43BEAD624F91E4700DB7616 /* BJFFMpegPlayerViewController.h */,
 				A43BEAD424F91E4700DB7616 /* BJFFMpegPlayerViewController.m */,
+				A4D89D9D2500E89C00C100E5 /* Audio */,
+				A4D89D9A2500E89C00C100E5 /* Video */,
 			);
 			path = ffmpeg;
 			sourceTree = "<group>";
@@ -758,41 +750,55 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
-		A4AC079B24FFA5840048EDC6 /* MYAudioUnit */ = {
+		A4D89D9A2500E89C00C100E5 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				A4AC079C24FFA5840048EDC6 /* CommonUtil.m */,
-				A4AC079D24FFA5840048EDC6 /* AVAudioSession+ST_RouteUtils.h */,
-				A4AC079E24FFA5840048EDC6 /* ST_AudioOutput.m */,
-				A4AC079F24FFA5840048EDC6 /* ST_AudioSession.h */,
-				A4AC07A024FFA5840048EDC6 /* CommonUtil.h */,
-				A4AC07A124FFA5840048EDC6 /* ST_AudioPlayer.mm */,
-				A4AC07A224FFA5840048EDC6 /* ST_AudioOutput.h */,
-				A4AC07A324FFA5840048EDC6 /* AVAudioSession+ST_RouteUtils.m */,
-				A4AC07A424FFA5840048EDC6 /* ST_AudioPlayer.h */,
-				A4AC07A524FFA5840048EDC6 /* ST_AudioSession.m */,
+				A4D89D9C2500E89C00C100E5 /* BJFFMpegMovieManager.h */,
+				A4D89D9B2500E89C00C100E5 /* BJFFMpegMovieManager.m */,
 			);
-			path = MYAudioUnit;
+			path = Video;
 			sourceTree = "<group>";
 		};
-		A4AC07A624FFA5840048EDC6 /* STFLAudioDecoder */ = {
+		A4D89D9D2500E89C00C100E5 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				A4AC07A724FFA5840048EDC6 /* STAudioLocalPacket.h */,
-				A4AC07A824FFA5840048EDC6 /* WTFFmpegProtocol.h */,
-				A4AC07A924FFA5840048EDC6 /* STMediaCache.h */,
-				A4AC07AA24FFA5840048EDC6 /* STBSRateObjc.h */,
-				A4AC07AB24FFA5840048EDC6 /* STFFmpegLocalAudioDecoder.m */,
-				A4AC07AC24FFA5840048EDC6 /* STAudioLoalController.m */,
-				A4AC07AD24FFA5840048EDC6 /* STLinkedBlockingQueue.h */,
-				A4AC07AE24FFA5840048EDC6 /* STAudioLocalPacket.m */,
-				A4AC07AF24FFA5840048EDC6 /* STBSRateObjc.m */,
-				A4AC07B024FFA5840048EDC6 /* STMediaCache.m */,
-				A4AC07B124FFA5840048EDC6 /* STLinkedBlockingQueue.m */,
-				A4AC07B224FFA5840048EDC6 /* STAudioLoalController.h */,
-				A4AC07B324FFA5840048EDC6 /* STFFmpegLocalAudioDecoder.h */,
+				A4D89D9E2500E89C00C100E5 /* STFLAudioDecoder */,
+				A4D89DAC2500E89C00C100E5 /* MYAudioUnit */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		A4D89D9E2500E89C00C100E5 /* STFLAudioDecoder */ = {
+			isa = PBXGroup;
+			children = (
+				A4D89DAA2500E89C00C100E5 /* STAudioLoalController.h */,
+				A4D89DA42500E89C00C100E5 /* STAudioLoalController.m */,
+				A4D89DAB2500E89C00C100E5 /* STFFmpegLocalAudioDecoder.h */,
+				A4D89DA32500E89C00C100E5 /* STFFmpegLocalAudioDecoder.m */,
+				A4D89DA52500E89C00C100E5 /* STLinkedBlockingQueue.h */,
+				A4D89DA92500E89C00C100E5 /* STLinkedBlockingQueue.m */,
+				A4D89DA12500E89C00C100E5 /* STMediaCache.h */,
+				A4D89DA82500E89C00C100E5 /* STMediaCache.m */,
+				A4D89DA22500E89C00C100E5 /* STBSRateObjc.h */,
+				A4D89DA72500E89C00C100E5 /* STBSRateObjc.m */,
+				A4D89D9F2500E89C00C100E5 /* STAudioLocalPacket.h */,
+				A4D89DA62500E89C00C100E5 /* STAudioLocalPacket.m */,
+				A4D89DA02500E89C00C100E5 /* WTFFmpegProtocol.h */,
 			);
 			path = STFLAudioDecoder;
+			sourceTree = "<group>";
+		};
+		A4D89DAC2500E89C00C100E5 /* MYAudioUnit */ = {
+			isa = PBXGroup;
+			children = (
+				A4D89DB12500E89C00C100E5 /* ST_AudioPlayer.h */,
+				A4D89DAF2500E89C00C100E5 /* ST_AudioPlayer.mm */,
+				A4D89DB02500E89C00C100E5 /* ST_AudioOutput.h */,
+				A4D89DAD2500E89C00C100E5 /* ST_AudioOutput.m */,
+				A4D89DAE2500E89C00C100E5 /* ST_AudioSession.h */,
+				A4D89DB22500E89C00C100E5 /* ST_AudioSession.m */,
+			);
+			path = MYAudioUnit;
 			sourceTree = "<group>";
 		};
 		C6147CEAFF40D9C5D5DFD3B2 /* Pods */ = {
@@ -1211,31 +1217,29 @@
 				A488C72C24F7566000A30CAC /* KxMovieViewController.m in Sources */,
 				E52F00731E8F7F9100C22E23 /* ZDBHelper.m in Sources */,
 				A488C72D24F7566000A30CAC /* KxMovieGLView.m in Sources */,
-				A4AC07BD24FFA5840048EDC6 /* STMediaCache.m in Sources */,
 				A43BEB1024F91FEA00DB7616 /* MobilePlayerViewContrl.m in Sources */,
 				E5B424C71D90F2F000FCB78F /* ASIAuthenticationDialog.m in Sources */,
 				E52F00741E8F7F9100C22E23 /* ZDBModel.m in Sources */,
-				A4AC07B424FFA5840048EDC6 /* CommonUtil.m in Sources */,
-				A43BEAD824F91E4700DB7616 /* BJFFMpegMovieManager.m in Sources */,
 				A43BEAD924F91E4700DB7616 /* BJFFMpegPlayerViewController.m in Sources */,
 				A4A8154923A0E414009AD342 /* MainTabBarController.m in Sources */,
 				A43BEB2024F9201C00DB7616 /* BJAudioViewController.m in Sources */,
 				E52F00651E8F7F9100C22E23 /* BaseModel.m in Sources */,
 				A43BEB1424F91FEA00DB7616 /* DownloadedCell.m in Sources */,
 				E5B424C81D90F2F000FCB78F /* ASIDataCompressor.m in Sources */,
+				A4D89DBC2500E89C00C100E5 /* ST_AudioSession.m in Sources */,
 				A43BEB1124F91FEA00DB7616 /* MovieControlsView.m in Sources */,
 				E5D66A251DD4554E00810600 /* GlobalData.m in Sources */,
+				A4D89DB32500E89C00C100E5 /* BJFFMpegMovieManager.m in Sources */,
 				A43BEB1924F91FEA00DB7616 /* MainTableViewCell.m in Sources */,
 				A43BEAD724F91E4700DB7616 /* FFMpegViewController.m in Sources */,
 				E577F0A31D8FD8E900CAD0BE /* AppDelegate.m in Sources */,
 				E52F00721E8F7F9100C22E23 /* UserModel.m in Sources */,
 				E5B424CC1D90F2F000FCB78F /* ASIHTTPRequest.m in Sources */,
-				A4AC07B924FFA5840048EDC6 /* STFFmpegLocalAudioDecoder.m in Sources */,
+				A4D89DB82500E89C00C100E5 /* STMediaCache.m in Sources */,
 				E5B424CB1D90F2F000FCB78F /* ASIFormDataRequest.m in Sources */,
-				A4AC07BB24FFA5840048EDC6 /* STAudioLocalPacket.m in Sources */,
 				E5B424CA1D90F2F000FCB78F /* ASIDownloadCache.m in Sources */,
 				E5B424CD1D90F2F000FCB78F /* ASIInputStream.m in Sources */,
-				A4AC07B824FFA5840048EDC6 /* ST_AudioSession.m in Sources */,
+				A4D89DBA2500E89C00C100E5 /* ST_AudioOutput.m in Sources */,
 				E5B424C91D90F2F000FCB78F /* ASIDataDecompressor.m in Sources */,
 				A43BEB1C24F91FEA00DB7616 /* PlayerViewController.m in Sources */,
 				A488C73024F7566000A30CAC /* KxMovieDecoder.m in Sources */,
@@ -1245,23 +1249,23 @@
 				E5B424DE1D91120700FCB78F /* Reachability.m in Sources */,
 				A43BEB0D24F91FEA00DB7616 /* BJAVPlayerView.m in Sources */,
 				A43BEB1324F91FEA00DB7616 /* DownloadModel.m in Sources */,
+				A4D89DB52500E89C00C100E5 /* STAudioLoalController.m in Sources */,
 				A43BEB1B24F91FEA00DB7616 /* MPMovieViewController.m in Sources */,
-				A4AC07B524FFA5840048EDC6 /* ST_AudioOutput.m in Sources */,
-				A4AC07BA24FFA5840048EDC6 /* STAudioLoalController.m in Sources */,
 				E548889B20D24E4000C81ED4 /* AMProgressView.m in Sources */,
 				E52F00671E8F7F9100C22E23 /* FilesDownManage.m in Sources */,
+				A4D89DBB2500E89C00C100E5 /* ST_AudioPlayer.mm in Sources */,
+				A4D89DB92500E89C00C100E5 /* STLinkedBlockingQueue.m in Sources */,
 				A43BEB1A24F91FEA00DB7616 /* DownloadViewCtrl.m in Sources */,
 				A43BEB1224F91FEA00DB7616 /* MainTableModel.m in Sources */,
 				A4A8154C23A0E4A4009AD342 /* MainViewCtrl.m in Sources */,
 				A4A8154823A0E414009AD342 /* BaseNavigationController.m in Sources */,
 				E5B424CE1D90F2F000FCB78F /* ASINetworkQueue.m in Sources */,
 				A488C72F24F7566000A30CAC /* KxAudioManager.m in Sources */,
+				A4D89DB42500E89C00C100E5 /* STFFmpegLocalAudioDecoder.m in Sources */,
+				A4D89DB62500E89C00C100E5 /* STAudioLocalPacket.m in Sources */,
 				E577F0A01D8FD8E900CAD0BE /* main.m in Sources */,
-				A4AC07B624FFA5840048EDC6 /* ST_AudioPlayer.mm in Sources */,
+				A4D89DB72500E89C00C100E5 /* STBSRateObjc.m in Sources */,
 				E548889C20D24E4000C81ED4 /* AMProgressViewGradient.m in Sources */,
-				A4AC07B724FFA5840048EDC6 /* AVAudioSession+ST_RouteUtils.m in Sources */,
-				A4AC07BE24FFA5840048EDC6 /* STLinkedBlockingQueue.m in Sources */,
-				A4AC07BC24FFA5840048EDC6 /* STBSRateObjc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
